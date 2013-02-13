@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<!--
+Apache License, Version 2.0
+http://www.apache.org/licenses/LICENSE-2.0.html
+
+Copyright (c) 2012 Vassili Philippov <vassiliphilippov@onepf.org>
+Copyright (c) 2012 One Platform Foundation <www.onepf.org>
+Copyright (c) 2012 Yandex <www.yandex.com>
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>AppDF Editor</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .sidebar-nav {
+        padding: 9px 0;
+      }
+    </style>
+    <link href="css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="css/appdfeditor.css" rel="stylesheet">
+
+	<script type="text/javascript" src="data/categories.js"></script>
+	<script type="text/javascript" src="data/store_categories.js"></script>
+	<script type="text/javascript" src="data/stores.js"></script>
+	<script type="text/javascript" src="data/languages.js"></script>
+	<script type="text/javascript" src="data/countries.js"></script>
+	<script type="text/javascript" src="data/country_currencies.js"></script>
+	<script type="text/javascript" src="js/jquery.js"></script>
+	<script type="text/javascript" src="js/holder.js"></script>
+	<script type="text/javascript" src="js/bootstrap.js"></script>
+	<script type="text/javascript" src="js/jqBootstrapValidation.js"></script>    
+	<script type="text/javascript" src="js/xmlgenerator.js"></script>    
+	<script type="text/javascript" src="js/zip/zip.js"></script>
+	<script type="text/javascript" src="js/appdflocalization.js"></script>
+	<script type="text/javascript" src="js/appdfimages.js"></script>
+	<script type="text/javascript" src="js/apkreader.js"></script>
+	<script type="text/javascript" src="js/section_customersupport.js"></script>
+	<script type="text/javascript" src="js/appdfparser.js"></script>
+	<script type="text/javascript" src="js/appdfxmlsaving.js"></script>
+	<script type="text/javascript" src="js/appdfxmlloading.js"></script>
+	<script type="text/javascript" src="js/appdfeditor.js"></script>
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+	<div class="navbar navbar-inverse navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container-fluid">
+				<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</a>
+				<a class="brand" href="#">AddDF Editor</a>
+				<div class="nav-collapse collapse">
+					<ul class="nav">
+						<li class="active"><a href="#">Home</a></li>
+						<li><a href="http://www.onepf.org">About AppDF</a></li>
+						<li><a href="https://github.com/onepf/AppDF/blob/master/specification/appds_spec_1_0.md">Specification</a></li>
+					</ul>
+				</div><!--/.nav-collapse -->
+			</div><!--/.container-fluid -->
+		</div>
+	</div><!--/.navbar -->
+
+	<div class="container-fluid">
+		<div class="row-fluid">
+			<div class="span2">
+				<div class="well sidebar-nav">
+					<ul class="nav nav-list">
+						<li class="nav-header">Sections</li>
+						<li><a href="#apk-files">APK File(s)</a></li>
+						<li><a href="#categorization">Category</a></li>
+						<li><a href="#description">Description</a></li>
+						<li><a href="#price">Price</a></li>
+						<li><a href="#customer-support">Customer Support</a></li>
+						<li><a href="#consent">Consent</a></li>
+						<li><a href="#content-description">Content Rating and Descriptors</a></li>
+						<li><a href="#availability">Availability</a></li>
+						<li><a href="#requirements">Requirements</a></li>
+						<li><a href="#testing-instructions">Testing Instructions</a></li>
+						<li><a href="#store-specific">Store Specific</a></li>
+					</ul>
+				</div><!--/.well -->
+			</div><!--/span-->
+			<div class="span10">
+				<div class="hero-unit">
+					<p>Uploading Android application to several appstores could be time consuming. AppDF format is designed to simplify this process. You describe your Android application once, create a simple AppDF file that includes description, APK file(s), screenshots, app icon, promo images, etc and just upload this AppDF file to all the stores that support AppDF uploading.</p>
+					<p>
+						<a href="#" id="show-import-description-xml" class="btn btn-primary">Import Description.xml</a>
+						<a href="#" id="load-appdf-file" class="btn btn-primary disabled">Load AppDF File</a>
+					</p>
+				</div>
+				<div id="import-description-xml-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="add-localization-modal-label" aria-hidden="true">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+						<h3 id="add-localization-modal-label">Import Description.XML</h3>
+					</div>
+					<div class="modal-body">
+						<textarea id="description-xml-to-import" class="input-xxlarge" rows="5"></textarea><br>
+						<div class="alert alert-error hide" id="load-errors">
+							<b>Import errors:</b>
+							<ul></ul>
+						</div>				
+					</div>
+					<div class="modal-footer">
+						<button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+						<button class="btn btn-primary">Import</button>
+					</div>
+				</div><!--Model-->						
+
+				<form class="form-horizontal" action='' method="POST" novalidate>
+					<section id="apk-files">
+						<fieldset>
+							<div id="legend">
+								<legend class="">APK File(s)</legend>
+							</div>
+							<div class="control-group">
+								<!-- apk-files/apk-file -->
+								<label class="control-label" for="pretty-apk-file">APK File <span class="required-mark">*</span></label>
+								<div class="controls">
+									<input type="file" id="apk-file" class="hide ie_show" 
+										name="apk-file" 
+										accept="application/vnd.android.package-archive"
+										data-validation-callback-callback="validationCallbackApkFileFirst"
+									/>
+									<div class="input-append ie_hide">
+										<input id="pretty-apk-file" class="input-large" type="text" readonly="readonly" onclick="prettyFileInputClick(this);">
+										<a class="btn" onclick="prettyFileInputClick(this);">Browse</a>
+									</div>
+									<p class="help-block">You can <button class="btn" onclick="addApkFile(this); return false;">add more APK files</button> for your application</p>
+								</div>
+								<div class="controls">
+									<div class="apk-file-info"></div>
+								</div>
+							</div>
+						</fieldset>
+					</section>
+
+					<section id="categorization">
+						<fieldset>
+							<div id="legend">
+								<legend class="">Category</legend>
+							</div>
+							<div class="control-group">
+								<!-- categorization/type -->
+								<label class="control-label"  for="categorization-type">Application type <span class="required-mark">*</span></label>
+								<div class="controls">
+									<select id="categorization-type" name="categorization-type">
+										<option value="application">Application</option>
+										<option value="game">Game</option>
+									</select>
+									<p class="help-block">Select if your program is a game</p>
+								</div>
+							</div><!--control-group-->
+					 
+							<div class="control-group">
+								<!-- categorization/category -->
+								<label class="control-label" for="categorization-category">Category <span class="required-mark">*</span></label>
+								<div class="controls">
+									<select id="categorization-category" name="categorization-category">
+									</select>
+									<p class="help-block">Select primary category, if not sure check how this category will be mapped to application stores categories</p>
+								</div>
+							</div><!--control-group-->
+					 
+							 <div class="control-group">
+								<!-- categorization/subcategory -->
+								<label class="control-label" for="categorization-subcategory">Subcategory</label>
+								<div class="controls">
+									<select id="categorization-subcategory">
+									</select>
+									<p class="help-block">For this category you can also select a subcategory (can be empty), if not sure check how this subcategory will be mapped to application stores categories</p>
+								</div>
+							</div><!--control-group-->
+
+							<div class="controls" id="store-categories-info">
+							</div><!--div#store-categories-info-->
+						</fieldset>
+					</section>
+
+					<section id="description">
+						<div id="add-localization-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="add-localization-modal-label" aria-hidden="true">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+								<h3 id="add-localization-modal-label">Add Localization</h3>
+							</div>
+							<div class="modal-body">
+								<p>Language: 
+									<select id="add-localization-modal-language">
+									</select>
+								</p>
+							</div>
+							<div class="modal-footer">
+								<button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+								<button class="btn btn-primary">Add Localization</button>
+							</div>
+						</div><!--Model-->						
+						<fieldset>
+							<div id="legend">
+								<legend class="">Description</legend>
+							</div>
+							<div class="tabbable"> <!-- Only required for left/right tabs -->
+								<ul class="nav nav-tabs" id="description-tab-header">
+									<li class="active"><a href="#localization-tab-default" data-toggle="tab">English US (Default)</a></li>
+									<li class="dropdown">
+										<a class="dropdown-toggle" data-toggle="dropdown" href="#">More <b class="caret"></b></a>
+										<ul class="dropdown-menu">
+											<li><a onclick="showAllLocalizationDialog(); return false;" href="#">Add Localization</a></li>
+											<li><a onclick="removeSelectedLocalization(); return false;" href="#">Remove Selected Localization</a></li>
+											<li class="divider"></li>
+										</ul>
+									</li>
+								</ul>
+								<div class="tab-content" id="description-tab-content">
+									<div class="tab-pane active" id="localization-tab-default">
+										<div class="control-group">
+											<!-- description/texts/title -->
+											<label class="control-label"  for="description-texts-title">Title <span class="required-mark">*</span></label>
+											<div class="controls">
+												<input type="text" id="description-texts-title" name="description-texts-title"
+													required 
+													data-validation-required-message="Title is required" 
+													maxlength="30"
+												>
+												<p class="help-block">Different stores have different maximum title length requirements. The first title should be shorter then 30 symbols. You can <button class="btn" onclick="addMoreTitles(this, ''); return false;">add longer title</button> for the stores that support long titles.</p>
+											</div>
+										</div><!--./control-group -->
+									 
+										<div class="control-group">
+											<!-- description/texts/short-description -->
+											<label class="control-label" for="description-texts-shortdescription">Short description <span class="required-mark">*</span></label>
+											<div class="controls">
+												<input type="text" id="description-texts-shortdescription" name="description-texts-shortdescription"
+													required 
+													data-validation-required-message="Short description is required" 
+													maxlength="80"
+												>
+												<p class="help-block">Different stores have different maximum short description length requirements. The first short-description should be shorter then 80 symbols. You can <button class="btn" onclick="addMoreShortDescriptions(this, ''); return false;">add longer short description</button> for the stores that support longer ones.</p>
+											</div>
+										</div><!--./control-group -->
+									 
+										<div class="control-group">
+											<!-- description/texts/full-description -->
+											<label class="control-label" for="description-texts-fulldescription">Full description <span class="required-mark">*</span></label>
+											<div class="controls">
+												<textarea class="input-xxlarge" rows="5" id="description-texts-fulldescription" 
+													name="description-texts-fulldescription"
+													required
+													data-validation-required-message="Full description is required"
+													maxlength="4000"
+													data-validation-maxlength-message="Full description must be shorter than 4000 symbols"
+												></textarea>
+												<p class="help-block">Please provide full application description that will be shown on the product page. Maximum length: 4000 symbols.</p>
+											</div>
+										</div><!--./control-group -->
+
+										<div class="control-group">
+											<!-- description/texts/features -->
+											<label class="control-label" for="description-texts-features">Features <span class="required-mark">*</span></label>
+											<div class="controls">
+												<div class="feature-countainer">
+													<div class="input-prepend">
+														<span class="add-on">1.</span>
+														<input type="text" id="description-texts-features-1"  
+															name="description-texts-features-1"
+															required 
+															data-validation-required-message="Minimum three features are required"
+														> 
+													</div>							
+												</div>					
+												<div class="feature-countainer">
+													<div class="input-prepend marginedinput" style="display: block">
+														<span class="add-on">2.</span>
+														<input type="text" id="description-texts-features-2" 
+															name="description-texts-features-2"
+															required 
+															data-validation-required-message="Minimum three features are required"
+														> 
+													</div>					
+												</div>											
+												<div class="feature-countainer">
+													<div class="input-prepend marginedinput" style="display: block">
+														<span class="add-on">3.</span>
+														<input type="text" id="description-texts-features-3" 
+															name="description-texts-features-3"
+															required 
+															data-validation-required-message="Minimum three features are required"
+														> 
+													</div>					
+												</div>												
+												<div class="feature-countainer">
+													<div class="input-prepend marginedinput" style="display: block">
+														<span class="add-on">4.</span>
+														<input type="text" id="description-texts-features-4"> 
+													</div>					
+												</div>												
+												<div class="feature-countainer">
+													<div class="input-prepend marginedinput" style="display: block">
+														<span class="add-on">5.</span>
+														<input type="text" id="description-texts-features-5"> 
+													</div>					
+												</div>												
+												<p class="help-block">Add three to five features of your application</p>
+											</div>
+										</div><!--./control-group -->
+
+										<div class="control-group">
+											<!-- description/texts/keywords -->
+											<label class="control-label" for="description-texts-keywords">Keywords <span class="required-mark">*</span></label>
+											<div class="controls">
+												<div class="input-append"> 
+													<input type="text" id="description-texts-keywords"> 
+													<button class="btn" type="button" onclick="addMoreKeywords(this, ''); return false;"><i class=" icon-plus-sign"></i></button>
+												</div> 
+												<p class="help-block">Please provide keywords that describe your application</p>
+											</div>
+										</div><!--./control-group -->
+
+										<div class="control-group">
+											<!-- description/texts/recent-changes -->
+											<label class="control-label" for="description-texts-recentchanges">Recent changes</label>
+											<div class="controls">
+												<textarea class="input-xxlarge" rows="5" id="description-texts-recentchanges"
+													maxlength="500"
+													data-validation-maxlength-message="Recent changes must be shorter than 500 symbols"
+												></textarea>
+												<p class="help-block">What was changed in the latest version comparing to the previous one. Maximum length: 500 symbols.</p>
+											</div>
+										</div><!--./control-group -->
+
+										<div class="control-group">
+											<!-- description/texts/privacy-policy -->
+											<label class="control-label" for="description-texts-privacypolicy">Privacy policy</label>
+											<div class="controls">
+												<input type="text" id="description-texts-privacypolicy" name="description-texts-privacypolicy"
+												>
+												<p class="help-block">Link to privacy policy document for this application, required if your application collect personal data</p>
+											</div>
+										</div><!--./control-group -->
+									 
+										<div class="control-group">
+											<!-- description/texts/eula -->
+											<label class="control-label" for="description-texts-eula">End user license agreement</label>
+											<div class="controls">
+												<input type="text" id="description-texts-eula" name="description-texts-eula"
+												>
+												<p class="help-block">If you want you can provide a link to your End User License Agreement (EULA)</p>
+											</div>
+										</div><!--./control-group -->
+									 
+										<div class="control-group">
+											<!-- description/images/app-icon -->
+											<label class="control-label" for="description-images-appicon">Application icon <span class="required-mark">*</span></label>
+											<div class="controls">
+												<div class="image-group">
+													<div class="image-input-group">
+														<input type="file" id="description-images-appicon" class="hide ie_show appicon-input empty-image" 
+															name="description-images-appicon" 
+															accept="image/png"
+															data-validation-callback-callback="validationCallbackAppIconFirst"
+														/>
+														<img data-src="holder.js/128x128/text:Click to choose image" id="description-images-appicon-img" width="128" height="128">
+														<p class="image-input-label">&nbsp;</p>
+													</div>
+												</div>
+												<p class="help-block">512x512 PNG file with application icon shown in the application list</p>
+											</div>
+										</div><!--./control-group -->
+
+										<div class="control-group">
+											<!-- description/images/screenshots -->
+											<label class="control-label" for="description-images-screenshots">Screenshots <span class="required-mark">*</span></label>
+											<div class="controls">
+												<div class="image-group">
+													<div class="image-input-group">
+														<input type="file" id="description-images-screenshot-1" class="hide ie_show screenshot-input empty-image" 
+															name="description-images-screenshot-1" 
+															accept="image/png"
+															data-validation-callback-callback="validationCallbackScreenshotRequired"
+														/>
+														<img data-src="holder.js/132x220/text:Screenshot #1" width="132" height="220">
+														<p class="image-input-label">&nbsp;</p>
+													</div>
+													<div class="image-input-group">
+														<input type="file" id="description-images-screenshot-2" class="hide ie_show screenshot-input empty-image" 
+															name="description-images-screenshot-2" 
+															accept="image/png"
+															data-validation-callback-callback="validationCallbackScreenshotRequired"
+														/>
+														<img data-src="holder.js/132x220/text:Screenshot #2" width="132" height="220">
+														<p class="image-input-label">&nbsp;</p>
+													</div>
+													<div class="image-input-group">
+														<input type="file" id="description-images-screenshot-3" class="hide ie_show screenshot-input empty-image" 
+															name="description-images-screenshot-3" 
+															accept="image/png"
+															data-validation-callback-callback="validationCallbackScreenshotRequired"
+														/>
+														<img data-src="holder.js/132x220/text:Screenshot #3" width="132" height="220">
+														<p class="image-input-label">&nbsp;</p>
+													</div>
+													<div class="image-input-group">
+														<input type="file" id="description-images-screenshot-4" class="hide ie_show screenshot-input empty-image" 
+															name="description-images-screenshot-4" 
+															accept="image/png"
+															data-validation-callback-callback="validationCallbackScreenshotRequired"
+														/>
+														<img data-src="holder.js/132x220/text:Screenshot #4" width="132" height="220">
+														<p class="image-input-label">&nbsp;</p>
+													</div>
+												</div>
+												<p class="help-block">At least four 480x800 PNG screenshots are required</p>
+											</div>
+										</div><!--./control-group -->
+
+										<div class="control-group description-images-largepromo">
+											<!-- description/images/large-promo -->
+											<label class="control-label" for="description-images-largepromo">Large promotion image</label>
+											<div class="controls">
+												<div class="image-group">
+													<div class="image-input-group">
+														<input type="file" id="description-images-largepromo" class="hide ie_show image-input empty-image" 
+															name="description-images-largepromo" 
+															accept="image/png"
+															data-validation-callback-callback="validationCallbackLargePromo"
+														/>
+														<img data-src="holder.js/256x125/text:Click to choose image" id="description-images-largepromo-img" width="256" height="125">
+														<p class="image-input-label"></p>
+													</div>
+												</div>
+												<p class="help-block">1024x500 PNG file which is usually used by the stores on the PC websites</p>
+											</div>
+										</div><!--./control-group -->
+
+										<div class="control-group">
+											<!-- description/images/small-promo -->
+											<label class="control-label" for="description-images-smallpromo">Small promotion image</label>
+											<div class="controls">
+												<div class="image-group">
+													<div class="image-input-group">
+														<input type="file" id="description-images-smallpromo" class="hide ie_show image-input empty-image" 
+															name="description-images-smallpromo" 
+															accept="image/png"
+															data-validation-callback-callback="validationCallbackSmallPromo"
+														/>
+														<img data-src="holder.js/180x120/text:Click to choose image" id="description-images-largepromo-img" width="180" height="120">
+														<p class="image-input-label"></p>
+													</div>
+												</div>
+												<p class="help-block">180x120 PNG file which is usually used in a mobile appstore for features apps</p>
+											</div>
+										</div><!--./control-group -->
+
+										<div class="control-group">
+											<!-- description/videos/youtube-video -->
+											<label class="control-label" for="description-videos-youtubevideo">YouTube video</label>
+											<div class="controls">
+												<input type="text" id="description-videos-youtubevideo" name="description-videos-youtubevideo"
+													data-validation-regex-regex="^[0-9a-zA-Z\-\_]{11}$" 
+													data-validation-regex-message="Wrong YouTube video ID format. Do not place entire URL but just ID (which is usualy written in URL after 'v='" 												
+												>
+												<p class="help-block">Please include only ID not the entire URL. For example if your YouTube video URL is www.youtube.com/watch?v=4YcBHQ2fCDE then enter 4YcBHQ2fCDE</p>
+											</div>
+										</div><!--./control-group -->
+									 
+									</div><!--./tab-pane -->
+								</div><!--./tab-content -->
+							</div><!--./tabbable -->			    
+						</fieldset>
+					</section>
+
+					<section id="price">
+						<fieldset>
+							<div id="legend">
+								<legend class="">Price</legend>
+							</div>
+							<div class="tabbable"> <!-- Only required for left/right tabs -->
+								<ul class="nav nav-pills">
+									<li class="active"><a href="#tab-price-free" data-toggle="tab">Free</a></li>
+									<li><a href="#tab-price-paid" data-toggle="tab">Paid</a></li>
+								</ul>
+								<div class="tab-content">
+									<div class="tab-pane active" id="tab-price-free">
+									 	<div class="control-group">
+											<div class="controls">
+												<label class="checkbox">
+													<input type="checkbox" value="" id="price-free-trialversion">
+													This free application is a trial version
+												</label>							
+											</div>
+										</div><!--control-group-->
+										<div class="control-group">
+											<!-- price/free/full-version -->
+											<label class="control-label" for="price-free-full-version">Full version</label>
+											<div class="controls">
+												<input type="text" class="input-large" id="price-free-fullversion" name="price-free-fullversion" disabled
+													pattern="^$|^([a-zA-Z0-9\-]+\.)+[a-zA-Z0-9\-]+$"
+													data-validation-pattern-message="Wrong package name format. Must be a valid Android package name like 'org.wikimedia.wikipedia'"
+												>
+												<p class="help-block">If there is another app which is a full version of your app you can enter its package name here</p>
+											</div>
+										</div><!--./control-group -->
+									</div><!--./tab-pane -->
+									<div class="tab-pane" id="tab-price-paid">
+										<div class="control-group">
+											<!-- price/base-price -->
+											<label class="control-label" for="price-baseprice">Price <span class="required-mark">*</span></label>
+											<div class="controls">
+												<div class="input-prepend">
+													<span class="add-on">USD</span>
+													<input type="text" id="price-baseprice" class="input-small" value="0"
+														pattern="^\d+\.\d+$|^\d+$"
+														data-validation-pattern-message="Wrong price value. Must be a valid number like '15.95'."
+													>
+												</div>
+												<p class="help-block">Default product price in USD. Price for other currencies will be automatically converted by the stores from USD. If you want manual control you can <button onclick="addMoreLocalPrice(this, '', ''); return false;" class="btn">add local prices</button>.</p>
+											</div>
+										</div><!--./control-group -->
+									</div><!--./tab-pane -->
+								</div><!--./tab-content -->
+							</div><!--./tabbable -->	
+						</fieldset>
+					</section><!--price-->
+
+					<section id="customer-support">
+						<fieldset>
+							<div id="legend">
+								<legend class="">Customer Support</legend>
+							</div>
+							<div class="control-group">
+								<!-- customer-support/phone -->
+								<label class="control-label"  for="customersupport-phone">Phone <span class="required-mark">*</span></label>
+								<div class="controls">
+									<input id="customersupport-phone" type="text" 
+										name="customersupport-phone" 
+										required 
+										data-validation-required-message="Customer support phone is required" 
+										data-validation-regex-regex="^\+(\(?\+?[0-9]*\)?)?[0-9_\- \(\)]*$" 
+										data-validation-regex-message="Wrong phone format, only digits, brackets, spaces and dashes are allowed. Must be in international format like +1 (555) 123-45-67." 
+							      	>
+									<p class="help-block">Customer support phone number. Must be in international format (ex. +1 (555) 123-45-67).</p>
+								</div>
+							</div><!--control-group-->
+					 
+							<div class="control-group">
+								<!-- customer-support/email -->
+								<label class="control-label"  for="customersupport-email">Email <span class="required-mark">*</span></label>
+								<div class="controls">
+									<input id="customersupport-email" type="email" 
+										name="customersupport-email"
+										required 
+										data-validation-required-message="Customer support email is required" 
+										data-validation-email-message="Customer support email must be a valid email address"
+							      	>
+									<p class="help-block">Customer support email for this application. Must be a valid email address.</p>
+								</div>
+							</div><!--control-group-->
+					 
+							<div class="control-group">
+								<!-- customer-support/website -->
+								<label class="control-label"  for="customersupport-website">Website <span class="required-mark">*</span></label>
+								<div class="controls">
+									<input id="customersupport-website" type="text" 
+										name="customersupport-website"
+										required 
+										data-validation-regex-regex="^((http|https):\/\/)?[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?$"
+										data-validation-required-message="Customer support website is required"
+										data-validation-regex-message="Wrong customer support webpage format. Must be a valid URL."										 
+									>
+									<p class="help-block">Webpage with customer support information. Must be a valid URL.</p>
+								</div>
+							</div><!--control-group-->
+						</fieldset>
+					</section><!--customer-support-->
+
+					<section id="consent">
+						<fieldset>
+							<div id="legend">
+								<legend class="">Consent</legend>
+							</div>
+
+							<div class="control-group">
+								<div class="controls">
+									<label class="checkbox">
+										<input type="checkbox" value="" id="consent-googleandroidcontentguidelines">
+										This application meets <a href="http://play.google.com/about/developer-content-policy.html">Android Content Guidelines</a>
+									</label>							
+
+									<label class="checkbox">
+										<input type="checkbox" value="" id="consent-usexportlaws">
+										I acknowledge that this application may be subject to United States export laws, regardless of my location or nationality. I agree that I have complied with all such laws, including any requirements for software with encryption functions. I hereby certify that my application is authorized for export from the United States under these laws. <a href="https://support.google.com/googleplay/android-developer/support/bin/answer.py?answer=113770">More...</a>										
+									</label>							
+
+									<label class="checkbox">
+										<input type="checkbox" value="" id="consent-importexportlaws">
+										I certify that this application may be imported to and exported from any country in which you've authorized sales to end users (without the need for the stores to obtain any license or clearance or take any other action) and is in full compliance with all applicable laws and regulations governing imports and exports, including those applicable to software that makes use of encryption technology.
+									</label>		
+
+									<label class="checkbox">
+										<input type="checkbox" value="" id="consent-slidemeagreement">
+										I agree with the complete <a href="http://slideme.org/developer-conditions/popup">SlideME Developer/Publisher Distribution Agreement</a>
+									</label>		
+
+									<label class="checkbox">
+										<input type="checkbox" value="" id="consent-freefromthirdpartycopytightedcontent">
+										You confirm that your application is free from third-party copyrighted picture, sounds, database or other types of information
+									</label>		
+								</div>
+							</div><!--control-group-->
+
+						</fieldset>
+					</section><!--consent-->
+
+					<section id="content-description">
+						<fieldset>
+							<div id="legend">
+								<legend class="">Content Rating and Descriptors</legend>
+							</div>
+							<div class="control-group">
+								<!-- content-description -->
+								<label class="control-label"  for="contentdescription">Content Rating and Descriptors <span class="required-mark">*</span></label>
+								<div class="controls">
+									<textarea class="input-xxlarge" rows="10" id="contentdescription"
+									></textarea>
+									<p class="help-block">Under construction. Just post XML here. Later this section will be replaced with a set of fields.</p>
+								</div>
+							</div><!--control-group-->					 
+						</fieldset>
+					</section><!--content-description-->
+
+					<section id="availability">
+						<fieldset>
+							<div id="legend">
+								<legend class="">Availability</legend>
+							</div>
+							<div class="control-group">
+								<!-- content-description -->
+								<label class="control-label"  for="availability">Availability</label>
+								<div class="controls">
+									<textarea class="input-xxlarge" rows="10" id="availability"
+									></textarea>
+									<p class="help-block">Under construction. Just post XML here. Later this section will be replaced with a set of fields.</p>
+								</div>
+							</div><!--control-group-->					 
+						</fieldset>
+					</section><!--content-description-->
+
+					<section id="requirements">
+						<fieldset>
+							<div id="legend">
+								<legend class="">Requirements</legend>
+							</div>
+							<div class="control-group">
+								<!-- content-description -->
+								<label class="control-label"  for="requirements">Requirements</label>
+								<div class="controls">
+									<textarea class="input-xxlarge" rows="10" id="requirements"
+									></textarea>
+									<p class="help-block">Under construction. Just post XML here. Later this section will be replaced with a set of fields.</p>
+								</div>
+							</div><!--control-group-->					 
+						</fieldset>
+					</section><!--content-description-->
+
+					<section id="testing-instructions">
+						<fieldset>
+							<div id="legend">
+								<legend class="">Testing Instructions</legend>
+							</div>
+							<div class="control-group">
+								<!-- content-description -->
+								<label class="control-label"  for="testinginstructions">Testing Instructions</label>
+								<div class="controls">
+									<textarea class="input-xxlarge" rows="10" id="testinginstructions"
+									></textarea>
+									<p class="help-block">Under construction. Just post XML here. Later this section will be replaced with a set of fields.</p>
+								</div>
+							</div><!--control-group-->					 
+						</fieldset>
+					</section><!--content-description-->
+
+					<section id="store-specific">
+						<fieldset>
+							<div id="legend">
+								<legend class="">Store Specific</legend>
+							</div>
+							<div class="control-group">
+								<!-- content-description -->
+								<label class="control-label"  for="storespecific">Store Specific</label>
+								<div class="controls">
+									<textarea class="input-xxlarge" rows="10" id="storespecific"
+									></textarea>
+									<p class="help-block">Under construction. Just post XML here. Later this section will be replaced with a set of fields.</p>
+								</div>
+							</div><!--control-group-->					 
+						</fieldset>
+					</section><!--content-description-->					
+
+					<div class="form-actions">
+						<div class="alert alert-error hide" id="form-errors">
+							<b>Errors:</b>
+							<ul>
+							</ul>							
+						</div>
+						<div class="alert alert-success hide" id="build-appdf-status">
+							<b>Build progress:</b><br>
+							<div class="progress">
+								<div id="build-appdf-progressbar" class="bar" style="width: 0%;"></div>
+							</div>
+						</div>
+						<a href="#" id="build-appdf-file" class="btn btn-primary">Build AppDF File</a>
+					</div>
+				</form>
+			</div><!--/span-->
+		</div><!--/row-->
+
+		<hr>
+
+		<footer>
+			<p>&copy; <a href="http://www.onepf.org">One Platform Foundation</a> 2012</p>
+		</footer>
+
+	</div><!--/.fluid-container-->
+
+  </body>
+</html>
