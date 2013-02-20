@@ -72,9 +72,6 @@ function parseDescriptionXML(xmlText, onend, onerror) {
 	function loadXml(dataPath, xmlPath) {
 		loadHelper(dataPath, xmlPath, function(d, name, $e) {
 			if ($e.length>0) {
-				console.log("$e");
-				console.log($e);
-				console.log($e.contents());
 				var serializer = new XMLSerializer(); 
 				var xmlString = serializer.serializeToString($e[0]);
 				d[name] = xmlString;
@@ -253,15 +250,58 @@ function parseDescriptionXML(xmlText, onend, onerror) {
 		loadText("website");
 	});
 
+	//Content Description
+	section("content-description", "content-description", function() {
+		loadText("content-rating");
+		loadHelper("rating-certificates", "rating-certificates/rating-certificate", function(d, name, $e) {
+			d[name] = [];
+			$e.each(function() {
+				var ratingCertificate = {
+					"rating" : $(this).text(),
+					"type" : $(this).attr("type")
+				};
+				if ($(this).attr("certificate")) {
+					ratingCertificate["certificate"] = $(this).attr("certificate");
+				};
+				if ($(this).attr("mark")) {
+					ratingCertificate["mark"] = $(this).attr("mark");
+				};
+				d[name].push(ratingCertificate);
+			});
+		});
+		section("content-descriptors", "content-descriptors", function() {
+			loadText("cartoon-violence");
+			loadText("realistic-violence");
+			loadText("bad-language");
+			loadText("fear");
+			loadText("sexual-content");
+			loadText("drugs");
+			loadText("gambling-reference");
+			loadText("alcohol");
+			loadText("smoking");
+			loadText("discrimination");
+		});
+		section("included-activities", "included-activities", function() {
+			loadBoolean("in-app-billing");
+			loadBoolean("gambling");
+			loadBoolean("advertising");
+			loadBoolean("user-generated-content");
+			loadBoolean("user-to-user-communications");
+			loadBoolean("account-creation");
+			loadBoolean("personal-information-collection");
+		});
+	});
+
+	//Testing Instructions
+	loadText("testing-instructions", "testing-instructions");
+
 	//Todo: temporary XML loading instead of parsing content
-	loadXml("content-description", "content-description");
 	loadXml("availability", "availability");
 	loadXml("requirements", "requirements");
-	loadXml("testing-instructions", "testing-instructions");
+	loadText("testing-instructions", "testing-instructions");
 	loadXml("store-specific", "store-specific");
 
 	errors.append(validateDescriptionXMLData(data));
-	console.log(errors);
 
 	if (errors.length==0) {
 		onend(data);
@@ -277,8 +317,6 @@ Array.prototype.append = function(a) {
 };
 
 function validateDescriptionXMLData(data) {
-	console.log("validateDescriptionXMLData");
-	console.log(data);
 	var errors = [];
 
 	errors.append(validateCategorization(data.categorization));
@@ -288,9 +326,9 @@ function validateDescriptionXMLData(data) {
 	errors.append(validatePrice(data.price));
 	errors.append(validateConsent(data["consent"]));
 	errors.append(validateCustomerSupport(data["customer-support"]));
+	errors.append(validateContentDescription(data["content-description"]));
+	errors.append(validateTestingInstructions(data["testing-instructions"]));
 
-	console.log("errors");
-	console.log(errors);
 	return errors;
 };
 
@@ -316,22 +354,16 @@ function validateCategorization(data) {
 };
 
 function validateDescriptionImages(languageCode, data) {
-	console.log("validateDescriptionImages");
-	console.log(data);
 	var errors = [];
 	return errors;
 };
 
 function validateDescriptionVideos(languageCode, data) {
-	console.log("validateDescriptionVideos");
-	console.log(data);
 	var errors = [];
 	return errors;
 };
 
 function validateDescriptionTexts(languageCode, data) {
-	console.log("validateDescriptionTexts");
-	console.log(data);
 	var errors = [];
 
 	if (isDefined(data["title"]) && data["title"][0].length>30) {
@@ -429,6 +461,20 @@ function validateURL(value, errorMessage) {
 	return [];
 };
 
+function validateEnum(value, fieldName, enumArray) {
+	var index = -1;
+	for (var i=0; i<enumArray.length; i++) {
+		if (enumArray[i]==value) {
+			index = i;
+		};
+	};
+	if (index<0) {
+		return ["Wrong " + fieldName + " value \"" + value + "\". Must be one of " + enumArray.join(", ")];
+	} else {
+		return [];
+	};
+};
+
 function validatePrice(data) {
 	var errors = [];
 
@@ -445,7 +491,7 @@ function validatePrice(data) {
 
 		var localPrices = data["local-price"];
 		for (countryCode in localPrices) {
-			if (isUndefined(allCountries[countryCode])) {
+			if (isUndefined(dataCountries[countryCode])) {
 				errors.push("Unknown country code \"" + countryCode + "\" in local prices");
 			};	
 			errors.append(validateNumber(localPrices[countryCode], "Wrong local price value \"" + localPrices[countryCode] + "\". Must be a valid number like \"15.95\"."));	
@@ -464,3 +510,63 @@ function validateCustomerSupport(data) {
 
 	return errors;	
 };
+
+function validateContentDescription(data) {
+	var errors = [];
+
+	errors.append(validateEnum(data["content-rating"], "Content rating", [3,6,10,13,17,18]));	
+	var yes_light_strong = ["no", "light", "strong"];
+	errors.append(validateEnum(data["content-descriptors"]["cartoon-violence"], "cartoon violence", yes_light_strong));	
+	errors.append(validateEnum(data["content-descriptors"]["realistic-violence"], "realistic violence", yes_light_strong));	
+	errors.append(validateEnum(data["content-descriptors"]["bad-language"], "bad language", yes_light_strong));	
+	errors.append(validateEnum(data["content-descriptors"]["fear"], "fear", yes_light_strong));	
+	errors.append(validateEnum(data["content-descriptors"]["sexual-content"], "sexual content", yes_light_strong));	
+	errors.append(validateEnum(data["content-descriptors"]["drugs"], "drugs", yes_light_strong));	
+	errors.append(validateEnum(data["content-descriptors"]["gambling-reference"], "gambling reference", yes_light_strong));	
+	errors.append(validateEnum(data["content-descriptors"]["alcohol"], "alcohol", yes_light_strong));	
+	errors.append(validateEnum(data["content-descriptors"]["smoking"], "smoking", yes_light_strong));	
+	errors.append(validateEnum(data["content-descriptors"]["discrimination"], "discrimination", yes_light_strong));	
+
+	for (var i=0; i<data["rating-certificates"].length; i++) {
+		var ratingCertificate = data["rating-certificates"][i];
+		switch(ratingCertificate["type"]) {
+			case "PEGI":
+				errors.append(validateEnum(ratingCertificate["rating"], "PEGI rating certificate", ["3", "7", "12", "16", "18"]));
+				break;
+			case "ESRB":
+				errors.append(validateEnum(ratingCertificate["rating"], "ESRB rating certificate", ["3", "6", "10", "13", "17", "18"]));
+				break;
+			case "GRB":
+				errors.append(validateEnum(ratingCertificate["rating"], "GRB rating certificate", ["0", "12", "15", "18"]));
+				break;
+			case "CERO":
+				errors.append(validateEnum(ratingCertificate["rating"], "CERO rating certificate", ["0", "12", "15", "17", "18"]));
+				break;
+			case "DEJUS":
+				errors.append(validateEnum(ratingCertificate["rating"], "DEJUS rating certificate", ["0", "10", "12", "14", "16", "18"]));
+				break;
+			case "FSK":
+				errors.append(validateEnum(ratingCertificate["rating"], "FSK rating certificate", ["0", "6", "12", "16", "18"]));
+				break;
+			default:
+				errors.push("Wrong rating certificate type value \"" + ratingCertificate["type"] + "\". Must be one of 'PEGI', 'ESRB', 'GRB', 'CERO', 'DEJUS', 'FSK'");
+		};
+	};
+	return errors;	
+};
+
+function validateTestingInstructions(data) {
+	var errors = [];
+
+	if (isUndefined(data)) {
+		errors.push("Required <testing-instructions> tag is missing");
+	} else { 
+		if (data.length>4000) {
+			errors.push("The testing instruction text must be shorter than 4000 symbols");
+		};
+	};
+
+	return errors;	
+};
+
+

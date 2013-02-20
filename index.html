@@ -28,6 +28,7 @@ Copyright (c) 2012 Yandex <www.yandex.com>
     </style>
     <link href="css/bootstrap-responsive.css" rel="stylesheet">
     <link href="css/appdfeditor.css" rel="stylesheet">
+    <link href="css/bsdocs.css" rel="stylesheet">
 
 	<script type="text/javascript" src="data/categories.js"></script>
 	<script type="text/javascript" src="data/store_categories.js"></script>
@@ -49,6 +50,7 @@ Copyright (c) 2012 Yandex <www.yandex.com>
 	<script type="text/javascript" src="js/appdfxmlsaving.js"></script>
 	<script type="text/javascript" src="js/appdfxmlloading.js"></script>
 	<script type="text/javascript" src="js/appdfeditor.js"></script>
+	<script type="text/javascript" src="js/appdfeditor2.js"></script>
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -80,25 +82,24 @@ Copyright (c) 2012 Yandex <www.yandex.com>
 
 	<div class="container-fluid">
 		<div class="row-fluid">
-			<div class="span2">
-				<div class="well sidebar-nav">
-					<ul class="nav nav-list">
-						<li class="nav-header">Sections</li>
-						<li><a href="#apk-files">APK File(s)</a></li>
-						<li><a href="#categorization">Category</a></li>
-						<li><a href="#description">Description</a></li>
-						<li><a href="#price">Price</a></li>
-						<li><a href="#customer-support">Customer Support</a></li>
-						<li><a href="#consent">Consent</a></li>
-						<li><a href="#content-description">Content Rating and Descriptors</a></li>
-						<li><a href="#availability">Availability</a></li>
-						<li><a href="#requirements">Requirements</a></li>
-						<li><a href="#testing-instructions">Testing Instructions</a></li>
-						<li><a href="#store-specific">Store Specific</a></li>
+			<div class="span3">
+				<div class="bs-docs-sidebar">
+					<ul class="nav nav-list bs-docs-sidenav">
+						<li><a href="#section-apk-files"><i class="icon-chevron-right"></i> APK File(s)</a></li>
+						<li><a href="#section-categorization"><i class="icon-chevron-right"></i> Category</a></li>
+						<li><a href="#section-description"><i class="icon-chevron-right"></i> Description</a></li>
+						<li><a href="#section-price"><i class="icon-chevron-right"></i> Price</a></li>
+						<li><a href="#section-customer-support"><i class="icon-chevron-right"></i> Customer Support</a></li>
+						<li><a href="#section-consent"><i class="icon-chevron-right"></i> Consent</a></li>
+						<li><a href="#section-content-description"><i class="icon-chevron-right"></i> Content Rating and Descriptors</a></li>
+						<li><a href="#section-availability"><i class="icon-chevron-right"></i> Availability</a></li>
+						<li><a href="#section-requirements"><i class="icon-chevron-right"></i> Requirements</a></li>
+						<li><a href="#section-testing-instructions"><i class="icon-chevron-right"></i> Testing Instructions</a></li>
+						<li><a href="#section-store-specific"><i class="icon-chevron-right"></i> Store Specific</a></li>
 					</ul>
 				</div><!--/.well -->
 			</div><!--/span-->
-			<div class="span10">
+			<div class="span9">
 				<div class="hero-unit">
 					<p>Uploading Android application to several appstores could be time consuming. AppDF format is designed to simplify this process. You describe your Android application once, create a simple AppDF file that includes description, APK file(s), screenshots, app icon, promo images, etc and just upload this AppDF file to all the stores that support AppDF uploading.</p>
 					<p>
@@ -125,7 +126,7 @@ Copyright (c) 2012 Yandex <www.yandex.com>
 				</div><!--Model-->						
 
 				<form class="form-horizontal" action='' method="POST" novalidate>
-					<section id="apk-files">
+					<section id="section-apk-files">
 						<fieldset>
 							<div id="legend">
 								<legend class="">APK File(s)</legend>
@@ -143,7 +144,7 @@ Copyright (c) 2012 Yandex <www.yandex.com>
 										<input id="pretty-apk-file" class="input-large" type="text" readonly="readonly" onclick="prettyFileInputClick(this);">
 										<a class="btn" onclick="prettyFileInputClick(this);">Browse</a>
 									</div>
-									<p class="help-block">You can <button class="btn" onclick="addApkFile(this); return false;">add more APK files</button> for your application</p>
+									<p class="help-block">You can <button class="btn apk-file-addmore">add more APK files</button> for your application</p>
 								</div>
 								<div class="controls">
 									<div class="apk-file-info"></div>
@@ -152,7 +153,7 @@ Copyright (c) 2012 Yandex <www.yandex.com>
 						</fieldset>
 					</section>
 
-					<section id="categorization">
+					<section id="section-categorization">
 						<fieldset>
 							<div id="legend">
 								<legend class="">Category</legend>
@@ -194,7 +195,7 @@ Copyright (c) 2012 Yandex <www.yandex.com>
 						</fieldset>
 					</section>
 
-					<section id="description">
+					<section id="section-description">
 						<div id="add-localization-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="add-localization-modal-label" aria-hidden="true">
 							<div class="modal-header">
 								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -325,8 +326,11 @@ Copyright (c) 2012 Yandex <www.yandex.com>
 											<label class="control-label" for="description-texts-keywords">Keywords <span class="required-mark">*</span></label>
 											<div class="controls">
 												<div class="input-append"> 
-													<input type="text" id="description-texts-keywords"> 
-													<button class="btn" type="button" onclick="addMoreKeywords(this, ''); return false;"><i class=" icon-plus-sign"></i></button>
+													<input type="text" id="description-texts-keywords"
+														required
+														data-validation-required-message="At least one keyword is required"
+													> 
+													<button class="btn description-texts-keywords-addmore" type="button"><i class=" icon-plus-sign"></i></button>
 												</div> 
 												<p class="help-block">Please provide keywords that describe your application</p>
 											</div>
@@ -485,7 +489,7 @@ Copyright (c) 2012 Yandex <www.yandex.com>
 						</fieldset>
 					</section>
 
-					<section id="price">
+					<section id="section-price">
 						<fieldset>
 							<div id="legend">
 								<legend class="">Price</legend>
@@ -529,7 +533,7 @@ Copyright (c) 2012 Yandex <www.yandex.com>
 														data-validation-pattern-message="Wrong price value. Must be a valid number like '15.95'."
 													>
 												</div>
-												<p class="help-block">Default product price in USD. Price for other currencies will be automatically converted by the stores from USD. If you want manual control you can <button onclick="addMoreLocalPrice(this, '', ''); return false;" class="btn">add local prices</button>.</p>
+												<p class="help-block">Default product price in USD. Price for other currencies will be automatically converted by the stores from USD. If you want manual control you can <button class="btn price-localprice-add">add local prices</button>.</p>
 											</div>
 										</div><!--./control-group -->
 									</div><!--./tab-pane -->
@@ -538,7 +542,7 @@ Copyright (c) 2012 Yandex <www.yandex.com>
 						</fieldset>
 					</section><!--price-->
 
-					<section id="customer-support">
+					<section id="section-customer-support">
 						<fieldset>
 							<div id="legend">
 								<legend class="">Customer Support</legend>
@@ -589,7 +593,7 @@ Copyright (c) 2012 Yandex <www.yandex.com>
 						</fieldset>
 					</section><!--customer-support-->
 
-					<section id="consent">
+					<section id="section-consent">
 						<fieldset>
 							<div id="legend">
 								<legend class="">Consent</legend>
@@ -627,24 +631,389 @@ Copyright (c) 2012 Yandex <www.yandex.com>
 						</fieldset>
 					</section><!--consent-->
 
-					<section id="content-description">
+					<section id="section-content-description">
 						<fieldset>
 							<div id="legend">
 								<legend class="">Content Rating and Descriptors</legend>
 							</div>
 							<div class="control-group">
-								<!-- content-description -->
-								<label class="control-label"  for="contentdescription">Content Rating and Descriptors <span class="required-mark">*</span></label>
+								<!-- content-description/content-rating -->
+								<label class="control-label" for="contentdescription-contentrating">Content rating <span class="required-mark">*</span></label>
 								<div class="controls">
-									<textarea class="input-xxlarge" rows="10" id="contentdescription"
-									></textarea>
-									<p class="help-block">Under construction. Just post XML here. Later this section will be replaced with a set of fields.</p>
+									<select id="contentdescription-contentrating" name="contentdescription-contentrating">
+										<option value="3">3</option>
+										<option value="6">6</option>
+										<option value="10">10</option>
+										<option value="13">13</option>
+										<option value="17">17</option>
+										<option value="18">18</option>
+									</select>
+									<p class="help-block">Minimum age allowance according to the <a href="http://en.wikipedia.org/wiki/Entertainment_Software_Rating_Board">ESRB standard</a></p>
 								</div>
-							</div><!--control-group-->					 
+							</div><!--control-group-->
+					 
+							<div class="control-group">
+								<label class="control-label">Content descriptors <span class="required-mark">*</span></label>
+								<div class="controls">
+									<table class="table span8">
+										<tr>
+											<td>
+												<abbr title="Violent actions involving cartoon-like situations and characters. May include violence where a character is unharmed after the action has been inflicted">Cartoon violence</abbr>
+											</td>
+											<td>
+												<select id="contentdescription-contentdescriptors-cartoonviolence" class="input-small">
+													<option value="no">No</option>
+													<option value="light">Light</option>
+													<option value="strong">Strong</option>
+												</select>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<abbr title="May contain scenes of people getting injured or dying, often by use of weapons. Also may contain gore and blood-letting.">Realistic violence</abbr>
+											</td>
+											<td>
+												<select id="contentdescription-contentdescriptors-realisticviolence" class="input-small">
+													<option value="no">No</option>
+													<option value="light">Light</option>
+													<option value="strong">Strong</option>
+												</select>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<abbr title="May contain profanity, sexual innuendo, threats, and all manner of slurs and epithets.">Bad language</abbr>
+											</td>
+											<td>
+												<select id="contentdescription-contentdescriptors-badlanguage" class="input-small">
+													<option value="no">No</option>
+													<option value="light">Light</option>
+													<option value="strong">Strong</option>
+												</select>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<abbr title="May contain scenes that are considered too disturbing or frightening to younger or more emotionally vulnerable players.">Fear</abbr>
+											</td>
+											<td>
+												<select id="contentdescription-contentdescriptors-fear" class="input-small">
+													<option value="no">No</option>
+													<option value="light">Light</option>
+													<option value="strong">Strong</option>
+												</select>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<abbr title="May contain references to sexual attraction or sexual intercourse. Also may contain nudity and characters dressed in suggestive clothing.">Sexual content</abbr>
+											</td>
+											<td>
+												<select id="contentdescription-contentdescriptors-sexualcontent" class="input-small">
+													<option value="no">No</option>
+													<option value="light">Light</option>
+													<option value="strong">Strong</option>
+												</select>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<abbr title="May contain references to illegal drugs or a fictional substance that has parallels to real-life illegal drugs (in use, possession, or sale).">Drugs</abbr>
+											</td>
+											<td>
+												<select id="contentdescription-contentdescriptors-drugs" class="input-small">
+													<option value="no">No</option>
+													<option value="light">Light</option>
+													<option value="strong">Strong</option>
+												</select>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<abbr title="May contain elements that encourage or teach gambling.">Gambling reference</abbr>
+											</td>
+											<td>
+												<select id="contentdescription-contentdescriptors-gamblingreference" class="input-small">
+													<option value="no">No</option>
+													<option value="light">Light</option>
+													<option value="strong">Strong</option>
+												</select>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<abbr title="The consumption of alcoholic beverages or references to and/or images or alcoholic beverages">Alcohol</abbr>
+											</td>
+											<td>
+												<select id="contentdescription-contentdescriptors-alcohol" class="input-small">
+													<option value="no">No</option>
+													<option value="light">Light</option>
+													<option value="strong">Strong</option>
+												</select>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<abbr title="References to and/or images of tobacco products">Smoking</abbr>
+											</td>
+											<td>
+												<select id="contentdescription-contentdescriptors-smoking" class="input-small">
+													<option value="no">No</option>
+													<option value="light">Light</option>
+													<option value="strong">Strong</option>
+												</select>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<abbr title="May contain cruelty or harassment based on race, ethnicity, gender, or sexual preferences.">Discrimination</abbr>
+											</td>
+											<td>
+												<select id="contentdescription-contentdescriptors-discrimination" class="input-small">
+													<option value="no">No</option>
+													<option value="light">Light</option>
+													<option value="strong">Strong</option>
+												</select>
+											</td>
+										</tr>
+									</table>
+
+								</div>
+							</div><!--control-group-->
+
+							<div class="control-group">
+								<label class="control-label">Included activities <span class="required-mark">*</span></label>
+								<div class="controls">
+									<label class="checkbox">
+										<input type="checkbox" value="" id="contentdescription-includedactivities-inappbilling">
+										In App billing - either standard or custom in-app billing (aka In-App Purchases)
+									</label>							
+
+									<label class="checkbox">
+										<input type="checkbox" value="" id="contentdescription-includedactivities-gambling">
+										Gambling - any form of gambling in your application
+									</label>							
+
+									<label class="checkbox">
+										<input type="checkbox" value="" id="contentdescription-includedactivities-advertising">
+										Advertising - any form of advertising including banner or AirPush-like advertising
+									</label>							
+
+									<label class="checkbox">
+										<input type="checkbox" value="" id="contentdescription-includedactivities-usergeneratedcontent">
+										User generated content 	
+									</label>							
+
+									<label class="checkbox">
+										<input type="checkbox" value="" id="contentdescription-includedactivities-usertousercommunications">
+										User to user communications
+									</label>							
+
+									<label class="checkbox">
+										<input type="checkbox" value="" id="contentdescription-includedactivities-accountcreation">
+										Account creation
+									</label>							
+
+									<label class="checkbox">
+										<input type="checkbox" value="" id="contentdescription-includedactivities-personalinformationcollection">
+										Personal information collection - your application transfers to the server or collects locally on the device any personal information
+									</label>							
+								</div>
+							</div><!--control-group-->
+
+							<div class="control-group">
+								<!-- content-description/rating-certificates -->
+								<label class="control-label">Rating certificates</label>
+								<div class="controls">
+									<table class="table" id="contentdescription-ratingcertificates">
+										<tr>
+											<th>Type</th>
+											<th>Rating</th>
+											<th>Certificate</th>
+											<th>Mark</th>
+										</tr>
+								        <tr> 
+								            <td><a class="contentdescription-ratingcertificates-type" href="http://en.wikipedia.org/wiki/Pan_European_Game_Information">PEGI</a></td>
+								            <td> 
+								                <select class="input-large" id="contentdescription-ratingcertificates-rating-pegi"> 
+								                	<option value="">No certificate</option>
+								                	<option value="3">3</option>
+								                	<option value="7">7</option>
+								                	<option value="12">12</option>
+								                	<option value="16">16</option>
+								                	<option value="18">18</option>
+								                </select>
+								            </td> 
+								            <td> 
+								                <div class="file-input-group"> 
+								                    <input type="file" id="contentdescription-ratingcertificates-certificate-pegi" class="hide ie_show pretty-file-file"  
+								                        name="contentdescription-ratingcertificates-certificate" 
+								                        accept="application/pdf" 
+								                    /> 
+								                    <div class="input-append ie_hide"> 
+								                        <input class="input-small pretty-file-input" type="text" readonly="readonly"> 
+								                        <a class="btn pretty-file-button">Browse</a> 
+								                    </div> 
+								                </div> 
+								            </td> 
+								            <td> 
+								            </td> 
+								        </tr>
+								        <tr> 
+								            <td><a class="contentdescription-ratingcertificates-type" href="http://en.wikipedia.org/wiki/Entertainment_Software_Rating_Board">ESRB</a></td>
+								            <td> 
+								                <select class="input-large" id="contentdescription-ratingcertificates-rating-esrb"> 
+								                	<option value="">No certificate</option>
+								                	<option value="3">Early Childhood (eC)</option>
+								                	<option value="6">Everyone (E)</option>
+								                	<option value="10">Everyone 10+ (E10+)</option>
+								                	<option value="13">Teen (T)</option>
+								                	<option value="17">Mature 17+ (M)</option>
+								                	<option value="18">Adults Only 18+ (Ao)</option>
+								                </select>
+								            </td> 
+								            <td> 
+								                <div class="file-input-group"> 
+								                    <input type="file" id="contentdescription-ratingcertificates-certificate-esrb" class="hide ie_show pretty-file-file"  
+								                        name="contentdescription-ratingcertificates-certificate" 
+								                        accept="application/pdf" 
+								                    /> 
+								                    <div class="input-append ie_hide"> 
+								                        <input class="input-small pretty-file-input" type="text" readonly="readonly"> 
+								                        <a class="btn pretty-file-button">Browse</a> 
+								                    </div> 
+								                </div> 
+								            </td> 
+								            <td> 
+								            </td> 
+								        </tr>
+								        <tr> 
+								            <td><a class="contentdescription-ratingcertificates-type" href="http://en.wikipedia.org/wiki/Game_Rating_Board">GRB</a></td>
+								            <td> 
+								                <select class="input-large" id="contentdescription-ratingcertificates-rating-gbr"> 
+								                	<option value="">No certificate</option>
+								                	<option value="0">All</option>
+								                	<option value="12">12</option>
+								                	<option value="15">15</option>
+								                	<option value="18">18</option>
+								                </select>
+								            </td> 
+								            <td> 
+								                <div class="file-input-group"> 
+								                    <input type="file" id="contentdescription-ratingcertificates-certificate-gbr" class="hide ie_show pretty-file-file"  
+								                        name="contentdescription-ratingcertificates-certificate" 
+								                        accept="application/pdf" 
+								                    /> 
+								                    <div class="input-append ie_hide"> 
+								                        <input class="input-small pretty-file-input" type="text" readonly="readonly"> 
+								                        <a class="btn pretty-file-button">Browse</a> 
+								                    </div> 
+								                </div> 
+								            </td> 
+								            <td> 
+								            </td> 
+								        </tr>
+								        <tr> 
+								            <td><a class="contentdescription-ratingcertificates-type" href="http://en.wikipedia.org/wiki/Computer_Entertainment_Rating_Organization">CERO</a></td>
+								            <td> 
+								                <select class="input-large" id="contentdescription-ratingcertificates-rating-cero"> 
+								                	<option value="">No certificate</option>
+								                	<option value="0">All ages (A)</option>
+								                	<option value="12">Ages 12 and up (B)</option>
+								                	<option value="15">Ages 15 and up (C)</option>
+								                	<option value="17">Ages 17 and up (D)</option>
+								                	<option value="18">Ages 18 and up only (Z)</option>
+								                </select>
+								            </td> 
+								            <td> 
+								                <div class="file-input-group"> 
+								                    <input type="file" id="contentdescription-ratingcertificates-certificate-cero" class="hide ie_show pretty-file-file"  
+								                        name="contentdescription-ratingcertificates-certificate" 
+								                        accept="application/pdf" 
+								                    /> 
+								                    <div class="input-append ie_hide"> 
+								                        <input class="input-small pretty-file-input" type="text" readonly="readonly"> 
+								                        <a class="btn pretty-file-button">Browse</a> 
+								                    </div> 
+								                </div> 
+								            </td> 
+								            <td> 
+								            </td> 
+								        </tr>
+								        <tr> 
+								            <td><a class="contentdescription-ratingcertificates-type" href="http://en.wikipedia.org/wiki/Department_of_Justice,_Rating,_Titles_and_Qualification">DEJUS</a></td>
+								            <td> 
+								                <select class="input-large" id="contentdescription-ratingcertificates-rating-dejus"> 
+								                	<option value="">No certificate</option>
+								                	<option value="0">L</option>
+								                	<option value="10">10</option>
+								                	<option value="12">12</option>
+								                	<option value="14">14</option>
+								                	<option value="16">16</option>
+								                	<option value="18">18</option>
+								                </select>
+								            </td> 
+								            <td> 
+								                <div class="file-input-group"> 
+								                    <input type="file" id="contentdescription-ratingcertificates-certificate-dejus" class="hide ie_show pretty-file-file"  
+								                        name="contentdescription-ratingcertificates-certificate" 
+								                        accept="application/pdf" 
+								                    /> 
+								                    <div class="input-append ie_hide"> 
+								                        <input class="input-small pretty-file-input" type="text" readonly="readonly"> 
+								                        <a class="btn pretty-file-button">Browse</a> 
+								                    </div> 
+								                </div> 
+								            </td> 
+								            <td> 
+								                <div class="file-input-group"> 
+								                    <input type="file" id="contentdescription-ratingcertificates-mark-dejus" class="hide ie_show pretty-file-file"  
+								                        name="contentdescription-ratingcertificates-mark" 
+								                        accept="application/pdf" 
+								                    /> 
+								                    <div class="input-append ie_hide"> 
+								                        <input class="input-small pretty-file-input" type="text" readonly="readonly"> 
+								                        <a class="btn pretty-file-button">Browse</a> 
+								                    </div> 
+								                </div> 
+								            </td> 
+								        </tr>
+								        <tr> 
+								            <td><a class="contentdescription-ratingcertificates-type" href="http://en.wikipedia.org/wiki/Freiwillige_Selbstkontrolle_der_Filmwirtschaft">FSK</a></td>
+								            <td> 
+								                <select class="input-large" id="contentdescription-ratingcertificates-rating-fsk"> 
+								                	<option value="">No certificate</option>
+								                	<option value="0">0</option>
+								                	<option value="6">6</option>
+								                	<option value="12">12</option>
+								                	<option value="16">16</option>
+								                	<option value="18">18</option>
+								                </select>
+								            </td> 
+								            <td> 
+								                <div class="file-input-group"> 
+								                    <input type="file" id="contentdescription-ratingcertificates-certificate-fsk" class="hide ie_show pretty-file-file"  
+								                        name="contentdescription-ratingcertificates-certificate" 
+								                        accept="application/pdf" 
+								                    /> 
+								                    <div class="input-append ie_hide"> 
+								                        <input class="input-small pretty-file-input" type="text" readonly="readonly"> 
+								                        <a class="btn pretty-file-button">Browse</a> 
+								                    </div> 
+								                </div> 
+								            </td> 
+								            <td> 
+								            </td> 
+								        </tr>
+								    </table>
+									<p class="help-block">If you have an industry recognized rating certificates for your game application please upload a scanned image of your document in PDF format. For DEJUS certificate you are also required to upload a certification mark like in <a href="http://img.samsungapps.com/seller/en_US/images/common/bg/mark.jpg">this example</a>.</p>
+								</div>
+							</div><!--control-group-->
+
 						</fieldset>
 					</section><!--content-description-->
 
-					<section id="availability">
+					<section id="section-availability">
 						<fieldset>
 							<div id="legend">
 								<legend class="">Availability</legend>
@@ -661,7 +1030,7 @@ Copyright (c) 2012 Yandex <www.yandex.com>
 						</fieldset>
 					</section><!--content-description-->
 
-					<section id="requirements">
+					<section id="section-requirements">
 						<fieldset>
 							<div id="legend">
 								<legend class="">Requirements</legend>
@@ -678,24 +1047,28 @@ Copyright (c) 2012 Yandex <www.yandex.com>
 						</fieldset>
 					</section><!--content-description-->
 
-					<section id="testing-instructions">
+					<section id="section-testing-instructions">
 						<fieldset>
 							<div id="legend">
 								<legend class="">Testing Instructions</legend>
 							</div>
 							<div class="control-group">
 								<!-- content-description -->
-								<label class="control-label"  for="testinginstructions">Testing Instructions</label>
+								<label class="control-label"  for="testinginstructions">Testing Instructions <span class="required-mark">*</span></label>
 								<div class="controls">
-									<textarea class="input-xxlarge" rows="10" id="testinginstructions"
+									<textarea class="input-xxlarge" rows="5" id="testinginstructions" name="testinginstructions"
+										required
+										data-validation-required-message="Testing instructions are required"
+										maxlength="4000"
+										data-validation-maxlength-message="Testing instructions text must be shorter than 4000 symbols"
 									></textarea>
-									<p class="help-block">Under construction. Just post XML here. Later this section will be replaced with a set of fields.</p>
+									<p class="help-block">Instructions for people in the appstores who will test your application. If your application requires an account to use it please provide testing account information. Maximum length: 4000 symbols.</p>
 								</div>
 							</div><!--control-group-->					 
 						</fieldset>
 					</section><!--content-description-->
 
-					<section id="store-specific">
+					<section id="section-store-specific">
 						<fieldset>
 							<div id="legend">
 								<legend class="">Store Specific</legend>

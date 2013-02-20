@@ -30,3 +30,16 @@ div.apk-file-info {
     top: 0px;
     right: 0px;
 }
+
+.contentdescriptors-group select {
+    margin-right: 5px;
+}
+
+.contentdescriptors-group {
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+.file-input-group {
+    display: inline;
+}
