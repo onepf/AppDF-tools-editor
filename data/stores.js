@@ -16,13 +16,21 @@
  *    limitations under the License.
  ******************************************************************************/
  
-var allStores = {
-  "google" : "Google Play",	
-  "amazon" : "Amazon AppStore",	
+var dataStores = {
+  "amazon" : "Amazon AppStore", 
+  "appslib" : "AppsLib",
+  "getjar" : "GetJar",
+  "google" : "Google Play", 
   "opera" : "Opera Mobile Store",
-  "yandex" : "Yandex.Store",	
-  "slideme" : "SlideME", 	
   "samsung" : "Samsung Apps",
+  "slideme" : "SlideME",    
+  "nook" : "NOOK apps",
   "tstore" : "SK T-Store",
-  "nook" : "NOOK apps"
-}	
+  "yandex" : "Yandex.Store",    
+  "appland" : "appland",
+  "aptoid" : "aptoid",
+  "1mobile" : "1mobile",
+  "androidpit" : "AndroidPIT",
+  "androidtap" : "androidtap",
+  "chinamobile" : "chinamobile"
+};

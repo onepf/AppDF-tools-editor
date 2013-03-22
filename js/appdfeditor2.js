@@ -33,7 +33,7 @@ var appdfEditor = (function() {
         $e.change(function() {
             var selectedCountryCode = $(this).find(":selected").val();
             if (selectedCountryCode != "") {
-                var currency = countryCurrencies[selectedCountryCode];
+                var currency = dataCountryCurrencies[selectedCountryCode];
                 $(this).closest(".control-group").find(".add-on").html(currency);
             } else {
                 $(this).closest(".control-group").find(".add-on").html("");
@@ -42,7 +42,7 @@ var appdfEditor = (function() {
 
         if (selectedCountry) {
             $e.val(selectedCountry);
-            var currency = countryCurrencies[selectedCountry];
+            var currency = dataCountryCurrencies[selectedCountry];
             $e.closest(".control-group").find(".add-on").html(currency);
         };
     };
@@ -54,7 +54,7 @@ var appdfEditor = (function() {
     function addMoreKeywords(e, value) {
         var $parent = $(e).closest(".input-append").parent();
         var $controlGroup = $(' \
-            <div class="keyword-countainer"> \
+            <div class="input-container"> \
                 <div class="input-append"> \
                     <input type="text" id="description-texts-keywords-more-' + getUniqueId() + '" value="' + value + '" \
                     required \
@@ -65,8 +65,29 @@ var appdfEditor = (function() {
             </div> \
         ');
         $parent.find("p.help-block").before($controlGroup);
-        $controlGroup.find("input").focus();
+//        $controlGroup.find("input").focus();
+    };
+
+    function addMoreUnsupportedDevices(e, value) {
+		if ($('#section-requirements input[name="unsupport-device-name-' + value + '"]').length) {
+			return false;
+		};
+		
+        var $parent = $(e).closest(".input-append").parent();
+        var $controlGroup = $(' \
+            <div class="input-container"> \
+                <div class="input-append"> \
+                    <input type="text" readonly id="requirements-supporteddevices-more-' + getUniqueId() + '" \
+					name="unsupport-device-name-' + value + '" value="' + value + '" \
+                    > \
+                    <button class="btn requirements-supporteddevices-remove"><i class="icon-remove"></i></button> \
+                </div> \
+            </div> \
+        ');
+        $parent.find("p.help-block").before($controlGroup);
+        //$controlGroup.find("input").focus();
         addValidationToElements($controlGroup.find("input"));
+		return true;
     };
 
     function addMoreLocalPrice(e, value, country) {
@@ -95,6 +116,76 @@ var appdfEditor = (function() {
         addValidationToElements($controlGroup.find("input"));
     };
 
+    function getStoreNameById(store) {
+        if (dataStores[store]) {
+            return dataStores[store];
+        } else {
+            return store;
+        };
+    };
+
+    function addMoreStoreSpecific(e, store, value) {
+		var regExp = /^[^\s][a-z]*$/;
+		if ($('#section-store-specific input[name="storespecific-name-' + store + '"]').length || !regExp.test(store)) {
+			return false;
+		};
+		
+        var $parent = $(e).closest(".control-group-container");
+        var $controlGroup = $(' \
+            <div class="control-group store-specific"> \
+                <label class="control-label"  for="storespecific-name-' + store + '">' + getStoreNameById(store) + '</label> \
+                <div class="controls"> \
+                    <input type="hidden" name="storespecific-name-' + store + '" id="storespecific-name-' + store + '" value="' + store + '"> \
+                    <textarea class="input-xxlarge" rows="10" id="storespecific-xml-' + store + '" >' + value + '</textarea> \
+                    <p class="help-block">' + getStoreNameById(store) + ' specific data in XML format. You can also rewrite any of the application description fields in this XML. \
+                    <button class="btn control-group-remove">Remove ' + getStoreNameById(store) + ' Specific Data</button> \
+                </div> \
+            </div><!--./control-group --> \
+        ');
+        $parent.append($controlGroup);
+        $controlGroup.find("input").focus();
+		addValidationToElements($controlGroup.find("input,textarea,select"));
+		return true;
+    };
+
+    function addMoreTitles(e, value) {
+        var $parent = $(e).closest(".control-group-container");
+        var $controlGroup = $(' \
+            <div class="control-group"> \
+                <!-- description/texts/title --> \
+                <label class="control-label"  for="description-texts-title-more">Longer title</label> \
+                <div class="controls"> \
+                    <div class="input-append"> \
+                        <input type="text" id="description-texts-title-more-' + getUniqueId() + ' class="input-xxlarge" value="' + value + '"> \
+                        <button class="btn" type="button" onclick="removeControlGroup(this); return false;"><i class="icon-remove"></i></button> \
+                    </div> \
+                    <p class="help-block">Enter longer title and it will be used by those stores that support longer titles.</p> \
+                </div> \
+            </div><!--./control-group --> \
+        ');
+        $parent.append($controlGroup);
+        $controlGroup.find("input").focus();
+    };
+
+    function addMoreShortDescriptions(e, value) {
+        var $parent = $(e).closest(".control-group-container");
+        var $controlGroup = $(' \
+            <div class="control-group"> \
+                <!-- description/texts/title --> \
+                <label class="control-label"  for="description-texts-shortdescription-more">Longer short description</label> \
+                <div class="controls"> \
+                    <div class="input-append"> \
+                        <input type="text" id="description-texts-shortdescription-more-' + getUniqueId() + '" class="input-xxlarge" value="' + value + '"> \
+                        <button class="btn" type="button" onclick="removeControlGroup(this); return false;"><i class="icon-remove"></i></button> \
+                    </div> \
+                    <p class="help-block">Enter longer short description and it will be used by those stores that support longer short descriptions.</p> \
+                </div> \
+            </div><!--./control-group --> \
+        ');
+        $parent.append($controlGroup);
+        $controlGroup.find("input").focus();
+    };
+
     function addApkFile(e) {
         var $parent = $(e).closest(".control-group");
         var $controlGroup = $(' \
@@ -102,11 +193,11 @@ var appdfEditor = (function() {
                 <label class="control-label" for="pretty-apk-file">APK File</label> \
                 <div class="controls"> \
                     <input type="file" name="apk-file" class="hide ie_show" accept="application/vnd.android.package-archive" \
-                        data-validation-callback-callback="validationCallbackApkFileMore" \
+                        data-validation-callback-callback="appEditor.validationCallbackApkFileMore" \
                     /> \
                     <div class="input-append ie_hide"> \
-                        <input id="pretty-apk-file" class="input-large" type="text" readonly="readonly" onclick="prettyFileInputClick(this);"> \
-                            <a class="btn" onclick="prettyFileInputClick(this);">Browse</a> \
+                        <input id="pretty-apk-file" class="input-large apkfile-pretty-browse" type="text" readonly="readonly" > \
+                            <a class="btn apkfile-pretty-browse">Browse</a> \
                             <a class="btn control-group-remove"><i class="icon-remove"></i></a> \
                     </div> \
                     <p class="help-block">Submit additional APK files if your application uses more than one APK file</p> \
@@ -195,25 +286,29 @@ var appdfEditor = (function() {
     };
 
     function showImportDescriptionXMLDialog() {
-        var $modal = $("#import-description-xml-modal");
+        var $modal = $("#import-descriptionxml-modal");
         var $importButton = $modal.find(".btn-primary");
 
-        $("#load-errors").hide();
+        $("#import-descriptionxml-modal-errors").hide();
+        $("#import-descriptionxml-modal-status").hide();
 
         $modal.on('shown', function () {
-            $("#description-xml-to-import").focus();
+            $("#import-descriptionxml-modal-text").focus();
         });
 
         $importButton.click(function(event) {
             event.preventDefault();
-            var xml = $("#description-xml-to-import").val();
-            loadDescriptionXML(xml, function() {
+            var xml = $("#import-descriptionxml-modal-text").val();
+            console.log("Showing importing message");
+            $("#import-descriptionxml-modal-status").show();
+            console.log("Push");
+            appdfXMLLoader.loadDescriptionXML(xml, function() {
                 $modal.modal('hide');
             }, function(errors) {
                 console.log("Import errors");
                 console.log(errors);
 
-                var $list = $("#load-errors").find("ul");
+                var $list = $("#import-descriptionxml-modal-errors").find("ul");
 
                 //Then we clear all the previous errors from the error lost
                 $list.find("li").remove();
@@ -221,9 +316,11 @@ var appdfEditor = (function() {
                 //Now we make sure the error list is visible and add all the errors there
                 $("#load-errors").show();
                 for (var i=0; i<errors.length; i++) {
-                    $list.append( $("<li>").text(errors[i]) );
+                    $list.append($("<li>").text(errors[i]));
                 };
 
+            }, function(current, total) {
+                //onprogress
             });
             return false;
         });
@@ -237,19 +334,29 @@ var appdfEditor = (function() {
         var $openButton = $modal.find(".btn-primary");
         var $file = $modal.find("#load-appdf-modal-file");
         $("#load-appdf-modal-errors").hide();
+        $("#load-appdf-modal-status").hide();
+        $("#load-appdf-modal-prettyfile").val("");
+        $file.val("");
 
         $browseButton.click(function(event) {
+            console.log("borwseButton click");
             event.preventDefault();
             $file.click();
+            console.log("click end");
+            return false;
         });
 
         $file.change(function(event) {
+            console.log("file is changed");
             $("#load-appdf-modal-prettyfile").val(appdfEditor.normalizeInputFileName($file.val()));
+            return false;
         });
 
         $openButton.click(function(event) {
             event.preventDefault();
-            loadAppdfFile($file[0].files[0], function() {
+            $("#load-appdf-modal-status").show();
+
+            appdfXMLLoader.loadAppdfFile($file[0].files[0], function() {
                 $modal.modal('hide');
             }, function(errors) {
                 console.log("Import errors");
@@ -263,9 +370,11 @@ var appdfEditor = (function() {
                 //Now we make sure the error list is visible and add all the errors there
                 $("#load-appdf-modal-errors").show();
                 for (var i=0; i<errors.length; i++) {
-                    $list.append( $("<li>").text(errors[i]) );
+                    $list.append($("<li>").text(errors[i]));
                 };
 
+            }, function(current, total) {
+                //onprogress
             });
             return false;
         });
@@ -347,9 +456,101 @@ var appdfEditor = (function() {
         $modal.modal("show");
     };
 
+    function fillLanguages() {
+        var $langs = $("#add-localization-modal-language");
+        for (var code in dataLanguages) {
+            if (code.toLowerCase() !== "en_us") {
+                $langs.append($("<option />").val(code).text(dataLanguages[code]));
+            };
+        };
+        $langs.val("en");
+    };
+
+    function fillScreenResolutions() {
+        var $div = $("#requirements-supportedresolutions");
+		$div.empty();
+        for (var resolution in dataScreenResolutions) {
+            var $resolutionElement = $('<label class="checkbox"><input type="checkbox" value="" id="requirements-supportedresolutions-' + resolution + '">' + dataScreenResolutions[resolution] + '</label>');
+            $div.append($resolutionElement);
+        };
+    };
+
+    function fillCategories() {
+		var selectedType = $("#categorization-type").find(":selected").val();
+		var $categories = $("#categorization-category");
+		var categoryHash = dataCategories[selectedType];
+		$categories.empty();
+		for (var k in categoryHash) {
+			$categories.append($("<option />").val(k).text(k));
+		}
+	};
+
+	function fillSubcategories() {
+		var selectedType = $("#categorization-type").find(":selected").val();
+		var selectedCategory = $("#categorization-category").find(":selected").val();
+		var $subcategories = $("#categorization-subcategory");
+		var subcategoryArray = dataCategories[selectedType][selectedCategory];
+		$subcategories.empty();
+		for (var i=0; i<subcategoryArray.length; i++) {
+			var s = subcategoryArray[i];
+			$subcategories.append($("<option />").val(s).text(s));
+		}
+		if (subcategoryArray.length<=1) {
+			$subcategories.closest(".control-group").hide();    
+		} else {
+			$subcategories.closest(".control-group").show();            
+		}
+	};
+
+    function fillCategoryStoresInfo() {
+        var $table = $("<table class='table table-striped table-bordered'/>");
+        $table.append($("<tr><th>Store</th><th>Category</th></tr>"));
+
+        var selectedType = $("#categorization-type").find(":selected").val();
+        var selectedCategory = $("#categorization-category").find(":selected").val();
+        var selectedSubcategory = $("#categorization-subcategory").find(":selected").val();
+
+        var storeInfo = dataStoreCategories[selectedType][selectedCategory][selectedSubcategory];
+
+        for (store in storeInfo) {
+            $table.append($("<tr><td>" + dataStores[store] + "</td><td>" + storeInfo[store] + "</td></tr>"));
+        }
+
+
+        $("#store-categories-info").empty();
+        $("#store-categories-info").append($table);
+    };
+
     function addClickHandlers() {
         $('body').on('click', '.description-texts-keywords-addmore', function(e) {
             addMoreKeywords(e.target, "");
+            return false;
+        });
+
+
+
+
+
+
+        $('body').on('click', '.requirements-supporteddevices-addmore', function(e) {
+            var $input = $(e.target).closest(".input-append").find("input");
+            if ($input.val() !== "") {
+                if (addMoreUnsupportedDevices(e.target, $input.val())) {
+					$input.val("");
+				}
+            };
+            $input.focus();
+            return false;
+        });
+
+        $('body').on('click', '.storespecific-addmore', function(e) {
+            var $input = $(e.target).closest(".input-append").find("input");
+            if ($input.val() !== "") {
+                if (addMoreStoreSpecific(e.target, $input.val(), "")) {
+					$input.val("");
+				}
+            };
+            $input.focus();
             return false;
         });
 
@@ -358,15 +559,33 @@ var appdfEditor = (function() {
             return false;
         });
 
+
+
+
+
+
         $('body').on('click', '.description-texts-keywords-remove', function(e) {
-            $(e.target).closest(".keyword-countainer").remove();
+            $(e.target).closest(".input-container").remove();
             return false;
         });
+
+        $('body').on('click', '.requirements-supporteddevices-remove', function(e) {
+            $(e.target).closest(".input-container").remove();
+            return false;
+        });
+
+
+
+
+
+
+
 
         $('body').on('click', '.control-group-remove', function(e) {
             $(e.target).closest(".control-group").remove();
             return false;
         });
+
 
         $('body').on('click', '.apk-file-addmore', function(e) {
             addApkFile(e.target);
@@ -378,6 +597,9 @@ var appdfEditor = (function() {
             return false;
         });
 
+
+
+
         $('body').on('click', '.load-appdf-file', function(event) {
             showLoadAppdfDialog();
             return false;
@@ -388,24 +610,321 @@ var appdfEditor = (function() {
             return false;
         });
 
+
         $('body').on('click', '.apkfile-pretty-browse', function(event) {
             $(event.target).closest(".controls").children("input").click();
             return false;
         });
+
+
+        $('body').on('click', '.description-texts-title-addmore', function(event) {
+            addMoreTitles(event.target, "");
+            return false;
+        });
+
+
+        $('body').on('click', '.description-texts-shortdescription-addmore', function(event) {
+            addMoreShortDescriptions(event.target, "");
+            return false;
+        });
+
+        $('#requirements-supportedlanguages-type-custom').click(function(event) {
+            $("#requirements-supportedlanguages").show();
+        });
+        $('#requirements-supportedlanguages-type-default').click(function(event) {
+            $("#requirements-supportedlanguages").hide();
+        });
+		
+        $('#requirements-supportedresolutions-type-custom').click(function(event) {
+            $("#requirements-supportedresolutions").show();
+        });
+		$('#requirements-supportedresolutions-type-default').click(function(event) {
+			$("#requirements-supportedresolutions").hide();
+		});
+		
+
+
+        $("#categorization-type").change(function() {
+            fillCategories();
+            fillSubcategories();
+            fillCategoryStoresInfo();
+        });
+
+        $("#categorization-category").change(function() {
+            fillSubcategories();
+            fillCategoryStoresInfo();
+        });
+
+        $("#categorization-subcategory").change(function() {
+            fillCategoryStoresInfo();
+        });        
+    };
+
+    function fillSupportedLanguages() {
+        var $div = $("#requirements-supportedlanguages");
+		$div.empty();
+		
+        var langCodes = [];
+        for (var code in dataLanguages) {
+            langCodes.push(code);
+        };
+        var $row;
+        for (var i=0; i<langCodes.length; i++) {
+            if (i%3 === 0) {
+                $row = $("<div class='row'>");
+                $div.append($row);
+            };
+            $row.append($(' \
+                <div class="span4"> \
+                    <label class="checkbox"> \
+                        <input type="checkbox" value="" id="requirements-supportedlanguages-' + langCodes[i] + '"> \
+                        ' + dataLanguages[langCodes[i]] + ' \
+                    </label> \
+                </div>')
+            );
+        };
+    };
+
+    function fillStores() {
+        $input = $("#storespecific-input");
+        var storeCodes = [];
+        for (store in dataStores) {
+            storeCodes.push(store);
+        };
+        $input.typeahead({source: storeCodes});
+    };
+
+    function fillDeviceModels() {
+        $input = $("#requirements-supporteddevices-input");
+        var deviceModels = [];
+        for (model in dataDeviceModels) {
+            deviceModels.push(model + " (" + dataDeviceModels[model]["manufacture"] + "," + dataDeviceModels[model]["resolution"] + ")");
+        };
+        $input.typeahead({
+            "source" : deviceModels,
+            "updater" : function(item) {
+                console.log("updater");
+                console.log(item);
+
+                var deviceModelRegEx = /([^\(]*)\s\([.]*/i;
+                var matched = item.match(deviceModelRegEx); 
+                console.log(matched);
+                if (matched && matched.length>0) {
+                    return matched[1];
+                } else {
+                    return item;
+                };
+            }
+        });
+    };
+	
+	function validationCallbackSmallPromo($el, value, callback) {
+		//TODO small promo check
+		callback({
+			value: value,
+			valid: true
+		});
+	};
+	
+	function validationCallbackLargePromo($el, value, callback) {
+		//TODO large promo check
+		callback({
+			value: value,
+			valid: true
+		});
+	};
+	
+	function validationCallbackScreenshotRequired($el, value, callback) {
+		var imageFileName = appdfEditor.normalizeInputFileName($el.val());
+		var file = $el[0].files[0];
+		var URL = window.webkitURL || window.mozURL || window.URL;    
+		var imgUrl = URL.createObjectURL(file);
+		
+		getImgSize(imgUrl, function(width, height) {
+			if (false /*todo: add some size checking*/) {
+				callback({
+					value: value,
+					valid: true
+				});
+			} else {
+				callback({
+					value: value,
+					valid: false,
+					message: "Wrong screenshot size" //todo: better error message
+				});
+			};
+		});
+	};
+
+	function validationCallbackRequirementDevice($el, value, callback) {
+		if ($('#section-requirements input[name="unsupport-device-name-' + value + '"]').length) {
+			callback({
+				value: value,
+				valid: false,
+				message: "This device already exist"
+			});
+		} else {
+			callback({
+				value: value,
+				valid: true
+			});
+		}
+	};
+	
+	function validationCallbackAppIconFirst($el, value, callback) {
+		if ($el[0].files.length === 0) {
+			callback({
+				value: value,
+				valid: false,
+				message: "Application icon is required"
+			});
+			return;
+		};
+
+		var imageFileName = appdfEditor.normalizeInputFileName($el.val());
+		var file = $el[0].files[0];
+		var URL = window.webkitURL || window.mozURL || window.URL;    
+		var imgUrl = URL.createObjectURL(file);
+
+		getImgSize(imgUrl, function(width, height) {
+			if (width===512 && height===512) {
+				callback({
+					value: value,
+					valid: true
+				});
+			} else {
+				callback({
+					value: value,
+					valid: false,
+					message: "Application icon size must be 512x512"
+				});
+			};
+		});
+	};
+	
+	function validationCallbackApkFile($el, value, callback, first) {
+		var apkFileName = appdfEditor.normalizeInputFileName($el.val());
+		$el.closest(".controls").find("input:text").val(apkFileName);
+
+		if (first && $el[0].files.length === 0) {
+			callback({
+				value: value,
+				valid: false,
+				message: "APK file is required"
+			});
+			return;
+		};
+		
+		var file = $el[0].files[0];
+
+		if (file.size>MAXIMUM_APK_FILE_SIZE) {
+			callback({
+				value: value,
+				valid: false,
+				message: "APK file size cannot exceed 50M"
+			});
+			return;
+		};
+
+		apkParser.parseApkFile(file, apkFileName, function(apkData) {
+			fillApkFileInfo($el, apkData);
+			var data = {
+				value: value,
+				valid: true
+			};
+
+			if (first) {
+				firstApkFileData = apkData;
+			} else {
+				if (firstApkFileData.package!=apkData.package) {
+					data.valid = false;
+					data.message = "APK file package names do not match";
+				};
+			};
+			callback(data);
+		}, function (error) {
+			fillApkFileInfo($el, null);
+			callback({
+				value: value,
+				valid: false,
+				message: error
+			});
+		});
+	};
+
+	function validationCallbackApkFileFirst($el, value, callback) {
+		validationCallbackApkFile($el, value, function(data) {
+			if (data.valid) {
+				var descriptionXML = localStorage.getItem(firstApkFileData.package);
+				if (descriptionXML && descriptionXML!="") {
+					//TODO handle carefully that we set it only if page is empty
+					//appdfXMLLoader.loadDescriptionXML(descriptionXML, function(){}, function(error){});
+				};
+			};
+			callback(data);
+		}, true);
+	};
+	
+	function validationCallbackApkFileMore($el, value, callback) {
+		validationCallbackApkFile($el, value, callback, false);
+	};
+
+	function validationCallbackStoreSpecify($el, value, callback) {
+		if ($('#section-store-specific input[name="storespecific-name-' + value + '"]').length) {
+			callback({
+				value: value,
+				valid: false,
+				message: "This store already exist"
+			});
+		} else {
+			callback({
+				value: value,
+				valid: true
+			});
+		}
+	};
+	
+    function initFilling() {
+        fillLanguages();    
+        fillCategories();
+        fillSubcategories();
+        fillCategoryStoresInfo();
+        fillSupportedLanguages();
+        fillScreenResolutions();
+        fillStores();
+        fillDeviceModels();
     };
 
     function init() {
         initRatingCertificate();
         initMenuStickToTop();
         initScrollspy();
+        initFilling();
         addClickHandlers();
     };
 
     return {
+        init : init,
         addMoreKeywords : addMoreKeywords,
         addMoreLocalPrice : addMoreLocalPrice,
-        init : init,
-        normalizeInputFileName : normalizeInputFileName
+        addMoreTitles : addMoreTitles,
+        addMoreShortDescriptions : addMoreShortDescriptions,
+		addMoreStoreSpecific: addMoreStoreSpecific,
+		addMoreUnsupportedDevices: addMoreUnsupportedDevices,
+        normalizeInputFileName : normalizeInputFileName,
+        fillCategories : fillCategories,
+        fillSubcategories : fillSubcategories,
+        fillCategoryStoresInfo : fillCategoryStoresInfo,
+		fillSupportedLanguages : fillSupportedLanguages,
+        fillScreenResolutions : fillScreenResolutions,
+		validationCallbackAppIconFirst : validationCallbackAppIconFirst,
+		validationCallbackApkFileFirst : validationCallbackApkFileFirst,
+		validationCallbackApkFileMore : validationCallbackApkFileMore,
+		validationCallbackSmallPromo : validationCallbackSmallPromo,
+		validationCallbackLargePromo : validationCallbackLargePromo,
+		validationCallbackScreenshotRequired : validationCallbackScreenshotRequired,
+		validationCallbackRequirementDevice : validationCallbackRequirementDevice,
+		validationCallbackStoreSpecify : validationCallbackStoreSpecify
     };
 })();
 

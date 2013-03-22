@@ -33,26 +33,10 @@ function getUniqueId() {
 
 $(document).ready(function() {
     zip.workerScriptsPath = "js/zip/";
-    initialFilling();
 
     addValidationToElements($("input,textarea,select"));
     $("#build-appdf-file").click(function(event) {
         return buildAppdDFFile(event);
-    });
-
-    $("#categorization-type").change(function() {
-        fillCategories();
-        fillSubcategories();
-        fillCategoryStoresInfo();
-    });
-
-    $("#categorization-category").change(function() {
-        fillSubcategories();
-        fillCategoryStoresInfo();
-    });
-
-    $("#categorization-subcategory").change(function() {
-        fillCategoryStoresInfo();
     });
 
     $("#price-free-trialversion").change(function() {
@@ -88,7 +72,7 @@ function fillApkFileInfo($el, apkData) {
 
 
 function generateAppDFFile(onend) {
-    var descriptionXML = generateDescriptionFileXML(); 
+    var descriptionXML = appdfXMLSaver.generateDescriptionFileXML(); 
     localStorage.setItem(firstApkFileData.package, descriptionXML);
 
     var URL = window.webkitURL || window.mozURL || window.URL;
@@ -130,7 +114,7 @@ function generateAppDFFile(onend) {
 
 function collectBuildErrors() {
     var errors = $("input,select,textarea").jqBootstrapValidation("collectErrors");
-    var errorArray = [];
+	var errorArray = [];
     for (field in errors) {
         if (name!=undefined) {
             var fieldErrors = errors[field];
@@ -143,22 +127,42 @@ function collectBuildErrors() {
         };
     };
 
-    validationCallbackApkFileFirst($("#apk-file"), $("#apk-file").val(), function(data) {
-        if (!data.valid) {
+    appdfEditor.validationCallbackApkFileFirst($("#apk-file"), $("#apk-file").val(), function(data) {
+        if (!data.valid && data.value) {
             if (errorArray.indexOf(data.message) === -1) {
                 errorArray.push(data.message);
             };
         };
     });
 
-    validationCallbackAppIconFirst($("#description-images-appicon"), $("#description-images-appicon").val(), function(data) {
-        if (!data.valid) {
+    appdfEditor.validationCallbackAppIconFirst($("#description-images-appicon"), $("#description-images-appicon").val(), function(data) {
+        if (!data.valid && data.value) {
             if (errorArray.indexOf(data.message) === -1) {
                 errorArray.push(data.message);
             };
         };
     });
-
+	
+	
+	//validate store specify
+	var $storeSpecific = $("#section-store-specific input[name^='storespecific-name-']");
+	var storeSpecificID, storeSpecificContent, invalidXmlFlag, errorMessage;
+	$storeSpecific.each(function() {
+		storeSpecificID = $(this).val();
+		storeSpecificContent = $(this).next().val();
+		try {
+			$.parseXML("<a>" + storeSpecificContent + "</a>");
+			invalidXmlFlag = false;
+		} catch (e) {
+			invalidXmlFlag = true;
+			errorMessage = "Store Specific '" + storeSpecificID + "' - invalid XML";
+		}
+		
+		if (invalidXmlFlag && errorArray.indexOf(errorMessage) === -1) {
+			errorArray.push(errorMessage);
+		}
+	});
+	
     return errorArray;
 };
 
@@ -221,59 +225,6 @@ function clearBuildedAppdfFile() {
     downloadLink.download = null;
 };
 
-function fillLanguages(element) {
-    for (var code in allLanguages) {
-        if (code.toLowerCase()!="en_us") {
-            element.append($("<option />").val(code).text(allLanguages[code]));
-        };
-    };
-    element.val("en");
-};
-
-function fillCategories() {
-    var selectedType = $("#categorization-type").find(":selected").val();
-    var categories = $("#categorization-category");
-    var categoryHash = allCategories[selectedType];
-    categories.empty();
-    for (var k in categoryHash) {
-         categories.append($("<option />").val(k).text(k));
-     }
- }
-
- function fillSubcategories() {
-    var selectedType = $("#categorization-type").find(":selected").val();
-    var selectedCategory = $("#categorization-category").find(":selected").val();
-    var subcategories = $("#categorization-subcategory");
-    var subcategoryArray = allCategories[selectedType][selectedCategory];
-    subcategories.empty();
-    for (var i=0; i<subcategoryArray.length; i++) {
-        var s = subcategoryArray[i];
-        subcategories.append($("<option />").val(s).text(s));
-    }
-    if (subcategoryArray.length<=1) {
-        subcategories.closest(".control-group").hide();    
-    } else {
-        subcategories.closest(".control-group").show();            
-    }
-};
-
-function fillCategoryStoresInfo() {
-    var table = $("<table class='table table-striped table-bordered'/>");
-    table.append($("<tr><th>Store</th><th>Category</th></tr>"));
-
-    var selectedType = $("#categorization-type").find(":selected").val();
-    var selectedCategory = $("#categorization-category").find(":selected").val();
-    var selectedSubcategory = $("#categorization-subcategory").find(":selected").val();
-
-    var storeInfo = storeCategories[selectedType][selectedCategory][selectedSubcategory];
-
-    for (store in storeInfo) {
-        table.append($("<tr><td>" + allStores[store] + "</td><td>" + storeInfo[store] + "</td></tr>"));
-    }
-
-    $("#store-categories-info").empty();
-    $("#store-categories-info").append(table);
-};
 
 function addValidationToElements($elements) {
     $elements.jqBootstrapValidation(
@@ -298,42 +249,6 @@ function addValidationToLastControlGroup($fieldset) {
     addValidationToElements($lastControlGroup.find("input,textarea,select"));
 };
 
-function addMoreTitles(e, value) {
-    var $parent = $(e).closest(".control-group");
-    var $controlGroup = $(' \
-        <div class="control-group"> \
-            <!-- description/texts/title --> \
-            <label class="control-label"  for="description-texts-title-more">Longer title</label> \
-            <div class="controls"> \
-                <div class="input-append"> \
-                    <input type="text" id="description-texts-title-more-' + getUniqueId() + ' class="input-xxlarge" value="' + value + '"> \
-                    <button class="btn" type="button" onclick="removeControlGroup(this); return false;"><i class="icon-remove"></i></button> \
-                </div> \
-                <p class="help-block">Enter longer title and it will be used by those stores that support longer titles.</p> \
-            </div> \
-        </div><!--./control-group --> \
-    ');
-     $parent.after($controlGroup);
-};
-
-function addMoreShortDescriptions(e, value) {
-    var $parent = $(e).closest(".control-group");
-    var $controlGroup = $(' \
-        <div class="control-group"> \
-            <!-- description/texts/title --> \
-            <label class="control-label"  for="description-texts-shortdescription-more">Longer short description</label> \
-            <div class="controls"> \
-                <div class="input-append"> \
-                    <input type="text" id="description-texts-shortdescription-more-' + getUniqueId() + '" class="input-xxlarge" value="' + value + '"> \
-                    <button class="btn" type="button" onclick="removeControlGroup(this); return false;"><i class="icon-remove"></i></button> \
-                </div> \
-                <p class="help-block">Enter longer short description and it will be used by those stores that support longer short descriptions.</p> \
-            </div> \
-        </div><!--./control-group --> \
-    ');
-     $parent.after($controlGroup);
-};
-
 function addMoreAppIcon(e) {
     var $parent = $(e).closest(".image-group");
     var $controlGroup = $(' \
@@ -341,7 +256,7 @@ function addMoreAppIcon(e) {
         <input type="file" id="description-images-appicon-' + getUniqueId() + '" class="hide ie_show appicon-input empty-image" \
             name="description-images-appicon-' + getUniqueId() + '" \
             accept="image/png" \
-            data-validation-callback-callback="validationCallbackAppIconFirst" \
+            data-validation-callback-callback="appdfEditor.validationCallbackAppIconFirst" \
         /> \
         <img src="img/appicon_placeholder.png" width="128" height="128"> \
         <p class="image-input-label"></p> \
@@ -358,7 +273,7 @@ function addMoreScreenshots(e) {
         <input type="file" id="description-images-screenshot-' + getUniqueId() + '" class="hide ie_show screenshot-input empty-image" \
             name="description-images-screenshot-' + getUniqueId() + '" \
             accept="image/png" \
-            data-validation-callback-callback="validationCallbackScreenshotRequired" \
+            data-validation-callback-callback="appdfEditor.validationCallbackScreenshotRequired" \
         /> \
         <img src="img/screenshot_placeholder.png" width="132" height="220"> \
         <p class="image-input-label"></p> \
@@ -370,12 +285,6 @@ function addMoreScreenshots(e) {
 
 function removeControlGroup(e) {
     $(e).closest(".control-group").remove();
-};
-
-function initialFilling() {
-    fillLanguages($("#add-localization-modal-language"));    
-    fillCategories();
-    fillSubcategories();
 };
 
 function flatten(array) {
@@ -435,73 +344,6 @@ function onProgress(current, total) {
     $bar.text(percentage);
 };
 
-function validationCallbackApkFile($el, value, callback, first) {
-    var apkFileName = appdfEditor.normalizeInputFileName($el.val());
-    $el.closest(".controls").find("input:text").val(apkFileName);
-
-    if (first && $el[0].files.length === 0) {
-        callback({
-            value: value,
-            valid: false,
-            message: "APK file is required"
-        });
-        return;
-    };
-    
-    var file = $el[0].files[0];
-
-    if (file.size>MAXIMUM_APK_FILE_SIZE) {
-        callback({
-            value: value,
-            valid: false,
-            message: "APK file size cannot exceed 50M"
-        });
-        return;
-    };
-
-    ApkParser.parseApkFile(file, apkFileName, function(apkData) {
-        fillApkFileInfo($el, apkData);
-        var data = {
-            value: value,
-            valid: true
-        };
-
-        if (first) {
-            firstApkFileData = apkData;
-        } else {
-            if (firstApkFileData.package!=apkData.package) {
-                data.valid = false;
-                data.message = "APK file package names do not match";
-            };
-        };
-        callback(data);
-    }, function (error) {
-        fillApkFileInfo($el, null);
-        callback({
-            value: value,
-            valid: false,
-            message: error
-        });
-    });
-};
-
-function validationCallbackApkFileFirst($el, value, callback) {
-    validationCallbackApkFile($el, value, function(data) {
-        if (data.valid) {
-            var descriptionXML = localStorage.getItem(firstApkFileData.package);
-            if (descriptionXML && descriptionXML!="") {
-//todo: handle carefully that we set it only if page is empty
-//                loadDescriptionXML(descriptionXML, function(){}, function(error){});
-            };
-        };
-        callback(data);
-    }, true);
-};
-
-function validationCallbackApkFileMore($el, value, callback) {
-    validationCallbackApkFile($el, value, callback, false);
-};
-
 function getImgSize(imgSrc, onsize) {
     var newImg = new Image();
     newImg.onload = function() {
@@ -510,59 +352,6 @@ function getImgSize(imgSrc, onsize) {
         onsize(width, height);
     };
     newImg.src = imgSrc; // this must be done AFTER setting onload
-};
-
-function validationCallbackAppIconFirst($el, value, callback) {
-    if ($el[0].files.length === 0) {
-        callback({
-            value: value,
-            valid: false,
-            message: "Application icon is required"
-        });
-        return;
-    };
-    
-    var imageFileName = appdfEditor.normalizeInputFileName($el.val());
-    var file = $el[0].files[0];
-    var URL = window.webkitURL || window.mozURL || window.URL;    
-    var imgUrl = URL.createObjectURL(file);
-
-    getImgSize(imgUrl, function(width, height) {
-        if (width===512 && height===512) {
-            callback({
-                value: value,
-                valid: true
-            });
-        } else {
-            callback({
-                value: value,
-                valid: false,
-                message: "Application icon size must be 512x512"
-            });
-        };
-    });
-};
-
-function validationCallbackScreenshotRequired($el, value, callback) {
-    var imageFileName = appdfEditor.normalizeInputFileName($el.val());
-    var file = $el[0].files[0];
-    var URL = window.webkitURL || window.mozURL || window.URL;    
-    var imgUrl = URL.createObjectURL(file);
-
-    getImgSize(imgUrl, function(width, height) {
-        if (true /*todo: add some size checking*/) {
-            callback({
-                value: value,
-                valid: true
-            });
-        } else {
-            callback({
-                value: value,
-                valid: false,
-                message: "Wrong screenshot size" //todo: better error message
-            });
-        };
-    });
 };
 
 function screenshotClick(e) {
