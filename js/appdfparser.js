@@ -130,6 +130,20 @@ var appdfParser = (function() {
 			});
 		};
 
+		//Load text attribute
+		function loadTextAttribute(dataPath, xmlPath, attributeName) {
+			loadHelper(dataPath, xmlPath, function(d, name, $e) {
+				if ($e.length>0) {
+					var attributeValue = $e.attr(attributeName);
+					if (typeof attributeValue!=="undefined" && attributeValue!==false) {
+						d[name] = attributeValue;
+					} else {
+						errors.push("Tag <" + $e[0].tagName + "> doesn`t have attribute \"" + name + "\"");
+					};
+				};
+			});
+		};
+		
 		//Load yes/no attribute
 		function loadBooleanAttribute(dataPath, xmlPath, attributeName) {
 			loadHelper(dataPath, xmlPath, function(d, name, $e) {
@@ -205,23 +219,56 @@ var appdfParser = (function() {
 				loadArray("features", "features/feature");
 				loadText("recent-changes", "recent-changes");
 				loadText("privacy-policy", "privacy-policy");
+				loadTextAttribute("eula-link", "eula", "href")
 				loadText("eula", "eula");
 			});
 			section("images/", "images", function() {
 				loadHelper("app-icon", "app-icon", function(d, name, $e) {
 					d[name] = [];
 					$e.each(function() {
-						var size = $(this).attr("size");
 						d[name].push({
 							"name" : $(this).text(),
-							"size" : size
+							"width" : $(this).attr("width"),
+							"height" : $(this).attr("height")
 						});
 					});
 				});
-				loadText("large-promo", "large-promo");
-				loadText("small-promo", "small-promo");
-				loadArray("screenshots", "screenshots/screenshot");
+                
+				loadHelper("large-promo", "large-promo", function(d, name, $e) {
+					d[name] = null;
+					$e.each(function() {
+						d[name] = {
+							"name" : $(this).text(),
+							"width" : $(this).attr("width"),
+							"height" : $(this).attr("height")
+						};
+					});
+				});
+                
+                loadHelper("small-promo", "small-promo", function(d, name, $e) {
+					d[name] = null;
+					$e.each(function() {
+						d[name] = {
+							"name" : $(this).text(),
+							"width" : $(this).attr("width"),
+							"height" : $(this).attr("height")
+						};
+					});
+				});
+                
+				loadHelper("screenshots", "screenshots/screenshot", function(d, name, $e) {
+					d[name] = [];
+					$e.each(function() {
+						d[name].push({
+							"name" : $(this).text(),
+							"width" : $(this).attr("width"),
+							"height" : $(this).attr("height"),
+							"index" : $(this).attr("index")
+						});
+					});
+				});
 			});
+            
 			section("videos/", "videos", function() {
 				loadText("youtube-video", "youtube-video");
 			});
@@ -342,10 +389,22 @@ var appdfParser = (function() {
 			
 			loadObjectWithData("supported-languages/language", "supported-languages/language");
 			loadObjectWithData("supported-devices/exclude", "supported-devices/exclude");
-			loadObjectWithData("supported-resolutions/include", "supported-resolutions/include");
+			
+			section("supported-resolutions/", "supported-resolutions", function() {
+				loadBooleanAttribute("only-listed", "", "only-listed");
+				
+				if (data["requirements"]["supported-resolutions"]["only-listed"]) {
+					loadObjectWithData("include", "include");
+				} else {
+					loadObjectWithData("exclude", "exlude");
+				};
+			});
 		});
 		
-		
+        section("apk-files/", "apk-files", function() {
+            loadArray("apk-file", "apk-file");
+        });
+        
 		//Todo: temporary XML loading instead of parsing content
 		loadXml("availability", "availability");
 		loadText("testing-instructions", "testing-instructions");
@@ -438,7 +497,7 @@ var appdfParser = (function() {
 			};
 		};
 
-		if (isDefined(data["privacy-policy"]) && data["privacy-policy"].length>500) {
+		if (isDefined(data["recent-changes"]) && data["recent-changes"].length>500) {
 			errors.push("Recent changes must be shorted than 500 symbols (for language \"" + languageCode + "\")");
 		};
 

@@ -193,7 +193,6 @@ Copyright (c) 2012 Yandex <www.yandex.com>
                   <input type="file" id="apk-file" class="hide ie_show" 
                     name="apk-file" 
                     accept="application/vnd.android.package-archive"
-                    data-validation-required-message="APK file is required" required
                     data-validation-callback-callback="appdfEditor.validationCallbackApkFileFirst"
                   />
                   <div class="input-append ie_hide">
@@ -412,9 +411,11 @@ Copyright (c) 2012 Yandex <www.yandex.com>
                       <!-- description/texts/privacy-policy -->
                       <label class="control-label" for="description-texts-privacypolicy">Privacy policy</label>
                       <div class="controls">
-                        <input type="text" id="description-texts-privacypolicy" name="description-texts-privacypolicy"
+                        <input type="text" id="description-texts-privacypolicy-link" name="description-texts-privacypolicy"
                         >
                         <p class="help-block">Link to privacy policy document for this application, required if your application collect personal data</p>
+                        <textarea id="description-texts-privacypolicy-data" class="input-xxlarge after-input" rows="5"></textarea>
+                        <p class="help-block">Full privacy police text for this application, required if your application collect personal data</p>
                       </div>
                     </div><!--./control-group -->
                    
@@ -422,9 +423,11 @@ Copyright (c) 2012 Yandex <www.yandex.com>
                       <!-- description/texts/eula -->
                       <label class="control-label" for="description-texts-eula">End user license agreement</label>
                       <div class="controls">
-                        <input type="text" id="description-texts-eula" name="description-texts-eula"
-                        >
+                        <input type="text" id="description-texts-eula-link" name="description-texts-eula"
+						>
                         <p class="help-block">If you want you can provide a link to your End User License Agreement (EULA)</p>
+                        <textarea id="description-texts-eula-data" class="input-xxlarge after-input" rows="5"></textarea>
+                        <p class="help-block">If you want you can provide a your End User License Agreement (EULA) full text</p>
                       </div>
                     </div><!--./control-group -->
                    
@@ -437,7 +440,6 @@ Copyright (c) 2012 Yandex <www.yandex.com>
                             <input type="file" id="description-images-appicon" class="hide ie_show appicon-input empty-image" 
                               name="description-images-appicon" 
                               accept="image/png"
-                              data-validation-required-message="Application icon is required" required
                               data-validation-callback-callback="appdfEditor.validationCallbackAppIconFirst"
                             />
                             <img data-src="holder.js/128x128/text:Click to choose image" id="description-images-appicon-img" width="128" height="128">
@@ -448,7 +450,7 @@ Copyright (c) 2012 Yandex <www.yandex.com>
                       </div>
                     </div><!--./control-group -->
 
-                    <div class="control-group">
+                    <div class="control-group screenshots-group">
                       <!-- description/images/screenshots -->
                       <label class="control-label" for="description-images-screenshots">Screenshots <span class="required-mark">*</span></label>
                       <div class="controls">
@@ -457,7 +459,6 @@ Copyright (c) 2012 Yandex <www.yandex.com>
                             <input type="file" id="description-images-screenshot-1" class="hide ie_show screenshot-input empty-image" 
                               name="description-images-screenshot-1" 
                               accept="image/png"
-                              data-validation-required-message="Screenshots are required" required
                               data-validation-callback-callback="appdfEditor.validationCallbackScreenshotRequired"
                             />
                             <img data-src="holder.js/132x220/text:Screenshot #1" width="132" height="220">
@@ -467,7 +468,6 @@ Copyright (c) 2012 Yandex <www.yandex.com>
                             <input type="file" id="description-images-screenshot-2" class="hide ie_show screenshot-input empty-image" 
                               name="description-images-screenshot-2" 
                               accept="image/png"
-                              data-validation-required-message="Screenshots are required" required
                               data-validation-callback-callback="appdfEditor.validationCallbackScreenshotRequired"
                             />
                             <img data-src="holder.js/132x220/text:Screenshot #2" width="132" height="220">
@@ -477,7 +477,6 @@ Copyright (c) 2012 Yandex <www.yandex.com>
                             <input type="file" id="description-images-screenshot-3" class="hide ie_show screenshot-input empty-image" 
                               name="description-images-screenshot-3" 
                               accept="image/png"
-                              data-validation-required-message="Screenshots are required" required
                               data-validation-callback-callback="appdfEditor.validationCallbackScreenshotRequired"
                             />
                             <img data-src="holder.js/132x220/text:Screenshot #3" width="132" height="220">
@@ -487,7 +486,6 @@ Copyright (c) 2012 Yandex <www.yandex.com>
                             <input type="file" id="description-images-screenshot-4" class="hide ie_show screenshot-input empty-image" 
                               name="description-images-screenshot-4" 
                               accept="image/png"
-                              data-validation-required-message="Screenshots are required" required
                               data-validation-callback-callback="appdfEditor.validationCallbackScreenshotRequired"
                             />
                             <img data-src="holder.js/132x220/text:Screenshot #4" width="132" height="220">
@@ -507,7 +505,7 @@ Copyright (c) 2012 Yandex <www.yandex.com>
                             <input type="file" id="description-images-largepromo" class="hide ie_show image-input empty-image" 
                               name="description-images-largepromo" 
                               accept="image/png"
-                              data-validation-callback-callback="appdfEditor.validationCallbackLargePromo"
+                              data-validation-callback-callback="appdfEditor.validationCallbackPromo"
                             />
                             <img data-src="holder.js/256x125/text:Click to choose image" id="description-images-largepromo-img" width="256" height="125">
                             <p class="image-input-label"></p>
@@ -517,7 +515,7 @@ Copyright (c) 2012 Yandex <www.yandex.com>
                       </div>
                     </div><!--./control-group -->
 
-                    <div class="control-group">
+                    <div class="control-group description-images-smallpromo">
                       <!-- description/images/small-promo -->
                       <label class="control-label" for="description-images-smallpromo">Small promotion image</label>
                       <div class="controls">
@@ -526,7 +524,7 @@ Copyright (c) 2012 Yandex <www.yandex.com>
                             <input type="file" id="description-images-smallpromo" class="hide ie_show image-input empty-image" 
                               name="description-images-smallpromo" 
                               accept="image/png"
-                              data-validation-callback-callback="appdfEditor.validationCallbackSmallPromo"
+                              data-validation-callback-callback="appdfEditor.validationCallbackPromo"
                             />
                             <img data-src="holder.js/180x120/text:Click to choose image" id="description-images-largepromo-img" width="180" height="120">
                             <p class="image-input-label"></p>
@@ -687,7 +685,7 @@ Copyright (c) 2012 Yandex <www.yandex.com>
 
                   <label class="checkbox">
                     <input type="checkbox" value="" id="consent-slidemeagreement">
-                    I agree with the complete <a href="http://slideme.org/developer-conditions/popup">SlideME Developer/Publisher Distribution Agreement</a>
+                    I agree with the complete <a href="http://slideme.org/developers/dda">SlideME Developer/Publisher Distribution Agreement</a>
                   </label>    
 
                   <label class="checkbox">
@@ -1167,11 +1165,17 @@ Copyright (c) 2012 Yandex <www.yandex.com>
                       Take information about supported screen resolutions from the APK files
                     </label>
                     <label class="radio">
-                      <input type="radio" name="requirements-supportedresolutions-type" id="requirements-supportedresolutions-type-custom" value="custom">
-                      Enable custom screen resolution selection
+                      <input type="radio" name="requirements-supportedresolutions-type" id="requirements-supportedresolutions-type-include" value="include">
+                      Enable custom supported screen resolution selection
+                    </label>
+                    <label class="radio">
+                      <input type="radio" name="requirements-supportedresolutions-type" id="requirements-supportedresolutions-type-exclude" value="exclude">
+                      Enable custom unsupported screen resolution selection
                     </label>
                   </div>
-                  <div id="requirements-supportedresolutions" class="hide">
+                  <div id="requirements-supportedresolutions-include" class="hide">
+                  </div>
+                  <div id="requirements-supportedresolutions-exclude" class="hide">
                   </div>
                 </div>
               </div><!--control-group-->  
@@ -1212,8 +1216,6 @@ Copyright (c) 2012 Yandex <www.yandex.com>
                     <div class="input-append"> 
                       <input type="text" id="storespecific-input" 
                       data-validation-callback-callback="appdfEditor.validationCallbackStoreSpecify" 
-                      data-validation-regex-regex="^[^\\s][a-z]*$" 
-                      data-validation-regex-message="Application store name could contain only small English letters without special symbols"
                       autocomplete="off" data-provide="typeahead" data-items="20" 
                       > 
                       <button class="btn storespecific-addmore" type="button">Add</button>

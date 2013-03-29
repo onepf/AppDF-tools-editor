@@ -21,7 +21,6 @@
  *             xmlgenerator.js, zip.js, appdflocalization.js, apkreader.js, appdfparser.js, appdfxmlsaving.js, appdfxmlloading.js
  */
 
-var MAXIMUM_APK_FILE_SIZE = 50000000;
 var firstApkFileData = {};
 var globalUnigueCounter = 0;
 
@@ -35,40 +34,8 @@ $(document).ready(function() {
     zip.workerScriptsPath = "js/zip/";
 
     addValidationToElements($("input,textarea,select"));
-    $("#build-appdf-file").click(function(event) {
-        return buildAppdDFFile(event);
-    });
-
-    $("#price-free-trialversion").change(function() {
-        var trialVersion = $("#price-free-trialversion").attr("checked");
-        if (trialVersion === "checked") {
-            $("#price-free-fullversion").removeAttr('disabled');
-        } else {
-            $("#price-free-fullversion").attr('disabled', 'disabled');
-        };
-    });
 });
 
-
-//Checks does the given element from the description belong to default language or one of optional localizations
-function isDefaultLanguage($el) {
-    var $tab = $el.closest(".tab-pane");
-    var tabId = $tab.attr('id')
-    var result = (tabId==="localization-tab-default");
-    return result;
-};
-
-function fillApkFileInfo($el, apkData) {
-    var $info = $el.closest(".control-group").find(".apk-file-info");
-    $info.empty();
-
-    if (apkData) {
-        var $table = $("<table class='table table-striped table-bordered'/>");
-        $table.append($("<tr><td>Package</td><td>" + apkData["package"] + "</td></tr>"));
-        $table.append($("<tr><td>Version</td><td>" + apkData["version"] + "</td></tr>"));
-        $info.append($table);
-    };
-};
 
 
 function generateAppDFFile(onend) {
@@ -78,11 +45,13 @@ function generateAppDFFile(onend) {
     var URL = window.webkitURL || window.mozURL || window.URL;
 
     var files = [];
+    var fileNames = [];
     function addInputFiles($el) {
         $el.each(function() {
             //check if the file is already in the list then do not push it
-            if ($(this)[0].files.length>0 && $(this)[0].files[0]) {
-                files.push($(this)[0].files[0]);
+            if (!appdfEditor.isNoFile($(this)[0]) && fileNames.indexOf(appdfEditor.getFileName($(this)[0]))===-1) {
+                files.push(appdfEditor.getFileContent($(this)[0]));
+                fileNames.push(appdfEditor.getFileName($(this)[0]));
             };
         });
     };
@@ -97,7 +66,7 @@ function generateAppDFFile(onend) {
     addInputFiles($("input[id^=description-images-largepromo]"));
     addInputFiles($("input[id^=contentdescription-ratingcertificates-certificate-]"));
     addInputFiles($("input[id^=contentdescription-ratingcertificates-mark-]"));
-
+    
     zip.createWriter(new zip.BlobWriter(), function(writer) {
 
         addDescriptionAndFilesToZipWriter(writer, descriptionXML, files, onProgress, function() {
@@ -112,7 +81,9 @@ function generateAppDFFile(onend) {
     });
 };
 
-function collectBuildErrors() {
+function collectBuildErrors(onsuccess, onerror) {
+	var totalErrorCheckCount = 4; //TOTAL check for error blocks;
+	var currentErrorCheckCount = 0;
     var errors = $("input,select,textarea").jqBootstrapValidation("collectErrors");
 	var errorArray = [];
     for (field in errors) {
@@ -126,23 +97,68 @@ function collectBuildErrors() {
             };
         };
     };
-
-    appdfEditor.validationCallbackApkFileFirst($("#apk-file"), $("#apk-file").val(), function(data) {
-        if (!data.valid && data.value) {
-            if (errorArray.indexOf(data.message) === -1) {
-                errorArray.push(data.message);
-            };
-        };
-    });
-
-    appdfEditor.validationCallbackAppIconFirst($("#description-images-appicon"), $("#description-images-appicon").val(), function(data) {
-        if (!data.valid && data.value) {
-            if (errorArray.indexOf(data.message) === -1) {
-                errorArray.push(data.message);
-            };
-        };
-    });
+	checkBuildErrorsCount();
 	
+	function checkBuildErrorsCount() {
+		currentErrorCheckCount++;
+		if (currentErrorCheckCount === totalErrorCheckCount) {
+			if (errorArray.length) {
+				onerror(errorArray);
+			} else {
+				onsuccess();
+			};
+		};
+	};
+	
+	function checkErrorMessage(data) {
+		if (!data.valid) {
+            if (errorArray.indexOf(data.message) === -1) {
+                errorArray.push(data.message);
+            };
+        };
+		checkBuildErrorsCount();
+	};
+	
+    appdfEditor.validationCallbackApkFileFirst($("#apk-file"), 
+        appdfEditor.getFileName($("#apk-file")), checkErrorMessage);
+	appdfEditor.validationCallbackAppIconFirst($("#description-images-appicon"), 
+        appdfEditor.getFileName($("#description-images-appicon")), checkErrorMessage);
+	appdfEditor.validationCallbackPromo($("#description-images-smallpromo"), 
+        appdfEditor.getFileName($("#description-images-smallpromo")), checkErrorMessage);
+	appdfEditor.validationCallbackPromo($("#description-images-largepromo"), 
+        appdfEditor.getFileName($("#description-images-largepromo")), checkErrorMessage);
+	
+	var $screenShotList = $('.screenshot-input');
+	totalErrorCheckCount += $screenShotList.size();//add screenshots count to total error checks
+	$screenShotList.each(function() {
+		appdfEditor.validationCallbackScreenshotRequired($(this), $(this).val(), checkErrorMessage);
+	});
+	
+	//privacy policy validation
+	var $privacyPolicyArr = $("input[id^=\"description-texts-privacypolicy-link\"]");
+	$privacyPolicyArr.each(function() {
+		if (($(this).val()!=="" && $(this).next().val()==="") || ($(this).val()==="" && $(this).next().val()!=="")) {
+			checkErrorMessage({
+				valid: false,
+				value: "",
+				message: "Privacy policy should include both link and full text"
+			});
+			return false;
+		};
+	});
+	
+	//eula validation
+	var $eulaArr = $("input[id^=\"description-texts-eula-link\"]");
+	$eulaArr.each(function() {
+		if (($(this).val()!=="" && $(this).next().val()==="") || ($(this).val()==="" && $(this).next().val()!=="")) {
+			checkErrorMessage({
+				valid: false,
+				value: "",
+				message: "End user license agreement should include both link and full text"
+			});
+			return false;
+		};
+	});
 	
 	//validate store specify
 	var $storeSpecific = $("#section-store-specific input[name^='storespecific-name-']");
@@ -162,8 +178,7 @@ function collectBuildErrors() {
 			errorArray.push(errorMessage);
 		}
 	});
-	
-    return errorArray;
+	checkBuildErrorsCount();
 };
 
 function showBuildErrors(errors) {
@@ -191,31 +206,26 @@ function buildAppdDFFile(event) {
 
     //If not we start the checking and building process.
     //First we collect all the errors and check if there are any
-    var errors = collectBuildErrors();
-    if (errors.length>0) {
-        //If there are errors we just show the errors and return
-        showBuildErrors(errors);
-        return false;
-    } 
+    collectBuildErrors(function(){
+		//If there are not errors, we hide the error block and show the progress block
+		$("#form-errors").hide();
+		$("#build-appdf-progressbarr").css("width", "0%");
+		$("#build-appdf-status").show();
 
-    //If there are not errors, we hide the error block and show the progress block
-    $("#form-errors").hide();
-    $("#build-appdf-progressbarr").css("width", "0%");
-    $("#build-appdf-status").show();
-
-    generateAppDFFile(function(url) {
-        var clickEvent = document.createEvent("MouseEvent");
-        downloadLink.href = url;
-        if (firstApkFileData) {
-            downloadLink.download = firstApkFileData["package"] + ".appdf";
-        } else {
-            downloadLink.download = "untitled.appdf";
-        };
-        clickEvent.initMouseEvent("click", true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-        downloadLink.dispatchEvent(clickEvent);
-        $("#build-appdf-status").hide();
-        setTimeout(clearBuildedAppdfFile, 1);
-    });
+		generateAppDFFile(function(url) {
+			var clickEvent = document.createEvent("MouseEvent");
+			downloadLink.href = url;
+			if (firstApkFileData) {
+				downloadLink.download = firstApkFileData["package"] + ".appdf";
+			} else {
+				downloadLink.download = "untitled.appdf";
+			};
+			clickEvent.initMouseEvent("click", true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+			downloadLink.dispatchEvent(clickEvent);
+			$("#build-appdf-status").hide();
+			setTimeout(clearBuildedAppdfFile, 1);
+		});
+	}, showBuildErrors);
 
     return false;
 };
@@ -242,49 +252,6 @@ function addValidationToElements($elements) {
             }
         }
     );
-};
-
-function addValidationToLastControlGroup($fieldset) {
-    var $lastControlGroup = $fieldset.children(".control-group").last();
-    addValidationToElements($lastControlGroup.find("input,textarea,select"));
-};
-
-function addMoreAppIcon(e) {
-    var $parent = $(e).closest(".image-group");
-    var $controlGroup = $(' \
-    <div class="image-input-group"> \
-        <input type="file" id="description-images-appicon-' + getUniqueId() + '" class="hide ie_show appicon-input empty-image" \
-            name="description-images-appicon-' + getUniqueId() + '" \
-            accept="image/png" \
-            data-validation-callback-callback="appdfEditor.validationCallbackAppIconFirst" \
-        /> \
-        <img src="img/appicon_placeholder.png" width="128" height="128"> \
-        <p class="image-input-label"></p> \
-    </div> \
-    ');
-    $parent.append($controlGroup);
-    addValidationToElements($controlGroup.find("input"));
-};
-
-function addMoreScreenshots(e) {
-    var $parent = $(e).closest(".image-group");
-    var $controlGroup = $(' \
-    <div class="image-input-group"> \
-        <input type="file" id="description-images-screenshot-' + getUniqueId() + '" class="hide ie_show screenshot-input empty-image" \
-            name="description-images-screenshot-' + getUniqueId() + '" \
-            accept="image/png" \
-            data-validation-callback-callback="appdfEditor.validationCallbackScreenshotRequired" \
-        /> \
-        <img src="img/screenshot_placeholder.png" width="132" height="220"> \
-        <p class="image-input-label"></p> \
-    </div> \
-    ');
-    $parent.append($controlGroup);
-    addValidationToElements($controlGroup.find("input"));
-};
-
-function removeControlGroup(e) {
-    $(e).closest(".control-group").remove();
 };
 
 function flatten(array) {
@@ -329,7 +296,7 @@ function addDescriptionAndFilesToZipWriter(zipWriter, descriptionXml, files, onp
             onprogress(sizeOfAlreadyZippedFilesIncludingCurrent - total + current, totalSizeOfAllFiles)
         });
     };
-
+    
     zipWriter.add("description.xml", new zip.TextReader(descriptionXml), function() {
         addNextFile();
     }, function(current, total) {
@@ -342,18 +309,4 @@ function onProgress(current, total) {
     var percentage = "" + Math.round(100.0 * current / total) + "%";
     $bar.css("width", percentage);
     $bar.text(percentage);
-};
-
-function getImgSize(imgSrc, onsize) {
-    var newImg = new Image();
-    newImg.onload = function() {
-        var width = newImg.width;
-        var height = newImg.height;
-        onsize(width, height);
-    };
-    newImg.src = imgSrc; // this must be done AFTER setting onload
-};
-
-function screenshotClick(e) {
-    $(e).closest(".screenshot-container").children("input").click();
 };
