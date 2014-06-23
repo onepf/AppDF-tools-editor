@@ -1039,7 +1039,7 @@ var appdfParser = (function() {
 			errors.push({msg:"Required <testing-instructions> tag is missing", val:false});
 		} else { 
 			if (data.length>4000) {
-				errors.push({msg:"The testing instruction text must be shorter than 4000 symbols", val:false});
+				errors.push({msg:"The testing instruction text must be less than 4000 symbols", val:false});
 			};
 		};
 

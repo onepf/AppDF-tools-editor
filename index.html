@@ -117,7 +117,7 @@ Copyright (c) 2012 Yandex <www.yandex.com>
       <div class="span9">
         <div class="hero-unit">
           <h1>AppDF Editor</h1>
-          <p>Uploading an Android application to several appstores can be time-consuming. AppDF format is designed to simplify the process. You describe your Android application once, create a simple AppDF file that includes a description, APK file(s), screenshots, app icon, promo images, etc., and simply upload this AppDF file to all the stores that support AppDF uploading.</p>
+          <p>Uploading an Android application to several app stores can be time-consuming. AppDF format is designed to simplify the process. You describe your Android application once, create a simple AppDF file that includes a description, APK file(s), screenshots, app icon, promo images, etc., and simply upload this AppDF file to all the stores that support AppDF uploading.</p>
           <p>
             <button class="btn btn-primary show-import-description-xml">Import Description.xml</button>
             <button class="btn btn-primary load-appdf-file">Open AppDF File</button>
@@ -391,7 +391,7 @@ Copyright (c) 2012 Yandex <www.yandex.com>
                             data-validation-required-message="Title is required" 
                             maxlength="30"
                           >
-                          <p class="help-block">Different stores have different maximum title length requirements. The first title should be shorter than 30 symbols. You can <a href="#" class="description-texts-title-addmore">add a longer title</a> for stores that support long titles.</p>
+                          <p class="help-block">Different stores have different maximum title length requirements. The first title should be less than 30 symbols. You can <a href="#" class="description-texts-title-addmore">add a longer title</a> for stores that support long titles.</p>
                         </div>
                       </div><!--./control-group -->
                     </div><!--./control-group-container -->
@@ -406,7 +406,7 @@ Copyright (c) 2012 Yandex <www.yandex.com>
                             data-validation-required-message="Short description is required" 
                             maxlength="80"
                           >
-                          <p class="help-block">Different stores have different maximum short description length requirements. The first short - description should be shorter than 80 symbols. You can <a href="#" class="description-texts-shortdescription-addmore">add a longer short description</a> for stores that support longer ones.</p>
+                          <p class="help-block">Different stores have different maximum short description length requirements. The first short - description should be less than 80 symbols. You can <a href="#" class="description-texts-shortdescription-addmore">add a longer short description</a> for stores that support longer ones.</p>
                         </div>
                       </div><!--./control-group -->
                     </div><!--./control-group-container -->
@@ -420,9 +420,15 @@ Copyright (c) 2012 Yandex <www.yandex.com>
                           required
                           data-validation-required-message="Full description is required"
                           maxlength="4000"
-                          data-validation-maxlength-message="Full description must be shorter than 4000 symbols"
+                          data-validation-maxlength-message="Full description must be less than 4000 symbols"
                         ></textarea>
-                        <p class="help-block">Please provide a full application description, to be shown on the product page. You can include a special subtag &lt;features&gt;. Everything inside the &lt;features&gt; subtag will be shown only by stores that do not support a separate features list. This can be useful to avoid feature list duplication. You can also include the following HTML tags: &lt;ul&gt;, &lt;li&gt;, &lt;a&gt;, &lt;b&gt;, &lt;i&gt;. The appstores that do not support those HTML tags will automatically convert them to plain text. Maximum length: 4,000 symbols.</p>
+                        <p class="help-block">Please provide a full application description, to be shown on the product
+                            page. You can include a special subtag &lt;features&gt;. Everything inside the &lt;features&gt;
+                            subtag will be shown only by stores that do not support a separate features list. This can
+                            be useful to avoid feature list duplication. You can also include the following HTML tags:
+                            &lt;ul&gt;, &lt;li&gt;, &lt;a&gt;, &lt;b&gt;, &lt;i&gt;. The app stores that do not support
+                            those HTML tags will automatically convert them to plain text. Maximum length: 4,000
+                            symbols.</p>
                       </div>
                     </div><!--./control-group -->
 
@@ -497,7 +503,7 @@ Copyright (c) 2012 Yandex <www.yandex.com>
                       <div class="controls">
                         <textarea class="input-xxlarge" rows="5" id="description-texts-recentchanges"
                           maxlength="500"
-                          data-validation-maxlength-message="Recent changes must be shorter than 500 symbols"
+                          data-validation-maxlength-message="Recent changes must be less than 500 symbols"
                         ></textarea>
                         <p class="help-block">What is different about the latest version, compared to the previous one. Maximum length: 500 symbols.</p>
                       </div>
@@ -628,7 +634,7 @@ Copyright (c) 2012 Yandex <www.yandex.com>
                             <div class="btn small-promo-image-reset">Reset small promo image</div>
                           </div>
                         </div>
-                        <p class="help-block">A 180x120 PNG file which is usually used in mobile appstores for app features.</p>
+                        <p class="help-block">A 180x120 PNG file which is usually used in mobile app stores for app features.</p>
                       </div>
                     </div><!--./control-group -->
 
@@ -1350,9 +1356,9 @@ Copyright (c) 2012 Yandex <www.yandex.com>
                     required
                     data-validation-required-message="Testing instructions are required"
                     maxlength="4000"
-                    data-validation-maxlength-message="Testing instructions text must be shorter than 4000 symbols"
+                    data-validation-maxlength-message="Testing instructions text must be less than 4000 symbols"
                   ></textarea>
-                  <p class="help-block">Instructions for people in the appstores who will test your application. If use of your application requires an account, please provide testing account information. Maximum length: 4,000 symbols.</p>
+                  <p class="help-block">Instructions for people in the app stores who will test your application. If use of your application requires an account, please provide testing account information. Maximum length: 4,000 symbols.</p>
                 </div>
               </div><!--control-group-->           
             </fieldset>
@@ -1607,10 +1613,10 @@ Copyright (c) 2012 Yandex <www.yandex.com>
           <section id="section-submit-appdf">
             <fieldset>
               <div id="legend">
-                <legend class="">Submit AppDF File to Appstores</legend>
+                <legend class="">Submit AppDF File to App Stores</legend>
               </div>
               <div class="control-group">
-                <label class="control-label">Appstores supporting AppDF</label>
+                <label class="control-label">App Stores supporting AppDF</label>
                 <div class="controls">
                   <a href="http://apps.opera.com/developers.php" target="_blank"><img class="img-rounded" src="img/appstores/opera.png" width="250" style="margin: 10px"></a>
                   <a href="http://slideme.org/developers" target="_blank"><img class="img-rounded" src="img/appstores/slideme.png" width="250" style="margin: 10px"></a>

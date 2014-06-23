@@ -17,7 +17,7 @@
  ******************************************************************************/
  
 var dataStores = {
-  "amazon" : "Amazon AppStore", 
+  "amazon" : "Amazon Appstore",
   "androidpit" : "AndroidPIT App Center",
   "anzhi" : "Anzhi",
   "appchina" : "AppChina",
