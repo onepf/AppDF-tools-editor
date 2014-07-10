@@ -740,7 +740,7 @@ var appdfParser = (function() {
         var smallPromo = data["small-promo"];
         if (smallPromo) {
         	validateImage(smallPromo, errors, onend, function() {
-        		if (largePromo.width !== "180" || largePromo.height !== "120") {//wrong declared resolution
+        		if (smallPromo.width !== "180" || smallPromo.height !== "120") {//wrong declared resolution
                     errors.push({msg: errorMessages.smallPromoWrongSize, val: false});
                 }
         	});

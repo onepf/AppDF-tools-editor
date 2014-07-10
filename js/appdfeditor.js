@@ -2,13 +2,13 @@
  * Copyright 2012 Vassili Philippov <vassiliphilippov@onepf.org>
  * Copyright 2012 One Platform Foundation <www.onepf.org>
  * Copyright 2012 Yandex <www.yandex.com>
- * 
+ *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
  *    You may obtain a copy of the License at
- * 
+ *
  *        http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  *    Unless required by applicable law or agreed to in writing, software
  *    distributed under the License is distributed on an "AS IS" BASIS,
  *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -38,7 +38,7 @@ var appdfEditor = (function() {
         $elements.live().jqBootstrapValidation({
             preventSubmit: true,
             submitError: function($form, event, errors) {
-                // Here I do nothing, but you could do something like display 
+                // Here I do nothing, but you could do something like display
                 // the error messages to the user, log, etc.
             },
             submitSuccess: function($form, event) {
@@ -79,6 +79,7 @@ var appdfEditor = (function() {
     };
 
     function getFileName($el) {
+        $el = $($el);
         if ($el.val()) {
             return normalizeInputFileName($el.val());
         } else if ($el.data("file")) {
@@ -89,6 +90,7 @@ var appdfEditor = (function() {
     };
     
     function getFileContent($el) {
+        $el = $($el);
         if ($el[0].files.length) {
             return $el[0].files[0];
         } else if ($el.data("file")) {
@@ -99,6 +101,7 @@ var appdfEditor = (function() {
     };
     
     function isNoFile($el) {
+        $el = $($el);
         if ($el[0].files.length || $el.data("file")) {
             return false;
         } else {
@@ -107,6 +110,7 @@ var appdfEditor = (function() {
     };
     
     function isOnlyDataImage($el) {
+        $el = $($el);
         if (!$el[0].files.length && $el.data("file")) {
             return true;
         } else {
@@ -303,7 +307,7 @@ var appdfEditor = (function() {
                 top: function () { return $window.width() <= 980 ? 290 : 210 },
                 bottom: 270
             }
-        });      
+        });
 
         //Disable empty links
         $('section [href^=#]').click(function (e) {
@@ -554,7 +558,7 @@ var appdfEditor = (function() {
         function getVideoId() {
             var youtubeRegex = /(?:youtu\.be\/|youtube\.com(?:\/embed\/|\/v\/|\/watch\?v=|\/user\/\S+|\/ytscreeningroom\?v=|\/sandalsResorts#\w\/\w\/.*\/))([^\/&]{10,12})/
             var youtubeRegex2 = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/ ]{11})/i;
-            var matched = $input.val().match(youtubeRegex); 
+            var matched = $input.val().match(youtubeRegex);
             var matched2 = $input.val().match(youtubeRegex2);
 
             videoId = "";
@@ -696,9 +700,9 @@ var appdfEditor = (function() {
             $subcategories.append($("<option />").val(s).text(s));
         }
         if (subcategoryArray.length <= 1) {
-            $subcategories.closest(".control-group").hide();    
+            $subcategories.closest(".control-group").hide();
         } else {
-            $subcategories.closest(".control-group").show();            
+            $subcategories.closest(".control-group").show();
         }
     };
 
@@ -947,7 +951,7 @@ var appdfEditor = (function() {
             $(".fortumo").find("input").addClass("no-validation").jqBootstrapValidation("destroy");
             $(".fortumo").hide();
             $("#build-fortumo-xml").attr("disabled", true);
-        };       
+        };
     }
 
     function selectInappType(button) {
@@ -1002,7 +1006,7 @@ var appdfEditor = (function() {
 
     function collectInappBuildErrors(onsuccess, onerror) {
         var errors = $("#inapp-products").find("input").jqBootstrapValidation("collectErrors");
-        var totalErrorCount = errors.length; 
+        var totalErrorCount = errors.length;
         var currentErrorCount = 0;
         var errorArray = [];
         $("#build-status").show();
@@ -1035,7 +1039,7 @@ var appdfEditor = (function() {
         var fileName = "inapp-products.xml";
         var inappProductsXml = appdfXMLSaver.generateInappProductsXml(); ;
         var blob = new Blob([inappProductsXml], {type: "application/xml;charset=utf-8"});
-        saveAs(blob, fileName);  
+        saveAs(blob, fileName);
         $("#build-progressbar").removeAttr("init");
     }
 
@@ -1043,7 +1047,7 @@ var appdfEditor = (function() {
         var fileName = "fortumo.xml";
         var fortumoProductsXml = appdfXMLSaver.generateFortumoProductsXml(); ;
         var blob = new Blob([fortumoProductsXml], {type: "application/xml;charset=utf-8"});
-        saveAs(blob, fileName);  
+        saveAs(blob, fileName);
         $("#build-progressbar").removeAttr("init");
     }
 
@@ -1126,7 +1130,7 @@ var appdfEditor = (function() {
             "source" : deviceModels,
             "updater" : function(item) {
                 var deviceModelRegEx = /([^\(]*)\s\([.]*/i;
-                var matched = item.match(deviceModelRegEx); 
+                var matched = item.match(deviceModelRegEx);
                 
                 if (matched && matched.length > 0) {
                     return matched[1];
@@ -1149,7 +1153,7 @@ var appdfEditor = (function() {
         var promoName = $el.attr("name").split("-")[2];
         var imageFileName = getFileName($el);
         var file = getFileContent($el);
-        var URL = window.webkitURL || window.mozURL || window.URL;    
+        var URL = window.webkitURL || window.mozURL || window.URL;
         var imgUrl = URL.createObjectURL(file);
         
         appdfImages.checkTransparency(imgUrl, function(width, height, result) {
@@ -1164,7 +1168,7 @@ var appdfEditor = (function() {
                 callback({
                     value: value,
                     valid: false,
-                    message: promoName === "smallpromo"?errorMessages.smallPromoWrongSize:errorMessages.largePromoWrongSize 
+                    message: promoName === "smallpromo"?errorMessages.smallPromoWrongSize:errorMessages.largePromoWrongSize
                 });
             } else {
                 callback(result);
@@ -1192,7 +1196,7 @@ var appdfEditor = (function() {
             return false;
         };
         
-        var URL = window.webkitURL || window.mozURL || window.URL;    
+        var URL = window.webkitURL || window.mozURL || window.URL;
         var imgUrl = URL.createObjectURL(file);
         
         appdfImages.checkTransparency(imgUrl, function(width, height,result) {
@@ -1257,7 +1261,7 @@ var appdfEditor = (function() {
             return false;
         };
         
-        var URL = window.webkitURL || window.mozURL || window.URL;    
+        var URL = window.webkitURL || window.mozURL || window.URL;
         var imgUrl = URL.createObjectURL(file);
         if (isOnlyDataImage($el)) {
             $el.removeClass("empty-image");
@@ -1453,7 +1457,7 @@ var appdfEditor = (function() {
     };
     
     function initFilling() {
-        fillLanguages();    
+        fillLanguages();
         fillCategories();
         fillSubcategories();
         fillCategoryStoresInfo();
@@ -1527,7 +1531,7 @@ var appdfEditor = (function() {
             if (firstApkFileData) {
                 fileName = firstApkFileData["package"] + ".appdf";
             }
-            saveAs(blob, fileName);  
+            saveAs(blob, fileName);
             $("#build-status").hide();
             $("#build-progressbar").removeAttr("init");
         });
@@ -1584,7 +1588,7 @@ var appdfEditor = (function() {
             checkBuildErrorsCount();
         };
         totalErrorCheckCount++;
-        appdfEditor.validationCallbackApkFileFirst($("#apk-file"), 
+        appdfEditor.validationCallbackApkFileFirst($("#apk-file"),
             appdfEditor.getFileName($("#apk-file")), checkErrorMessage);
         
         /*var $apkFilesList = $("input.hidden-apk-file").not("[id=\"apk-file\"]");
@@ -1594,15 +1598,15 @@ var appdfEditor = (function() {
         });*/
         
         totalErrorCheckCount++;
-        appdfEditor.validationCallbackAppIconFirst($("#description-images-appicon"), 
+        appdfEditor.validationCallbackAppIconFirst($("#description-images-appicon"),
             appdfEditor.getFileName($("#description-images-appicon")), checkErrorMessage);
         
         totalErrorCheckCount++;
-        appdfEditor.validationCallbackPromo($("#description-images-smallpromo"), 
+        appdfEditor.validationCallbackPromo($("#description-images-smallpromo"),
             appdfEditor.getFileName($("#description-images-smallpromo")), checkErrorMessage);
         
         totalErrorCheckCount++;
-        appdfEditor.validationCallbackPromo($("#description-images-largepromo"), 
+        appdfEditor.validationCallbackPromo($("#description-images-largepromo"),
             appdfEditor.getFileName($("#description-images-largepromo")), checkErrorMessage);
         
         var $screenShotList = $('.screenshot-input');
@@ -1728,7 +1732,7 @@ var appdfEditor = (function() {
     function generateAppDFFile(onend) {
         console.log("generateAppDFFile");
         
-        var descriptionXML = appdfXMLSaver.generateDescriptionFileXML(); 
+        var descriptionXML = appdfXMLSaver.generateDescriptionFileXML();
         console.log(descriptionXML);
         console.log(firstApkFileData);
         localStorage.setItem(firstApkFileData.package, descriptionXML);
@@ -1766,22 +1770,22 @@ var appdfEditor = (function() {
         }, function(error) {
             alert("error:" + error);
         });
-    };  
+    };
 
     function flatten(array) {
         var flat = [];
         for (var i = 0; i < array.length; i++) {
             var type = Object.prototype.toString.call(array[i]).split(' ').pop().split(']').shift().toLowerCase();
-            if (type) { 
+            if (type) {
                 if (/^(array|collection|arguments|object|filelist)$/.test(type)) {
-                    flat = flat.concat(flatten(array[i])); 
+                    flat = flat.concat(flatten(array[i]));
                 } else {
-                    flat = flat.concat(array[i]);                 
+                    flat = flat.concat(array[i]);
                 }
             }
         }
         return flat;
-    };    
+    };
     
     function addDescriptionAndFilesToZipWriter(zipWriter, descriptionXml, files, onprogress, onend) {
         //console.log("Description.xml");
@@ -1790,7 +1794,7 @@ var appdfEditor = (function() {
 
         var flattenedFiles = flatten(files);
         var totalSizeOfAllFiles = 0;
-        $.each(flattenedFiles, function() { 
+        $.each(flattenedFiles, function() {
             totalSizeOfAllFiles += this.size;
         });
 
@@ -1860,7 +1864,7 @@ var appdfEditor = (function() {
         for (var i = 0; i < errors.length; i++) {
             $list.append($("<li>" + errors[i] + "</li>"))
         };
-    };   
+    };
     
     function reinitEditor() {
         //remove all warnings
@@ -2052,4 +2056,3 @@ $(document).ready(function() {
 
     appdfEditor.addValidationToElements($("input,textarea,select"));
 });
-

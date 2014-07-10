@@ -3,13 +3,13 @@
  * Copyright 2014 Ruslan Sayfutdinov <ruslan@sayfutdinov.com>
  * Copyright 2012 One Platform Foundation <www.onepf.org>
  * Copyright 2012 Yandex <www.yandex.com>
- * 
+ *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
  *    You may obtain a copy of the License at
- * 
+ *
  *        http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  *    Unless required by applicable law or agreed to in writing, software
  *    distributed under the License is distributed on an "AS IS" BASIS,
  *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -79,7 +79,7 @@ var appdfXMLSaver = (function() {
             //Recent changes
             var strRecentChanges = $parent.find("#description-texts-recentchanges").val();
             if (strRecentChanges!="") {
-                xml.addNonEmptyTextTag("<recent-changes>", strRecentChanges);        
+                xml.addNonEmptyTextTag("<recent-changes>", strRecentChanges);
             };
 
             //Privacy policy
@@ -95,7 +95,7 @@ var appdfXMLSaver = (function() {
             if (EULAtext!="" && EULAlink!="") {
                 xml.addNonEmptyTextTag("<eula href=\"" + EULAlink + "\">", EULAtext);
             };
-        });    
+        });
     };
 
     function generateOneLanguageImageDescription(languageCode, xml) {
@@ -128,33 +128,33 @@ var appdfXMLSaver = (function() {
             xml.addTag("<images>", function() {
                 $parent.find("input[id^=description-images-appicon]").each(function() {
                     if (!appdfEditor.isNoFile($(this))) {
-                        xml.addNonEmptyTextTag("<app-icon width=\"" + $(this).data("width") + "\" height=\"" + $(this).data("height") + "\">", 
+                        xml.addNonEmptyTextTag("<app-icon width=\"" + $(this).data("width") + "\" height=\"" + $(this).data("height") + "\">",
                             appdfEditor.getFileName($(this)));
                     };
                 });
 
-                if ($largePromo && !appdfEditor.isNoFile($largePromo)) {
-                    xml.addNonEmptyTextTag("<large-promo width=\"" + $parent.find("#description-images-largepromo").data("width") + 
-                        "\" height=\"" + $parent.find("#description-images-largepromo").data("height") + "\">", 
+                if ($largePromo) {
+                    xml.addNonEmptyTextTag("<large-promo width=\"" + $parent.find("#description-images-largepromo").data("width") +
+                        "\" height=\"" + $parent.find("#description-images-largepromo").data("height") + "\">",
                         appdfEditor.getFileName($largePromo));
                 };
-                if ($smallPromo && !appdfEditor.isNoFile($smallPromo)) {
-                    xml.addNonEmptyTextTag("<small-promo width=\"" + $parent.find("#description-images-smallpromo").data("width") + 
-                        "\" height=\"" + $parent.find("#description-images-smallpromo").data("height") + "\">", 
+                if ($smallPromo) {
+                    xml.addNonEmptyTextTag("<small-promo width=\"" + $parent.find("#description-images-smallpromo").data("width") +
+                        "\" height=\"" + $parent.find("#description-images-smallpromo").data("height") + "\">",
                         appdfEditor.getFileName($smallPromo));
                 };
 
                 if ($screenshots.length>0) {
                     xml.addTag("<screenshots>", function() {
                         $screenshots.each(function() {
-                            xml.addNonEmptyTextTag("<screenshot width=\"" + $(this).data("width") + 
-                                "\" height=\"" + $(this).data("height") + 
-                                "\" index=\"" + $(this).closest(".image-input-group").data("index") + 
+                            xml.addNonEmptyTextTag("<screenshot width=\"" + $(this).data("width") +
+                                "\" height=\"" + $(this).data("height") +
+                                "\" index=\"" + $(this).closest(".image-input-group").data("index") +
                                 "\">", appdfEditor.getFileName($(this)));
                         });
                     });
                 };
-            });    
+            });
         };
     };
 
@@ -178,7 +178,7 @@ var appdfXMLSaver = (function() {
                         xml.addNonEmptyTextTag("<video-file>", videoFileName);
                     });
                 };
-            });    
+            });
         };
     };
 
@@ -269,7 +269,7 @@ var appdfXMLSaver = (function() {
                 if ($(this).val()) {
                     anyCertificate = true;
                 };
-            });        
+            });
             if (anyCertificate) {
                 xml.addTag("<rating-certificates>", function() {
                     $certificateRatings.each(function() {
@@ -346,11 +346,11 @@ var appdfXMLSaver = (function() {
                 if (periodSinceValue || periodUntilValue) {
                     xml.addTag("<period>", function() {
                         if (periodSinceValue) {
-                            xml.addTag("<since year=\"" + periodSinceDate.getFullYear() + 
+                            xml.addTag("<since year=\"" + periodSinceDate.getFullYear() +
                                 "\" month=\"" + periodSinceDate.getMonth() + "\" day=\"" + periodSinceDate.getDate() + "\">");
                         };
                         if (periodUntilValue) {
-                            xml.addTag("<until year=\"" + periodUntilDate.getFullYear() + 
+                            xml.addTag("<until year=\"" + periodUntilDate.getFullYear() +
                                 "\" month=\"" + periodUntilDate.getMonth() + "\" day=\"" + periodUntilDate.getDate() + "\">");
                         };
                     });
@@ -360,7 +360,7 @@ var appdfXMLSaver = (function() {
     };
 
     function generateRequirementsXML(xml) {
-        var anyFeatureChecked = $('#requirements-features-root:checked').size() || $('#requirements-features-gms:checked').size() 
+        var anyFeatureChecked = $('#requirements-features-root:checked').size() || $('#requirements-features-gms:checked').size()
             || $('#requirements-features-online:checked').size();
         
         var $selectedSupportedLanguages = $('#section-requirements input:checked[id^="requirements-supportedlanguages-"][type="checkbox"]');
@@ -561,4 +561,4 @@ var appdfXMLSaver = (function() {
         generateInappProductsXml : generateInappProductsXml,
         generateFortumoProductsXml : generateFortumoProductsXml
     };
-})();    
+})();
