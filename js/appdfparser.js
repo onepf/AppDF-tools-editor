@@ -2,13 +2,13 @@
  * Copyright 2012 Vassili Philippov <vassiliphilippov@onepf.org>
  * Copyright 2012 One Platform Foundation <www.onepf.org>
  * Copyright 2012 Yandex <www.yandex.com>
- * 
+ *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
  *    You may obtain a copy of the License at
- * 
+ *
  *        http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  *    Unless required by applicable law or agreed to in writing, software
  *    distributed under the License is distributed on an "AS IS" BASIS,
  *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -107,7 +107,7 @@ var appdfParser = (function() {
 		function loadXml(dataPath, xmlPath) {
 			loadHelper(dataPath, xmlPath, function(d, name, $e) {
 				if ($e.length>0) {
-					var serializer = new XMLSerializer(); 
+					var serializer = new XMLSerializer();
 					var xmlString = serializer.serializeToString($e[0]);
 					d[name] = xmlString;
 				};
@@ -118,7 +118,7 @@ var appdfParser = (function() {
 		function loadXmlContent(dataPath, xmlPath) {
 			loadHelper(dataPath, xmlPath, function(d, name, $e) {
 				if ($e.length>0) {
-					var serializer = new XMLSerializer(); 
+					var serializer = new XMLSerializer();
 					var xmlString = serializer.serializeToString($e[0]);
                     xmlString = xmlString.slice(name.length + 2, -(name.length + 3));
 					d[name] = xmlString;
@@ -135,7 +135,7 @@ var appdfParser = (function() {
 		};
 		
 		function getXmlContent($e) {
-			var serializer = new XMLSerializer(); 
+			var serializer = new XMLSerializer();
 			var xmlString = '';
 			for (var i = 0; i < $e.length; i++) {
 				xmlString += serializer.serializeToString($e[i]);
@@ -234,7 +234,7 @@ var appdfParser = (function() {
 			if (isString(xmlPath)) {
 				$curXml = getElementsByPath($curXml, xmlPath);
 			} else {
-				$curXml = xmlPath;			
+				$curXml = xmlPath;
 			};
             if ($curXml.length) {
                 curDataPath += dataPath;
@@ -253,7 +253,7 @@ var appdfParser = (function() {
         
 		$curXml = getElementsByPath($xml, "application-description-file/application");
 
-		//Categorization 
+		//Categorization
 		section("categorization", "categorization", function() {
 			loadText("type");
 			loadText("category");
@@ -710,7 +710,7 @@ var appdfParser = (function() {
         var appIconList = data["app-icon"];
         for (var i = 0; i < appIconList.length; i++) {
         	validateImage(appIconList[i], errors, onend, function() {
-        		if ((i === 0 && (appIconList[i].width !== "512" || appIconList[i].height !== "512")) 
+        		if ((i === 0 && (appIconList[i].width !== "512" || appIconList[i].height !== "512"))
             	 || (i !== 0 && appIconList[i].width !== appIconList[i].height)) { //wrong declared file resolution
             		errors.push({msg: (i === 0 ? errorMessages.appIconSize512 : errorMessages.appIconSizeSquare), val: false});
             	}
@@ -720,7 +720,7 @@ var appdfParser = (function() {
         var screenshotList = data["screenshots"];
         for (var i = 0; i < screenshotList.length; i++) {
         	validateImage(screenshotList[i], errors, onend, function() {
-				if (!((screenshotList[i].width === "480" && screenshotList[i].height === "800") 
+				if (!((screenshotList[i].width === "480" && screenshotList[i].height === "800")
             	   || (screenshotList[i].width === "1080" && screenshotList[i].height === "1920")
             	   || (screenshotList[i].width === "1920" && screenshotList[i].height === "1200"))) {//wrong declared file resolution
                 	errors.push({msg: errorMessages.screenshowWrongSize, val: false});
@@ -845,7 +845,7 @@ var appdfParser = (function() {
 			errors.push({msg:errorMessages.requiredImportExportTagMiss, val:false});
 		};
 
-		return errors;	
+		return errors;
 	};
 
 	function validateNumber(value, errorMessage) {
@@ -913,19 +913,19 @@ var appdfParser = (function() {
         
         if (data["free"]) {
 			if (isDefined(data["full-version"])) {
-				errors.append(validatePackageName(data["full-version"], "Wrong package name format \"" + data["full-version"] + "\" in full version attribute"));	
+				errors.append(validatePackageName(data["full-version"], "Wrong package name format \"" + data["full-version"] + "\" in full version attribute"));
 			};
 		} else {
 			if (isUndefined(data["base-price"])) {
 				errors.push({msg:"Required base price value is missing for paid product", val:false});
 			} else {
-				errors.append(validateNumber(data["base-price"], "Wrong price value \"" + data["base-price"] + "\". Must be a valid number like \"15.95\"."));	
+				errors.append(validateNumber(data["base-price"], "Wrong price value \"" + data["base-price"] + "\". Must be a valid number like \"15.95\"."));
 			};
 			
             errors.append(validateCountryCode(data["local-price"]));
 		};
 
-		return errors;	
+		return errors;
 	};
 
 	function validateCustomerSupport(data) {
@@ -937,24 +937,24 @@ var appdfParser = (function() {
         };
         
 		if (data["phone"]) {
-            errors.append(validatePhoneNumber(data["phone"], errorMessages.wrongCustomerPhone));	
+            errors.append(validatePhoneNumber(data["phone"], errorMessages.wrongCustomerPhone));
 		} else {
             errors.push({msg:errorMessages.customerPhoneRequired, val:false});
         };
 
 		if (data["email"]) {
-            errors.append(validateEmail(data["email"], errorMessages.wrongCustomerEmail));	
+            errors.append(validateEmail(data["email"], errorMessages.wrongCustomerEmail));
 		} else {
             errors.push({msg:errorMessages.customerEmailRequired, val:false});
         };
 
 		if (data["website"]) {
-            errors.append(validateURL(data["website"], errorMessages.wrongCustomerWebPage));	
+            errors.append(validateURL(data["website"], errorMessages.wrongCustomerWebPage));
 		} else {
             errors.push({msg:errorMessages.customerWebSiteRequired, val:false});
         };
         
-		return errors;	
+		return errors;
 	};
 
 	function validateContentDescription(data) {
@@ -965,18 +965,18 @@ var appdfParser = (function() {
             return errors;
         };
         
-		errors.append(validateEnum(data["content-rating"], "Content rating", [3,6,10,13,17,18]));	
+		errors.append(validateEnum(data["content-rating"], "Content rating", [3,6,10,13,17,18]));
 		var yes_light_strong = ["no", "light", "strong"];
-		errors.append(validateEnum(data["content-descriptors"]["cartoon-violence"], "cartoon violence", yes_light_strong));	
-		errors.append(validateEnum(data["content-descriptors"]["realistic-violence"], "realistic violence", yes_light_strong));	
-		errors.append(validateEnum(data["content-descriptors"]["bad-language"], "bad language", yes_light_strong));	
-		errors.append(validateEnum(data["content-descriptors"]["fear"], "fear", yes_light_strong));	
-		errors.append(validateEnum(data["content-descriptors"]["sexual-content"], "sexual content", yes_light_strong));	
-		errors.append(validateEnum(data["content-descriptors"]["drugs"], "drugs", yes_light_strong));	
-		errors.append(validateEnum(data["content-descriptors"]["gambling-reference"], "gambling reference", yes_light_strong));	
-		errors.append(validateEnum(data["content-descriptors"]["alcohol"], "alcohol", yes_light_strong));	
-		errors.append(validateEnum(data["content-descriptors"]["smoking"], "smoking", yes_light_strong));	
-		errors.append(validateEnum(data["content-descriptors"]["discrimination"], "discrimination", yes_light_strong));	
+		errors.append(validateEnum(data["content-descriptors"]["cartoon-violence"], "cartoon violence", yes_light_strong));
+		errors.append(validateEnum(data["content-descriptors"]["realistic-violence"], "realistic violence", yes_light_strong));
+		errors.append(validateEnum(data["content-descriptors"]["bad-language"], "bad language", yes_light_strong));
+		errors.append(validateEnum(data["content-descriptors"]["fear"], "fear", yes_light_strong));
+		errors.append(validateEnum(data["content-descriptors"]["sexual-content"], "sexual content", yes_light_strong));
+		errors.append(validateEnum(data["content-descriptors"]["drugs"], "drugs", yes_light_strong));
+		errors.append(validateEnum(data["content-descriptors"]["gambling-reference"], "gambling reference", yes_light_strong));
+		errors.append(validateEnum(data["content-descriptors"]["alcohol"], "alcohol", yes_light_strong));
+		errors.append(validateEnum(data["content-descriptors"]["smoking"], "smoking", yes_light_strong));
+		errors.append(validateEnum(data["content-descriptors"]["discrimination"], "discrimination", yes_light_strong));
 
 		for (var i=0; i<data["rating-certificates"].length; i++) {
 			var ratingCertificate = data["rating-certificates"][i];
@@ -1007,7 +1007,7 @@ var appdfParser = (function() {
                 errors.push({msg:errorMessages.fnResourceNotFound(ratingCertificate["certificate"]), val:false});
             };
 		};
-		return errors;	
+		return errors;
 	};
     
     function validateAvailability(data) {
@@ -1037,13 +1037,13 @@ var appdfParser = (function() {
 
 		if (isUndefined(data)) {
 			errors.push({msg:"Required <testing-instructions> tag is missing", val:false});
-		} else { 
+		} else {
 			if (data.length>4000) {
-				errors.push({msg:"The testing instruction text must be shorter than 4000 symbols", val:false});
+				errors.push({msg:"The testing instruction text must be less than 4000 symbols", val:false});
 			};
 		};
 
-		return errors;	
+		return errors;
 	};
 
 	function validateStoreSpecific(data) {
@@ -1056,5 +1056,3 @@ var appdfParser = (function() {
         parseDescriptionXML : parseDescriptionXML
     };
 })();
-
-

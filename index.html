@@ -48,8 +48,8 @@ Copyright (c) 2012 Yandex <www.yandex.com>
     <script type="text/javascript" src="../editor/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../editor/js/bootstrap-datepicker.js"></script>
     <script type="text/javascript" src="../editor/js/bootstrap-switch.min.js"></script>
-    <script type="text/javascript" src="../editor/js/jqBootstrapValidation.js"></script>    
-    <script type="text/javascript" src="../editor/js/xmlgenerator.js"></script>    
+    <script type="text/javascript" src="../editor/js/jqBootstrapValidation.js"></script>
+    <script type="text/javascript" src="../editor/js/xmlgenerator.js"></script>
     <script type="text/javascript" src="../editor/js/zip/zip.js"></script>
     <script type="text/javascript" src="../editor/js/swfobject.js"></script>
     <script type="text/javascript" src="../editor/js/appdflocalization.js"></script>
@@ -117,7 +117,7 @@ Copyright (c) 2012 Yandex <www.yandex.com>
       <div class="span9">
         <div class="hero-unit">
           <h1>AppDF Editor</h1>
-          <p>Uploading an Android application to several appstores can be time-consuming. AppDF format is designed to simplify the process. You describe your Android application once, create a simple AppDF file that includes a description, APK file(s), screenshots, app icon, promo images, etc., and simply upload this AppDF file to all the stores that support AppDF uploading.</p>
+          <p>Uploading an Android application to several app stores can be time-consuming. AppDF format is designed to simplify the process. You describe your Android application once, create a simple AppDF file that includes a description, APK file(s), screenshots, app icon, promo images, etc., and simply upload this AppDF file to all the stores that support AppDF uploading.</p>
           <p>
             <button class="btn btn-primary show-import-description-xml">Import Description.xml</button>
             <button class="btn btn-primary load-appdf-file">Open AppDF File</button>
@@ -172,15 +172,15 @@ Copyright (c) 2012 Yandex <www.yandex.com>
                 <div class="control-group">
                   <label class="control-label"  for="storespecific-input-modal">Application store name</label>
                   <div class="controls">
-                    <div class=""> 
-                      <input type="text" id="storespecific-input-modal" 
-                      data-validation-callback-callback="appdfEditor.validationCallbackStoreSpecify" 
-                      autocomplete="off" data-provide="typeahead" data-items="20" 
-                      > 
-                    </div> 
+                    <div class="">
+                      <input type="text" id="storespecific-input-modal"
+                      data-validation-callback-callback="appdfEditor.validationCallbackStoreSpecify"
+                      autocomplete="off" data-provide="typeahead" data-items="20"
+                      >
+                    </div>
                     <p class="help-block">You can add custom fields for a particular application store or rewrite any of the application description fields. XML format is described in the <a href="https://github.com/onepf/AppDF/blob/master/specification/appds_spec_1_0.md" target="_blank">AppDF specification</a>.</p>
                   </div>
-                </div><!--control-group-->  
+                </div><!--control-group-->
                 <div class="control-group">
                     <label class="control-label" for="storespecific-name-default-modal">Store data</label>
                     <div class="controls">
@@ -217,7 +217,7 @@ Copyright (c) 2012 Yandex <www.yandex.com>
             <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
             <button class="btn btn-primary">Import</button>
           </div>
-        </div><!--Modal-->    
+        </div><!--Modal-->
 
         <div id="load-appdf-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="load-appdf-modal-label" aria-hidden="true">
           <div class="modal-header">
@@ -241,14 +241,14 @@ Copyright (c) 2012 Yandex <www.yandex.com>
             <div class="alert alert-error hide" id="load-appdf-modal-errors">
               <b>Import errors:</b>
               <ul></ul>
-            </div>        
+            </div>
           </div>
           <div class="modal-footer">
             <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
             <button class="btn btn-primary" id="load-appdf-modal-open-button">Open</button>
             <button class="btn btn-primary hide" id="load-appdf-modal-open-unfinished-button">Open unfinished</button>
           </div>
-        </div><!--Modal-->    
+        </div><!--Modal-->
 
         <div id="description-videos-youtubevideo-dialog" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="description-videos-youtubevideo-dialog-label" aria-hidden="true">
           <div class="modal-header">
@@ -256,13 +256,13 @@ Copyright (c) 2012 Yandex <www.yandex.com>
             <h3 id="description-videos-youtubevideo-dialog-label">YouTube Video</h3>
           </div>
           <div class="modal-body">
-            URL: 
+            URL:
             <div class="input-append ie_hide">
               <input id="description-videos-youtubevideo-dialog-url" class="input-xlarge" type="text">
               <button class="btn description-videos-youtubevideo-dialog-check">Check</button>
             </div>
             <p id="description-videos-youtubevideo-dialog-info">
-              Copy/pase YouTube video URL into the edit field and press the "Check" button to make sure that URL is correct.  
+              Copy/pase YouTube video URL into the edit field and press the "Check" button to make sure that URL is correct.
             </p>
             <iframe width="420" height="315" id="description-videos-youtubevideo-dialog-video" src="" frameborder="0" allowfullscreen class="hide"></iframe>
           </div>
@@ -270,7 +270,7 @@ Copyright (c) 2012 Yandex <www.yandex.com>
             <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
             <button class="btn btn-primary">OK</button>
           </div>
-        </div><!--Modal-->   
+        </div><!--Modal-->
 
             <div id="add-localization-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="add-localization-modal-label" aria-hidden="true">
               <div class="modal-header">
@@ -278,7 +278,7 @@ Copyright (c) 2012 Yandex <www.yandex.com>
                 <h3 id="add-localization-modal-label">Add Localization</h3>
               </div>
               <div class="modal-body">
-                <p>Language: 
+                <p>Language:
                   <select id="add-localization-modal-language">
                   </select>
                 </p>
@@ -287,7 +287,7 @@ Copyright (c) 2012 Yandex <www.yandex.com>
                 <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
                 <button class="btn btn-primary">Add Localization</button>
               </div>
-            </div><!--Model-->          
+            </div><!--Model-->
         <!--MODALS END-->
 
         <form class="form-horizontal" action='' method="POST" novalidate>
@@ -300,8 +300,8 @@ Copyright (c) 2012 Yandex <www.yandex.com>
                 <!-- apk-files/apk-file -->
                 <label class="control-label" for="pretty-apk-file">APK File <span class="required-mark">*</span></label>
                 <div class="controls">
-                  <input type="file" id="apk-file" class="hide ie_show hidden-apk-file" 
-                    name="apk-file" 
+                  <input type="file" id="apk-file" class="hide ie_show hidden-apk-file"
+                    name="apk-file"
                     accept="application/vnd.android.package-archive"
                     data-validation-callback-callback="appdfEditor.validationCallbackApkFileFirst"
                   />
@@ -387,11 +387,11 @@ Copyright (c) 2012 Yandex <www.yandex.com>
                         <label class="control-label"  for="description-texts-title">Title <span class="required-mark">*</span></label>
                         <div class="controls">
                           <input type="text" id="description-texts-title" name="description-texts-title"
-                            required 
-                            data-validation-required-message="Title is required" 
+                            required
+                            data-validation-required-message="Title is required"
                             maxlength="30"
                           >
-                          <p class="help-block">Different stores have different maximum title length requirements. The first title should be shorter than 30 symbols. You can <a href="#" class="description-texts-title-addmore">add a longer title</a> for stores that support long titles.</p>
+                          <p class="help-block">Different stores have different maximum title length requirements. The first title should be less than 30 symbols. You can <a href="#" class="description-texts-title-addmore">add a longer title</a> for stores that support long titles.</p>
                         </div>
                       </div><!--./control-group -->
                     </div><!--./control-group-container -->
@@ -402,11 +402,11 @@ Copyright (c) 2012 Yandex <www.yandex.com>
                         <label class="control-label" for="description-texts-shortdescription">Short description <span class="required-mark">*</span></label>
                         <div class="controls">
                           <input type="text" id="description-texts-shortdescription" name="description-texts-shortdescription"
-                            required 
-                            data-validation-required-message="Short description is required" 
+                            required
+                            data-validation-required-message="Short description is required"
                             maxlength="80"
                           >
-                          <p class="help-block">Different stores have different maximum short description length requirements. The first short - description should be shorter than 80 symbols. You can <a href="#" class="description-texts-shortdescription-addmore">add a longer short description</a> for stores that support longer ones.</p>
+                          <p class="help-block">Different stores have different maximum short description length requirements. The first short - description should be less than 80 symbols. You can <a href="#" class="description-texts-shortdescription-addmore">add a longer short description</a> for stores that support longer ones.</p>
                         </div>
                       </div><!--./control-group -->
                     </div><!--./control-group-container -->
@@ -415,14 +415,20 @@ Copyright (c) 2012 Yandex <www.yandex.com>
                       <!-- description/texts/full-description -->
                       <label class="control-label" for="description-texts-fulldescription">Full description <span class="required-mark">*</span></label>
                       <div class="controls">
-                        <textarea class="input-xxlarge" rows="5" id="description-texts-fulldescription" 
+                        <textarea class="input-xxlarge" rows="5" id="description-texts-fulldescription"
                           name="description-texts-fulldescription"
                           required
                           data-validation-required-message="Full description is required"
                           maxlength="4000"
-                          data-validation-maxlength-message="Full description must be shorter than 4000 symbols"
+                          data-validation-maxlength-message="Full description must be less than 4000 symbols"
                         ></textarea>
-                        <p class="help-block">Please provide a full application description, to be shown on the product page. You can include a special subtag &lt;features&gt;. Everything inside the &lt;features&gt; subtag will be shown only by stores that do not support a separate features list. This can be useful to avoid feature list duplication. You can also include the following HTML tags: &lt;ul&gt;, &lt;li&gt;, &lt;a&gt;, &lt;b&gt;, &lt;i&gt;. The appstores that do not support those HTML tags will automatically convert them to plain text. Maximum length: 4,000 symbols.</p>
+                        <p class="help-block">Please provide a full application description, to be shown on the product
+                            page. You can include a special subtag &lt;features&gt;. Everything inside the &lt;features&gt;
+                            subtag will be shown only by stores that do not support a separate features list. This can
+                            be useful to avoid feature list duplication. You can also include the following HTML tags:
+                            &lt;ul&gt;, &lt;li&gt;, &lt;a&gt;, &lt;b&gt;, &lt;i&gt;. The app stores that do not support
+                            those HTML tags will automatically convert them to plain text. Maximum length: 4,000
+                            symbols.</p>
                       </div>
                     </div><!--./control-group -->
 
@@ -433,45 +439,45 @@ Copyright (c) 2012 Yandex <www.yandex.com>
                         <div class="feature-countainer">
                           <div class="input-prepend">
                             <span class="add-on">1.</span>
-                            <input type="text" id="description-texts-features-1"  
+                            <input type="text" id="description-texts-features-1"
                               name="description-texts-features-1"
-                              required 
+                              required
                               data-validation-required-message="Minimum three features are required"
-                            > 
-                          </div>              
-                        </div>          
+                            >
+                          </div>
+                        </div>
                         <div class="feature-countainer">
                           <div class="input-prepend marginedinput" style="display: block">
                             <span class="add-on">2.</span>
-                            <input type="text" id="description-texts-features-2" 
+                            <input type="text" id="description-texts-features-2"
                               name="description-texts-features-2"
-                              required 
+                              required
                               data-validation-required-message="Minimum three features are required"
-                            > 
-                          </div>          
-                        </div>                      
+                            >
+                          </div>
+                        </div>
                         <div class="feature-countainer">
                           <div class="input-prepend marginedinput" style="display: block">
                             <span class="add-on">3.</span>
-                            <input type="text" id="description-texts-features-3" 
+                            <input type="text" id="description-texts-features-3"
                               name="description-texts-features-3"
-                              required 
+                              required
                               data-validation-required-message="Minimum three features are required"
-                            > 
-                          </div>          
-                        </div>                        
+                            >
+                          </div>
+                        </div>
                         <div class="feature-countainer">
                           <div class="input-prepend marginedinput" style="display: block">
                             <span class="add-on">4.</span>
-                            <input type="text" id="description-texts-features-4"> 
-                          </div>          
-                        </div>                        
+                            <input type="text" id="description-texts-features-4">
+                          </div>
+                        </div>
                         <div class="feature-countainer">
                           <div class="input-prepend marginedinput" style="display: block">
                             <span class="add-on">5.</span>
-                            <input type="text" id="description-texts-features-5"> 
-                          </div>          
-                        </div>                        
+                            <input type="text" id="description-texts-features-5">
+                          </div>
+                        </div>
                         <p class="help-block">Add three to five features of your application</p>
                       </div>
                     </div><!--./control-group -->
@@ -480,13 +486,13 @@ Copyright (c) 2012 Yandex <www.yandex.com>
                       <!-- description/texts/keywords -->
                       <label class="control-label" for="description-texts-keywords">Keywords <span class="required-mark">*</span></label>
                       <div class="controls">
-                        <div class="input-append"> 
+                        <div class="input-append">
                           <input type="text" id="description-texts-keywords"
                             required
                             data-validation-required-message="At least one keyword is required"
-                          > 
+                          >
                           <button class="btn description-texts-keywords-addmore" type="button"><i class=" icon-plus-sign"></i></button>
-                        </div> 
+                        </div>
                         <p class="help-block">Please provide keywords that describe your application.</p>
                       </div>
                     </div><!--./control-group -->
@@ -497,7 +503,7 @@ Copyright (c) 2012 Yandex <www.yandex.com>
                       <div class="controls">
                         <textarea class="input-xxlarge" rows="5" id="description-texts-recentchanges"
                           maxlength="500"
-                          data-validation-maxlength-message="Recent changes must be shorter than 500 symbols"
+                          data-validation-maxlength-message="Recent changes must be less than 500 symbols"
                         ></textarea>
                         <p class="help-block">What is different about the latest version, compared to the previous one. Maximum length: 500 symbols.</p>
                       </div>
@@ -533,8 +539,8 @@ Copyright (c) 2012 Yandex <www.yandex.com>
                       <div class="controls">
                         <div class="image-group app-icon-first">
                           <div class="image-input-group">
-                            <input type="file" id="description-images-appicon" class="hide ie_show appicon-input empty-image" 
-                              name="description-images-appicon" 
+                            <input type="file" id="description-images-appicon" class="hide ie_show appicon-input empty-image"
+                              name="description-images-appicon"
                               accept="image/png"
                               data-validation-callback-callback="appdfEditor.validationCallbackAppIconFirst"
                             />
@@ -552,8 +558,8 @@ Copyright (c) 2012 Yandex <www.yandex.com>
                       <div class="controls">
                         <div class="image-group">
                           <div class="image-input-group">
-                            <input type="file" id="description-images-screenshot-1" class="hide ie_show screenshot-input empty-image" 
-                              name="description-images-screenshot-1" 
+                            <input type="file" id="description-images-screenshot-1" class="hide ie_show screenshot-input empty-image"
+                              name="description-images-screenshot-1"
                               accept="image/png"
                               data-validation-callback-callback="appdfEditor.validationCallbackScreenshotRequired"
                             />
@@ -561,8 +567,8 @@ Copyright (c) 2012 Yandex <www.yandex.com>
                             <p class="image-input-label">&nbsp;</p>
                           </div>
                           <div class="image-input-group">
-                            <input type="file" id="description-images-screenshot-2" class="hide ie_show screenshot-input empty-image" 
-                              name="description-images-screenshot-2" 
+                            <input type="file" id="description-images-screenshot-2" class="hide ie_show screenshot-input empty-image"
+                              name="description-images-screenshot-2"
                               accept="image/png"
                               data-validation-callback-callback="appdfEditor.validationCallbackScreenshotRequired"
                             />
@@ -570,8 +576,8 @@ Copyright (c) 2012 Yandex <www.yandex.com>
                             <p class="image-input-label">&nbsp;</p>
                           </div>
                           <div class="image-input-group">
-                            <input type="file" id="description-images-screenshot-3" class="hide ie_show screenshot-input empty-image" 
-                              name="description-images-screenshot-3" 
+                            <input type="file" id="description-images-screenshot-3" class="hide ie_show screenshot-input empty-image"
+                              name="description-images-screenshot-3"
                               accept="image/png"
                               data-validation-callback-callback="appdfEditor.validationCallbackScreenshotRequired"
                             />
@@ -579,8 +585,8 @@ Copyright (c) 2012 Yandex <www.yandex.com>
                             <p class="image-input-label">&nbsp;</p>
                           </div>
                           <div class="image-input-group">
-                            <input type="file" id="description-images-screenshot-4" class="hide ie_show screenshot-input empty-image" 
-                              name="description-images-screenshot-4" 
+                            <input type="file" id="description-images-screenshot-4" class="hide ie_show screenshot-input empty-image"
+                              name="description-images-screenshot-4"
                               accept="image/png"
                               data-validation-callback-callback="appdfEditor.validationCallbackScreenshotRequired"
                             />
@@ -598,8 +604,8 @@ Copyright (c) 2012 Yandex <www.yandex.com>
                       <div class="controls">
                         <div class="image-group">
                           <div class="image-input-group">
-                            <input type="file" id="description-images-largepromo" class="hide ie_show image-input empty-image" 
-                              name="description-images-largepromo" 
+                            <input type="file" id="description-images-largepromo" class="hide ie_show image-input empty-image"
+                              name="description-images-largepromo"
                               accept="image/png"
                               data-validation-callback-callback="appdfEditor.validationCallbackPromo"
                             />
@@ -618,8 +624,8 @@ Copyright (c) 2012 Yandex <www.yandex.com>
                       <div class="controls">
                         <div class="image-group">
                           <div class="image-input-group">
-                            <input type="file" id="description-images-smallpromo" class="hide ie_show image-input empty-image" 
-                              name="description-images-smallpromo" 
+                            <input type="file" id="description-images-smallpromo" class="hide ie_show image-input empty-image"
+                              name="description-images-smallpromo"
                               accept="image/png"
                               data-validation-callback-callback="appdfEditor.validationCallbackPromo"
                             />
@@ -628,7 +634,7 @@ Copyright (c) 2012 Yandex <www.yandex.com>
                             <div class="btn small-promo-image-reset">Reset small promo image</div>
                           </div>
                         </div>
-                        <p class="help-block">A 180x120 PNG file which is usually used in mobile appstores for app features.</p>
+                        <p class="help-block">A 180x120 PNG file which is usually used in mobile app stores for app features.</p>
                       </div>
                     </div><!--./control-group -->
 
@@ -646,12 +652,12 @@ Copyright (c) 2012 Yandex <www.yandex.com>
                       <!-- description/videos/youtube-video -->
                       <label class="control-label" for="description-videos-youtubevideo">YouTube video</label>
                       <div class="controls">
-                        <div class="input-append"> 
+                        <div class="input-append">
                           <input type="text" id="description-videos-youtubevideo" name="description-videos-youtubevideo"
                             data-validation-callback-callback="appdfEditor.validationCallbackYoutube"
                           >
                           <button class="btn description-videos-youtubevideo-browse" type="button">Browse</button>
-                        </div> 
+                        </div>
 
                         <p class="help-block">Please include only the ID (and not the entire URL). For example, if your YouTube video URL is www.youtube.com/watch?v=4YcBHQ2fCDE please enter 4YcBHQ2fCDE</p>
                       </div>
@@ -659,7 +665,7 @@ Copyright (c) 2012 Yandex <www.yandex.com>
                    
                   </div><!--./tab-pane -->
                 </div><!--./tab-content -->
-              </div><!--./tabbable -->          
+              </div><!--./tabbable -->
             </fieldset>
           </section><!--section-description-->
 
@@ -680,7 +686,7 @@ Copyright (c) 2012 Yandex <www.yandex.com>
                         <label class="checkbox">
                           <input type="checkbox" value="" id="price-free-trialversion">
                           This free application is a trial version.
-                        </label>              
+                        </label>
                       </div>
                     </div><!--control-group-->
                     <div class="control-group">
@@ -712,7 +718,7 @@ Copyright (c) 2012 Yandex <www.yandex.com>
                     </div><!--./control-group -->
                   </div><!--./tab-pane -->
                 </div><!--./tab-content -->
-              </div><!--./tabbable -->  
+              </div><!--./tabbable -->
             </fieldset>
           </section><!--section-price-->
 
@@ -725,12 +731,12 @@ Copyright (c) 2012 Yandex <www.yandex.com>
                 <!-- customer-support/phone -->
                 <label class="control-label"  for="customersupport-phone">Phone <span class="required-mark">*</span></label>
                 <div class="controls">
-                  <input id="customersupport-phone" type="text" 
-                    name="customersupport-phone" 
-                    required 
-                    data-validation-required-message="Customer support phone is required" 
-                    data-validation-regex-regex="^\+(\(?\+?[0-9]*\)?)?[0-9_\- \(\)]*$" 
-                    data-validation-regex-message="Wrong phone format, only digits, brackets, spaces and dashes are allowed. Must be in international format like +1 (555) 123-45-67." 
+                  <input id="customersupport-phone" type="text"
+                    name="customersupport-phone"
+                    required
+                    data-validation-required-message="Customer support phone is required"
+                    data-validation-regex-regex="^\+(\(?\+?[0-9]*\)?)?[0-9_\- \(\)]*$"
+                    data-validation-regex-message="Wrong phone format, only digits, brackets, spaces and dashes are allowed. Must be in international format like +1 (555) 123-45-67."
                       >
                   <p class="help-block">Customer support phone number. This must be in international format (e.g., +1 (555) 123-45-67).</p>
                 </div>
@@ -740,10 +746,10 @@ Copyright (c) 2012 Yandex <www.yandex.com>
                 <!-- customer-support/email -->
                 <label class="control-label"  for="customersupport-email">Email <span class="required-mark">*</span></label>
                 <div class="controls">
-                  <input id="customersupport-email" type="email" 
+                  <input id="customersupport-email" type="email"
                     name="customersupport-email"
-                    required 
-                    data-validation-required-message="Customer support email is required" 
+                    required
+                    data-validation-required-message="Customer support email is required"
                     data-validation-email-message="Customer support email must be a valid email address"
                       >
                   <p class="help-block">Customer support email for this application. This must be a valid email address.</p>
@@ -754,12 +760,12 @@ Copyright (c) 2012 Yandex <www.yandex.com>
                 <!-- customer-support/website -->
                 <label class="control-label"  for="customersupport-website">Website <span class="required-mark">*</span></label>
                 <div class="controls">
-                  <input id="customersupport-website" type="text" 
+                  <input id="customersupport-website" type="text"
                     name="customersupport-website"
-                    required 
+                    required
                     data-validation-regex-regex="^((http|https):\/\/)?[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?$"
                     data-validation-required-message="Customer support website is required"
-                    data-validation-regex-message="Wrong customer support webpage format. Must be a valid URL."                     
+                    data-validation-regex-message="Wrong customer support webpage format. Must be a valid URL."
                   >
                   <p class="help-block">Webpage with customer support information. This must be a valid URL.</p>
                 </div>
@@ -778,27 +784,27 @@ Copyright (c) 2012 Yandex <www.yandex.com>
                   <label class="checkbox">
                     <input type="checkbox" value="" id="consent-googleandroidcontentguidelines">
                     This application meets <a href="http://play.google.com/about/developer-content-policy.html" target="_blank">Android Content Guidelines</a>
-                  </label>              
+                  </label>
 
                   <label class="checkbox">
                     <input type="checkbox" value="" id="consent-usexportlaws">
-                    I acknowledge that this application may be subject to United States export laws, regardless of my location or nationality. I agree that I have complied with all such laws, including any requirements for software with encryption functions. I hereby certify that my application is authorized for export from the United States under these laws. <a href="https://support.google.com/googleplay/android-developer/support/bin/answer.py?answer=113770" target="_blank">More...</a>                    
-                  </label>              
+                    I acknowledge that this application may be subject to United States export laws, regardless of my location or nationality. I agree that I have complied with all such laws, including any requirements for software with encryption functions. I hereby certify that my application is authorized for export from the United States under these laws. <a href="https://support.google.com/googleplay/android-developer/support/bin/answer.py?answer=113770" target="_blank">More...</a>
+                  </label>
 
                   <label class="checkbox">
                     <input type="checkbox" value="" id="consent-importexportlaws">
                     I certify that this application may be imported to and exported from any country in which you have authorized sales to end users (without the need for the stores to obtain any license or clearance or take any other action) and is in full compliance with all applicable laws and regulations governing imports and exports, including those applicable to software that makes use of encryption technology.
-                  </label>    
+                  </label>
 
                   <label class="checkbox">
                     <input type="checkbox" value="" id="consent-slidemeagreement">
                     I agree with the complete <a href="http://slideme.org/developers/dda" target="_blank">SlideME Developer/Publisher Distribution Agreement</a>
-                  </label>    
+                  </label>
 
                   <label class="checkbox">
                     <input type="checkbox" value="" id="consent-freefromthirdpartycopytightedcontent">
                     I confirm that my application is free from third-party copyrighted pictures, sounds, databases or other types of information.
-                  </label>    
+                  </label>
                 </div>
               </div><!--control-group-->
 
@@ -961,37 +967,37 @@ Copyright (c) 2012 Yandex <www.yandex.com>
                   <label class="checkbox">
                     <input type="checkbox" value="" id="contentdescription-includedactivities-inappbilling">
                     In-app billing: this app allows - either standard or custom in-app billing (also called "in-app purchases").
-                  </label>              
+                  </label>
 
                   <label class="checkbox">
                     <input type="checkbox" value="" id="contentdescription-includedactivities-gambling">
                     Gambling: this appfeatures - a form of gambling.
-                  </label>              
+                  </label>
 
                   <label class="checkbox">
                     <input type="checkbox" value="" id="contentdescription-includedactivities-advertising">
                     Advertising: this app features - a form of advertising (this includs banner or AirPush-like advertising).
-                  </label>              
+                  </label>
 
                   <label class="checkbox">
                     <input type="checkbox" value="" id="contentdescription-includedactivities-usergeneratedcontent">
                     This app features user-generated content.
-                  </label>              
+                  </label>
 
                   <label class="checkbox">
                     <input type="checkbox" value="" id="contentdescription-includedactivities-usertousercommunications">
                     This app allows user-to-user communications.
-                  </label>              
+                  </label>
 
                   <label class="checkbox">
                     <input type="checkbox" value="" id="contentdescription-includedactivities-accountcreation">
                     This app allows account creation.
-                  </label>              
+                  </label>
 
                   <label class="checkbox">
                     <input type="checkbox" value="" id="contentdescription-includedactivities-personalinformationcollection">
                     Personal information collection: this application transfers personal informations to the server, or collects it locally on the device.
-                  </label>              
+                  </label>
                 </div>
               </div><!--control-group-->
 
@@ -1006,10 +1012,10 @@ Copyright (c) 2012 Yandex <www.yandex.com>
                       <th>Certificate</th>
                       <th>Mark</th>
                     </tr>
-                        <tr> 
+                        <tr>
                             <td><a class="contentdescription-ratingcertificates-type" href="http://en.wikipedia.org/wiki/Pan_European_Game_Information" target="_blank">PEGI</a></td>
-                            <td> 
-                                <select class="input-large" id="contentdescription-ratingcertificates-rating-pegi"> 
+                            <td>
+                                <select class="input-large" id="contentdescription-ratingcertificates-rating-pegi">
                                   <option value="">No certificate</option>
                                   <option value="3">3</option>
                                   <option value="7">7</option>
@@ -1017,26 +1023,26 @@ Copyright (c) 2012 Yandex <www.yandex.com>
                                   <option value="16">16</option>
                                   <option value="18">18</option>
                                 </select>
-                            </td> 
-                            <td> 
-                                <div class="file-input-group"> 
-                                    <input type="file" id="contentdescription-ratingcertificates-certificate-pegi" class="hide ie_show pretty-file-file"  
-                                        name="contentdescription-ratingcertificates-certificate" 
-                                        accept="application/pdf" 
-                                    /> 
-                                    <div class="input-append ie_hide"> 
-                                        <input class="input-small pretty-file-input" type="text" readonly="readonly"> 
-                                        <a class="btn pretty-file-button">Browse</a> 
-                                    </div> 
-                                </div> 
-                            </td> 
-                            <td> 
-                            </td> 
+                            </td>
+                            <td>
+                                <div class="file-input-group">
+                                    <input type="file" id="contentdescription-ratingcertificates-certificate-pegi" class="hide ie_show pretty-file-file"
+                                        name="contentdescription-ratingcertificates-certificate"
+                                        accept="application/pdf"
+                                    />
+                                    <div class="input-append ie_hide">
+                                        <input class="input-small pretty-file-input" type="text" readonly="readonly">
+                                        <a class="btn pretty-file-button">Browse</a>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                            </td>
                         </tr>
-                        <tr> 
+                        <tr>
                             <td><a class="contentdescription-ratingcertificates-type" href="http://en.wikipedia.org/wiki/Entertainment_Software_Rating_Board" target="_blank">ESRB</a></td>
-                            <td> 
-                                <select class="input-large" id="contentdescription-ratingcertificates-rating-esrb"> 
+                            <td>
+                                <select class="input-large" id="contentdescription-ratingcertificates-rating-esrb">
                                   <option value="">No certificate</option>
                                   <option value="3">Early Childhood (eC)</option>
                                   <option value="6">Everyone (E)</option>
@@ -1045,52 +1051,52 @@ Copyright (c) 2012 Yandex <www.yandex.com>
                                   <option value="17">Mature 17+ (M)</option>
                                   <option value="18">Adults Only 18+ (Ao)</option>
                                 </select>
-                            </td> 
-                            <td> 
-                                <div class="file-input-group"> 
-                                    <input type="file" id="contentdescription-ratingcertificates-certificate-esrb" class="hide ie_show pretty-file-file"  
-                                        name="contentdescription-ratingcertificates-certificate" 
-                                        accept="application/pdf" 
-                                    /> 
-                                    <div class="input-append ie_hide"> 
-                                        <input class="input-small pretty-file-input" type="text" readonly="readonly"> 
-                                        <a class="btn pretty-file-button">Browse</a> 
-                                    </div> 
-                                </div> 
-                            </td> 
-                            <td> 
-                            </td> 
+                            </td>
+                            <td>
+                                <div class="file-input-group">
+                                    <input type="file" id="contentdescription-ratingcertificates-certificate-esrb" class="hide ie_show pretty-file-file"
+                                        name="contentdescription-ratingcertificates-certificate"
+                                        accept="application/pdf"
+                                    />
+                                    <div class="input-append ie_hide">
+                                        <input class="input-small pretty-file-input" type="text" readonly="readonly">
+                                        <a class="btn pretty-file-button">Browse</a>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                            </td>
                         </tr>
-                        <tr> 
+                        <tr>
                             <td><a class="contentdescription-ratingcertificates-type" href="http://en.wikipedia.org/wiki/Game_Rating_Board" target="_blank">GRB</a></td>
-                            <td> 
-                                <select class="input-large" id="contentdescription-ratingcertificates-rating-gbr"> 
+                            <td>
+                                <select class="input-large" id="contentdescription-ratingcertificates-rating-gbr">
                                   <option value="">No certificate</option>
                                   <option value="0">All</option>
                                   <option value="12">12</option>
                                   <option value="15">15</option>
                                   <option value="18">18</option>
                                 </select>
-                            </td> 
-                            <td> 
-                                <div class="file-input-group"> 
-                                    <input type="file" id="contentdescription-ratingcertificates-certificate-gbr" class="hide ie_show pretty-file-file"  
-                                        name="contentdescription-ratingcertificates-certificate" 
-                                        accept="application/pdf" 
-                                    /> 
-                                    <div class="input-append ie_hide"> 
-                                        <input class="input-small pretty-file-input" type="text" readonly="readonly"> 
-                                        <a class="btn pretty-file-button">Browse</a> 
-                                    </div> 
-                                </div> 
-                            </td> 
-                            <td> 
-                            </td> 
+                            </td>
+                            <td>
+                                <div class="file-input-group">
+                                    <input type="file" id="contentdescription-ratingcertificates-certificate-gbr" class="hide ie_show pretty-file-file"
+                                        name="contentdescription-ratingcertificates-certificate"
+                                        accept="application/pdf"
+                                    />
+                                    <div class="input-append ie_hide">
+                                        <input class="input-small pretty-file-input" type="text" readonly="readonly">
+                                        <a class="btn pretty-file-button">Browse</a>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                            </td>
                         </tr>
-                        <tr> 
+                        <tr>
                             <td><a class="contentdescription-ratingcertificates-type" href="http://en.wikipedia.org/wiki/Computer_Entertainment_Rating_Organization" target="_blank">CERO</a></td>
-                            <td> 
-                                <select class="input-large" id="contentdescription-ratingcertificates-rating-cero"> 
+                            <td>
+                                <select class="input-large" id="contentdescription-ratingcertificates-rating-cero">
                                   <option value="">No certificate</option>
                                   <option value="0">All ages (A)</option>
                                   <option value="12">Ages 12 and up (B)</option>
@@ -1098,26 +1104,26 @@ Copyright (c) 2012 Yandex <www.yandex.com>
                                   <option value="17">Ages 17 and up (D)</option>
                                   <option value="18">Ages 18 and up only (Z)</option>
                                 </select>
-                            </td> 
-                            <td> 
-                                <div class="file-input-group"> 
-                                    <input type="file" id="contentdescription-ratingcertificates-certificate-cero" class="hide ie_show pretty-file-file"  
-                                        name="contentdescription-ratingcertificates-certificate" 
-                                        accept="application/pdf" 
-                                    /> 
-                                    <div class="input-append ie_hide"> 
-                                        <input class="input-small pretty-file-input" type="text" readonly="readonly"> 
-                                        <a class="btn pretty-file-button">Browse</a> 
-                                    </div> 
-                                </div> 
-                            </td> 
-                            <td> 
-                            </td> 
+                            </td>
+                            <td>
+                                <div class="file-input-group">
+                                    <input type="file" id="contentdescription-ratingcertificates-certificate-cero" class="hide ie_show pretty-file-file"
+                                        name="contentdescription-ratingcertificates-certificate"
+                                        accept="application/pdf"
+                                    />
+                                    <div class="input-append ie_hide">
+                                        <input class="input-small pretty-file-input" type="text" readonly="readonly">
+                                        <a class="btn pretty-file-button">Browse</a>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                            </td>
                         </tr>
-                        <tr> 
+                        <tr>
                             <td><a class="contentdescription-ratingcertificates-type" href="http://en.wikipedia.org/wiki/Department_of_Justice,_Rating,_Titles_and_Qualification" target="_blank">DEJUS</a></td>
-                            <td> 
-                                <select class="input-large" id="contentdescription-ratingcertificates-rating-dejus"> 
+                            <td>
+                                <select class="input-large" id="contentdescription-ratingcertificates-rating-dejus">
                                   <option value="">No certificate</option>
                                   <option value="0">L</option>
                                   <option value="10">10</option>
@@ -1126,36 +1132,36 @@ Copyright (c) 2012 Yandex <www.yandex.com>
                                   <option value="16">16</option>
                                   <option value="18">18</option>
                                 </select>
-                            </td> 
-                            <td> 
-                                <div class="file-input-group"> 
-                                    <input type="file" id="contentdescription-ratingcertificates-certificate-dejus" class="hide ie_show pretty-file-file"  
-                                        name="contentdescription-ratingcertificates-certificate" 
-                                        accept="application/pdf" 
-                                    /> 
-                                    <div class="input-append ie_hide"> 
-                                        <input class="input-small pretty-file-input" type="text" readonly="readonly"> 
-                                        <a class="btn pretty-file-button">Browse</a> 
-                                    </div> 
-                                </div> 
-                            </td> 
-                            <td> 
-                                <div class="file-input-group"> 
-                                    <input type="file" id="contentdescription-ratingcertificates-mark-dejus" class="hide ie_show pretty-file-file"  
-                                        name="contentdescription-ratingcertificates-mark" 
-                                        accept="application/pdf" 
-                                    /> 
-                                    <div class="input-append ie_hide"> 
-                                        <input class="input-small pretty-file-input" type="text" readonly="readonly"> 
-                                        <a class="btn pretty-file-button">Browse</a> 
-                                    </div> 
-                                </div> 
-                            </td> 
+                            </td>
+                            <td>
+                                <div class="file-input-group">
+                                    <input type="file" id="contentdescription-ratingcertificates-certificate-dejus" class="hide ie_show pretty-file-file"
+                                        name="contentdescription-ratingcertificates-certificate"
+                                        accept="application/pdf"
+                                    />
+                                    <div class="input-append ie_hide">
+                                        <input class="input-small pretty-file-input" type="text" readonly="readonly">
+                                        <a class="btn pretty-file-button">Browse</a>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="file-input-group">
+                                    <input type="file" id="contentdescription-ratingcertificates-mark-dejus" class="hide ie_show pretty-file-file"
+                                        name="contentdescription-ratingcertificates-mark"
+                                        accept="application/pdf"
+                                    />
+                                    <div class="input-append ie_hide">
+                                        <input class="input-small pretty-file-input" type="text" readonly="readonly">
+                                        <a class="btn pretty-file-button">Browse</a>
+                                    </div>
+                                </div>
+                            </td>
                         </tr>
-                        <tr> 
+                        <tr>
                             <td><a class="contentdescription-ratingcertificates-type" href="http://en.wikipedia.org/wiki/Freiwillige_Selbstkontrolle_der_Filmwirtschaft" target="_blank">FSK</a></td>
-                            <td> 
-                                <select class="input-large" id="contentdescription-ratingcertificates-rating-fsk"> 
+                            <td>
+                                <select class="input-large" id="contentdescription-ratingcertificates-rating-fsk">
                                   <option value="">No certificate</option>
                                   <option value="0">0</option>
                                   <option value="6">6</option>
@@ -1163,21 +1169,21 @@ Copyright (c) 2012 Yandex <www.yandex.com>
                                   <option value="16">16</option>
                                   <option value="18">18</option>
                                 </select>
-                            </td> 
-                            <td> 
-                                <div class="file-input-group"> 
-                                    <input type="file" id="contentdescription-ratingcertificates-certificate-fsk" class="hide ie_show pretty-file-file"  
-                                        name="contentdescription-ratingcertificates-certificate" 
-                                        accept="application/pdf" 
-                                    /> 
-                                    <div class="input-append ie_hide"> 
-                                        <input class="input-small pretty-file-input" type="text" readonly="readonly"> 
-                                        <a class="btn pretty-file-button">Browse</a> 
-                                    </div> 
-                                </div> 
-                            </td> 
-                            <td> 
-                            </td> 
+                            </td>
+                            <td>
+                                <div class="file-input-group">
+                                    <input type="file" id="contentdescription-ratingcertificates-certificate-fsk" class="hide ie_show pretty-file-file"
+                                        name="contentdescription-ratingcertificates-certificate"
+                                        accept="application/pdf"
+                                    />
+                                    <div class="input-append ie_hide">
+                                        <input class="input-small pretty-file-input" type="text" readonly="readonly">
+                                        <a class="btn pretty-file-button">Browse</a>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                            </td>
                         </tr>
                     </table>
                   <p class="help-block">If you have an industry-recognized rating certificates for your game or application, please upload a scanned image of your document in PDF format. For a DEJUS certificate, you are also required to upload a certification mark. Please see <a href="http://img.samsungapps.com/seller/en_US/images/common/bg/mark.jpg" target="_blank">this example</a>.</p>
@@ -1216,7 +1222,7 @@ Copyright (c) 2012 Yandex <www.yandex.com>
                   <div id="availability-supportedcountries-exclude" class="hide">
                   </div>
                 </div>
-              </div><!--control-group-->  
+              </div><!--control-group-->
               
               <div class="control-group">
                 <!-- availability/period -->
@@ -1246,7 +1252,7 @@ Copyright (c) 2012 Yandex <www.yandex.com>
                   </table>
                   <div class="help-block hide"></div>
                 </div>
-              </div><!--control-group-->         
+              </div><!--control-group-->
               
             </fieldset>
           </section><!--section-availability-->
@@ -1263,20 +1269,20 @@ Copyright (c) 2012 Yandex <www.yandex.com>
                   <label class="checkbox">
                     <input type="checkbox" value="" id="requirements-features-root">
                     This application requires root access.
-                  </label>              
+                  </label>
 
                   <label class="checkbox">
                     <input type="checkbox" value="" id="requirements-features-gms">
                     This application requires Google Mobile Services (GMS). Please note that this requirement will dramatically limit the number of supported stores.
-                  </label>              
+                  </label>
 
                   <label class="checkbox">
                     <input type="checkbox" value="" id="requirements-features-online">
                     This application cannot work in offline more and requires an internet connection.
-                  </label>              
+                  </label>
 
                 </div>
-              </div><!--control-group-->  
+              </div><!--control-group-->
 
               <div class="control-group">
                 <!-- requirements/supported-languages -->
@@ -1295,19 +1301,19 @@ Copyright (c) 2012 Yandex <www.yandex.com>
                   <div id="requirements-supportedlanguages" class="hide">
                   </div>
                 </div>
-              </div><!--control-group-->           
+              </div><!--control-group-->
 
               <div class="control-group">
                 <!-- requirements/supported-devices -->
                 <label class="control-label"  for="requirements-supporteddevices">Unsupported Devices</label>
                 <div class="controls">
-                  <div class="input-append"> 
-                    <input type="text" id="requirements-supporteddevices-input" data-validation-callback-callback="appdfEditor.validationCallbackRequirementDevice" autocomplete="off"> 
+                  <div class="input-append">
+                    <input type="text" id="requirements-supporteddevices-input" data-validation-callback-callback="appdfEditor.validationCallbackRequirementDevice" autocomplete="off">
                     <button class="btn requirements-supporteddevices-addmore" type="button">Add</button>
-                  </div> 
+                  </div>
                   <p class="help-block">Add unsupported device model names (aka <a href="http://developer.android.com/reference/android/os/Build.html#DEVICE" target="_blank">name of the industrial design</a>).</p>
                 </div>
-              </div><!--control-group-->           
+              </div><!--control-group-->
 
               <div class="control-group">
                 <!-- requirements/supported-resolutions -->
@@ -1332,7 +1338,7 @@ Copyright (c) 2012 Yandex <www.yandex.com>
                   <div id="requirements-supportedresolutions-exclude" class="hide">
                   </div>
                 </div>
-              </div><!--control-group-->  
+              </div><!--control-group-->
 
             </fieldset>
           </section><!--section-requirements-->
@@ -1350,11 +1356,11 @@ Copyright (c) 2012 Yandex <www.yandex.com>
                     required
                     data-validation-required-message="Testing instructions are required"
                     maxlength="4000"
-                    data-validation-maxlength-message="Testing instructions text must be shorter than 4000 symbols"
+                    data-validation-maxlength-message="Testing instructions text must be less than 4000 symbols"
                   ></textarea>
-                  <p class="help-block">Instructions for people in the appstores who will test your application. If use of your application requires an account, please provide testing account information. Maximum length: 4,000 symbols.</p>
+                  <p class="help-block">Instructions for people in the app stores who will test your application. If use of your application requires an account, please provide testing account information. Maximum length: 4,000 symbols.</p>
                 </div>
-              </div><!--control-group-->           
+              </div><!--control-group-->
             </fieldset>
           </section><!--section-testing-instructions-->
 
@@ -1367,15 +1373,15 @@ Copyright (c) 2012 Yandex <www.yandex.com>
                 <div class="control-group">
                   <label class="control-label"  for="storespecific-input">Application store name</label>
                   <div class="controls">
-                    <div class=""> 
+                    <div class="">
                       <button class="btn storespecific-addmore" type="button">Add new store specific data</button>
-                    </div> 
+                    </div>
                     <p class="help-block">You can add custom fields for a particular application store or rewrite any of the application description fields. XML format is described in the <a href="https://github.com/onepf/AppDF/blob/master/specification/appds_spec_1_0.md" target="_blank">AppDF specification</a>.</p>
                   </div>
-                </div><!--control-group-->           
+                </div><!--control-group-->
               </div>
             </fieldset>
-          </section><!--section-store-specific-->          
+          </section><!--section-store-specific-->
 
           <section id="section-inapp-products">
             <fieldset>
@@ -1411,13 +1417,13 @@ Copyright (c) 2012 Yandex <www.yandex.com>
                     <div class="control-group">
                       <label class="control-label" for="inapp-id-abstract">ID <span class="required-mark">*</span></label>
                       <div class="controls">
-                        <input id="inapp-id-abstract" type="text" 
-                        name="inapp-id-abstract" 
-                        required 
-                        data-validation-required-message="Product ID is required" 
-                        data-validation-regex-regex="^([a-z]|[0-9]){1}[a-z0-9._]*$" 
+                        <input id="inapp-id-abstract" type="text"
+                        name="inapp-id-abstract"
+                        required
+                        data-validation-required-message="Product ID is required"
+                        data-validation-regex-regex="^([a-z]|[0-9]){1}[a-z0-9._]*$"
                         data-validation-regex-message="Product ID must start with a small letter or digit and contain only small letters, digits, commas and underscores."
-                        class="no-validation" 
+                        class="no-validation"
                       >
                       </div>
                     </div>
@@ -1439,7 +1445,7 @@ Copyright (c) 2012 Yandex <www.yandex.com>
                     <div class="control-group">
                       <label class="control-label" for="inapp-published-abstract">Published</label>
                       <div class="controls">
-                        <input type="checkbox" class="no-validation" id="inapp-published-abstract">   
+                        <input type="checkbox" class="no-validation" id="inapp-published-abstract">
                       </div>
                     </div>
                   </div><!--published-->
@@ -1448,7 +1454,7 @@ Copyright (c) 2012 Yandex <www.yandex.com>
                     <div class="control-group">
                       <label class="control-label" for="fortumo-consumable-abstract">Consumable</label>
                       <div class="controls">
-                        <input type="checkbox" class="no-validation" id="fortumo-consumable-abstract">   
+                        <input type="checkbox" class="no-validation" id="fortumo-consumable-abstract">
                       </div>
                     </div>
                   </div><!--consumable-->
@@ -1457,9 +1463,9 @@ Copyright (c) 2012 Yandex <www.yandex.com>
                     <div class="control-group">
                       <label class="control-label" for="fortumo-serviceid-abstract">Fortumo Service ID</label>
                       <div class="controls">
-                        <input id="fortumo-serviceid-abstract" type="text" 
-                        name="fortumo-serviceid-abstract" 
-                        class="no-validation" 
+                        <input id="fortumo-serviceid-abstract" type="text"
+                        name="fortumo-serviceid-abstract"
+                        class="no-validation"
                       >
                       </div>
                     </div>
@@ -1469,9 +1475,9 @@ Copyright (c) 2012 Yandex <www.yandex.com>
                     <div class="control-group">
                       <label class="control-label" for="fortumo-secret-abstract">Fortumo In-app Secret</label>
                       <div class="controls">
-                        <input id="fortumo-secret-abstract" type="text" 
-                        name="fortumo-secret-abstract" 
-                        class="no-validation" 
+                        <input id="fortumo-secret-abstract" type="text"
+                        name="fortumo-secret-abstract"
+                        class="no-validation"
                       >
                       </div>
                     </div>
@@ -1481,9 +1487,9 @@ Copyright (c) 2012 Yandex <www.yandex.com>
                     <div class="control-group">
                       <label class="control-label" for="nook-serviceid-abstract">Nook Service ID</label>
                       <div class="controls">
-                        <input id="nook-serviceid-abstract" type="text" 
-                        name="nook-serviceid-abstract" 
-                        class="no-validation " 
+                        <input id="nook-serviceid-abstract" type="text"
+                        name="nook-serviceid-abstract"
+                        class="no-validation "
                       >
                       </div>
                     </div>
@@ -1493,9 +1499,9 @@ Copyright (c) 2012 Yandex <www.yandex.com>
                     <div class="control-group">
                       <label class="control-label" for="nook-secret-abstract">Nook In-app Secret</label>
                       <div class="controls">
-                        <input id="nook-secret-abstract" type="text" 
-                        name="nook-secret-abstract" 
-                        class="no-validation" 
+                        <input id="nook-secret-abstract" type="text"
+                        name="nook-secret-abstract"
+                        class="no-validation"
                       >
                       </div>
                     </div>
@@ -1519,12 +1525,12 @@ Copyright (c) 2012 Yandex <www.yandex.com>
                           <label class="control-label" for="inapp-title">Title <span class="required-mark">*</span></label>
                           <div class="controls">
                             <input type="text"
-                            name="inapp-title" 
-                            required 
-                            data-validation-required-message="Product title is required" 
-                            data-validation-regex-regex="^.{1,55}$" 
+                            name="inapp-title"
+                            required
+                            data-validation-required-message="Product title is required"
+                            data-validation-regex-regex="^.{1,55}$"
                             data-validation-regex-message="Product title must be no longer than 55 symbols."
-                            class="inapp-title no-validation" 
+                            class="inapp-title no-validation"
                           >
                           </div>
                         </div><!--title-->
@@ -1533,12 +1539,12 @@ Copyright (c) 2012 Yandex <www.yandex.com>
                           <label class="control-label" for="inapp-description">Description <span class="required-mark">*</span></label>
                           <div class="controls">
                             <input type="text"
-                            name="inapp-description" 
-                            required 
-                            data-validation-required-message="Product description is required" 
-                            data-validation-regex-regex="^.{1,80}$" 
+                            name="inapp-description"
+                            required
+                            data-validation-required-message="Product description is required"
+                            data-validation-regex-regex="^.{1,80}$"
                             data-validation-regex-message="Product description must be no longer than 80 symbols."
-                            class="inapp-description input-xxlarge no-validation" 
+                            class="inapp-description input-xxlarge no-validation"
                           >
                           </div>
                         </div><!--description-->
@@ -1554,11 +1560,11 @@ Copyright (c) 2012 Yandex <www.yandex.com>
                       <div class="input-prepend">
                         <span class="add-on">USD</span>
                         <input type="text" id="inapp-baseprice-abstract"
-                          required 
-                          data-validation-required-message="Product price is required" 
+                          required
+                          data-validation-required-message="Product price is required"
                           pattern="^\d+\.\d+$|^\d+$"
                           data-validation-pattern-message="Wrong product price value. Must be a valid number like '15.95'."
-                          class="input-small no-validation" 
+                          class="input-small no-validation"
                         >
                       </div>
                     </div>
@@ -1568,16 +1574,16 @@ Copyright (c) 2012 Yandex <www.yandex.com>
                     <div class="control-group">
                       <label class="control-label" for="inapp-autofill-abstract">Autofill prices</label>
                       <div class="controls">
-                        <input type="checkbox" class="no-validation" id="inapp-autofill-abstract">   
+                        <input type="checkbox" class="no-validation" id="inapp-autofill-abstract">
                       </div>
                     </div>
                   </div><!--autofill prices-->
 
                 </div><!--panel-->
               </div>
-              <a href="#" class="btn" id="inapp-addmore">Add new in-app product</a> 
+              <a href="#" class="btn" id="inapp-addmore">Add new in-app product</a>
             </fieldset>
-          </section><!--section-inapp-products-->     
+          </section><!--section-inapp-products-->
 
           <section id="section-build">
             <fieldset>
@@ -1588,7 +1594,7 @@ Copyright (c) 2012 Yandex <www.yandex.com>
                 <div class="alert alert-error hide" id="form-errors">
                   <b>Errors:</b>
                   <ul>
-                  </ul>              
+                  </ul>
                 </div>
                 <div class="alert alert-success hide" id="build-status">
                   <b>Build progress:</b><br>
@@ -1607,10 +1613,10 @@ Copyright (c) 2012 Yandex <www.yandex.com>
           <section id="section-submit-appdf">
             <fieldset>
               <div id="legend">
-                <legend class="">Submit AppDF File to Appstores</legend>
+                <legend class="">Submit AppDF File to App Stores</legend>
               </div>
               <div class="control-group">
-                <label class="control-label">Appstores supporting AppDF</label>
+                <label class="control-label">App Stores supporting AppDF</label>
                 <div class="controls">
                   <a href="http://apps.opera.com/developers.php" target="_blank"><img class="img-rounded" src="img/appstores/opera.png" width="250" style="margin: 10px"></a>
                   <a href="http://slideme.org/developers" target="_blank"><img class="img-rounded" src="img/appstores/slideme.png" width="250" style="margin: 10px"></a>
@@ -1621,9 +1627,9 @@ Copyright (c) 2012 Yandex <www.yandex.com>
                 <div class="controls">
                   <a href="http://www.codengo.com/" target="_blank"><img class="img-rounded" src="img/appstores/codengo.png" width="790" style="margin: 10px"></a>
                 </div>
-              </div><!--control-group-->           
+              </div><!--control-group-->
             </fieldset>
-          </section><!--section-store-specific-->          
+          </section><!--section-store-specific-->
 
         </form>
       </div><!--/span-->

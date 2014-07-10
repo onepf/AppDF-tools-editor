@@ -2,13 +2,13 @@
  * Copyright 2012 Vassili Philippov <vassiliphilippov@onepf.org>
  * Copyright 2012 One Platform Foundation <www.onepf.org>
  * Copyright 2012 Yandex <www.yandex.com>
- * 
+ *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
  *    You may obtain a copy of the License at
- * 
+ *
  *        http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  *    Unless required by applicable law or agreed to in writing, software
  *    distributed under the License is distributed on an "AS IS" BASIS,
  *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -75,9 +75,9 @@ var errorMessages = {
     fnWrongBooleanValue: function(tagName) { return "Wrong value in tag <" + tagName + ">. Must be \"yes\" or \"no\"."; },
     
     fnTitleRequiredError: function(languageCode) { return "The first title required (for language \"" + languageCode + "\")"; },
-    fnTitleError: function(languageCode) { return "The first title must be shorter than 30 symbols (for language \"" + languageCode + "\")"; },
-    fnShortDescriptionError: function(languageCode) { return "The first short description must be shorter than 80 symbols (for language \"" + languageCode + "\")"; },
-    fnFullDescriptionError: function(languageCode) { return "The full description must be shorter than 4000 symbols (for language \"" + languageCode + "\")"; },
+    fnTitleError: function(languageCode) { return "The first title must be less than 30 symbols (for language \"" + languageCode + "\")"; },
+    fnShortDescriptionError: function(languageCode) { return "The first short description must be less than 80 symbols (for language \"" + languageCode + "\")"; },
+    fnFullDescriptionError: function(languageCode) { return "The full description must be less than 4000 symbols (for language \"" + languageCode + "\")"; },
     
     fnFeatureMaxError: function(languageCode) { return "More than five features (for language \"" + languageCode + "\")"; },
     fnFeatureMinError: function(languageCode) { return "At least three features (for language \"" + languageCode + "\") are required"; },
